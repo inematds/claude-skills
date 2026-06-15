@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚡ Claude Skills na Prática — Construa Agent Skills do Claude Code</title>
+  <meta name="description" content="Curso completo e prático sobre construir Agent Skills do Claude Code: anatomia do SKILL.md, progressive disclosure, e 12 skills reais dissecadas — de geradores de conteúdo a sistemas multi-agente.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento das 6 trilhas */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217,119,6,0.12); }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13,148,136,0.12); }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225,29,72,0.12); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217,119,6,0.25); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13,148,136,0.25); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225,29,72,0.25); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-teal-400 { color: #0d9488; }
+    html:not(.dark) .group:hover .group-hover\:text-rose-400 { color: #9f1239; }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="curso/trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+          <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+          <a href="curso/trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+          <a href="curso/trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+          <a href="curso/trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="bg-gradient-to-br from-emerald-900/20 via-dark-900 to-dark-900 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <span class="inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full mb-6">Curso prático · do zero ao avançado</span>
+      <h1 class="text-4xl sm:text-6xl font-extrabold mb-6 leading-tight">⚡ Claude Skills<br><span class="text-emerald-400">na Prática</span></h1>
+      <p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto mb-10">Aprenda a <strong class="text-neutral-100">ler, usar e construir Agent Skills</strong> do Claude Code — do <code class="text-emerald-400 font-mono text-base">SKILL.md</code> à arquitetura multi-agente — dissecando <strong class="text-neutral-100">12 skills reais</strong> e construindo as suas.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="curso/trilha1/index.html" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors">Começar pela Trilha 1 →</a>
+        <a href="skills.html" class="px-8 py-3.5 bg-dark-700 hover:bg-dark-600 text-neutral-100 rounded-lg font-semibold transition-colors border border-dark-600">🧩 Central de Skills</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- STATS -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+        <div class="text-3xl font-bold text-emerald-400">6</div>
+        <div class="text-sm text-neutral-400 mt-1">Trilhas</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+        <div class="text-3xl font-bold text-blue-400">16</div>
+        <div class="text-sm text-neutral-400 mt-1">Módulos</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+        <div class="text-3xl font-bold text-purple-400">96</div>
+        <div class="text-sm text-neutral-400 mt-1">Tópicos</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+        <div class="text-3xl font-bold text-amber-400">12</div>
+        <div class="text-sm text-neutral-400 mt-1">Skills reais</div>
+      </div>
+    </section>
+
+    <!-- O QUE VOCE VAI APRENDER -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold mb-3 text-center">O que você vai dominar</h2>
+      <p class="text-neutral-400 text-center max-w-2xl mx-auto mb-10">Cada conceito sai de uma skill que funciona de verdade — você lê o código, entende a decisão e constrói a sua versão.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="text-2xl mb-3">🧬</div>
+          <h3 class="font-semibold text-lg mb-2">A anatomia de uma Skill</h3>
+          <p class="text-neutral-400 text-sm">Frontmatter, <code class="font-mono text-emerald-400">name</code>/<code class="font-mono text-emerald-400">description</code>, progressive disclosure, <code class="font-mono">references/</code> e <code class="font-mono">scripts/</code>.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="text-2xl mb-3">🛠️</div>
+          <h3 class="font-semibold text-lg mb-2">Skills que produzem</h3>
+          <p class="text-neutral-400 text-sm">Geradores de itinerário, funis, auditorias de SEO, revisores de automação n8n — com prompts e saídas reais.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="text-2xl mb-3">🧠</div>
+          <h3 class="font-semibold text-lg mb-2">Arquitetura avançada</h3>
+          <p class="text-neutral-400 text-sm">Meta-skills, árvores de skills, memória compartilhada e pipelines multi-agente de produção.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRILHAS -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold mb-10 text-center">As 6 trilhas</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <a href="curso/trilha1/index.html" class="group bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-2xl border border-emerald-500/30 p-7 hover:border-emerald-500/60 transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRILHA 1 · 3 módulos</span>
+            <span class="text-emerald-400 text-xl">→</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🧬 Fundamentos de Agent Skills</h3>
+          <p class="text-neutral-400 text-sm">O que é uma Skill, como o Claude a descobre e dispara, e a estrutura que toda skill profissional segue.</p>
+        </a>
+
+        <a href="curso/trilha2/index.html" class="group bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl border border-blue-500/30 p-7 hover:border-blue-500/60 transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRILHA 2 · 2 módulos</span>
+            <span class="text-blue-400 text-xl">→</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition-colors">🚀 Construindo Sua Primeira Skill</h3>
+          <p class="text-neutral-400 text-sm">Um estudo de caso completo: dissecamos um gerador de itinerários do SKILL.md à saída HTML — e você replica.</p>
+        </a>
+
+        <a href="curso/trilha3/index.html" class="group bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl border border-purple-500/30 p-7 hover:border-purple-500/60 transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRILHA 3 · 2 módulos</span>
+            <span class="text-purple-400 text-xl">→</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🎨 Skills de Frontend & Geração</h3>
+          <p class="text-neutral-400 text-sm">Correções de frontend ao vivo no navegador e um funil inteiro a partir de um único prompt.</p>
+        </a>
+
+        <a href="curso/trilha4/index.html" class="group bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-2xl border border-amber-500/30 p-7 hover:border-amber-500/60 transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">TRILHA 4 · 3 módulos</span>
+            <span class="text-amber-400 text-xl">→</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-amber-400 transition-colors">⚙️ Skills de Automação & Dados</h3>
+          <p class="text-neutral-400 text-sm">Revisor de workflows n8n, sistema de captação de leads locais e scoring de leads com Apify.</p>
+        </a>
+
+        <a href="curso/trilha5/index.html" class="group bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-7 hover:border-teal-500/60 transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">TRILHA 5 · 3 módulos</span>
+            <span class="text-teal-400 text-xl">→</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-teal-400 transition-colors">💼 Skills de Consultoria AI</h3>
+          <p class="text-neutral-400 text-sm">Onboarding + relatório de auditoria, auditor de SEO/AEO e o arquiteto de RAG que evita o RAG errado.</p>
+        </a>
+
+        <a href="curso/trilha6/index.html" class="group bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-2xl border border-rose-500/30 p-7 hover:border-rose-500/60 transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">TRILHA 6 · 3 módulos</span>
+            <span class="text-rose-400 text-xl">→</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-rose-400 transition-colors">🧠 Arquitetura Avançada de Skills</h3>
+          <p class="text-neutral-400 text-sm">Inteligência de improviso, árvores de skills (meta-skills) e memória multi-agente compartilhada.</p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- CENTRAL DE SKILLS -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-primary/10 via-dark-800 to-dark-800 rounded-2xl border border-primary/30 p-8 sm:p-12">
+        <div class="flex flex-col md:flex-row md:items-center gap-8">
+          <div class="flex-1">
+            <span class="text-3xl">🧩</span>
+            <h2 class="text-2xl sm:text-3xl font-bold mb-3 mt-2">Central de Skills</h2>
+            <p class="text-neutral-300 mb-6 max-w-2xl">Todas as <strong>12 skills estudadas no curso</strong>, juntas e prontas para baixar e instalar no seu Claude Code. Cada uma com descrição e o passo a passo de instalação.</p>
+            <a href="skills.html" class="inline-block px-6 py-3 bg-primary text-dark-900 rounded-lg font-semibold hover:bg-yellow-300 transition-colors">Abrir a Central de Skills →</a>
+          </div>
+          <div class="flex flex-wrap gap-2 md:max-w-xs">
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">travel-itinerary</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">vibe-coding</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">n8n-reviewer</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">rag-architect</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">seo-aeo-auditor</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">improvised-intelligence</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">multi-agent-memory</span>
+            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">lead-scoring</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+      <p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

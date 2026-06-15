@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 4.2 · Local Leads Abundance System | Claude Skills na Prática</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217,119,6,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217,119,6,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217,119,6,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-amber-400">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400">Trilha 4</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔥 Local Leads Abundance System</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">O caso de estudo de um <strong class="text-neutral-300">pipeline multi-agente</strong>: várias skills pequenas encadeadas que encontram negócios locais em diretórios, enriquecem os contatos em cascata, fabricam um site-presente personalizado e abrem a conversa pelo formulário do próprio negócio — tudo automático, de ponta a ponta.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">55</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Inter.</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Sistema</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🗺️ O sistema em quatro passos</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">A grande lição deste módulo não é "como conseguir leads". É <strong class="text-amber-400">como compor várias skills num sistema</strong>. Em vez de uma skill gigante que faz tudo (e quebra inteira), o sistema é um pipeline: cada estágio é uma skill autônoma, a saída de uma vira a entrada da próxima, e cada peça pode ser testada e corrigida sozinha.</p>
+
+      <!-- SVG: pipeline de 4 estágios -->
+      <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+        <svg viewBox="0 0 1000 200" class="w-full h-auto" role="img" aria-label="Quatro skills encadeadas em pipeline: scraping passa para enriquecimento, que passa para a geração do site-presente, que passa para o contato pelo formulário">
+          <defs>
+            <linearGradient id="m42a-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+            <filter id="m42a-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <pattern id="m42a-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#f59e0b" opacity="0.12"/></pattern>
+            <marker id="m42a-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"/></marker>
+          </defs>
+          <rect x="0" y="0" width="1000" height="200" fill="url(#m42a-grid)"/>
+          <g font-family="Inter,sans-serif">
+            <rect x="24" y="66" width="200" height="68" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
+            <text x="124" y="98" text-anchor="middle" fill="#bfe6ff" font-weight="600" font-size="16">1 · Scraping</text>
+            <text x="124" y="118" text-anchor="middle" fill="#9ad6ff" font-size="11.5">diretórios → planilha</text>
+
+            <rect x="262" y="66" width="200" height="68" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
+            <text x="362" y="98" text-anchor="middle" fill="#bfe6ff" font-weight="600" font-size="16">2 · Enriquecer</text>
+            <text x="362" y="118" text-anchor="middle" fill="#9ad6ff" font-size="11.5">site + LinkedIn</text>
+
+            <g filter="url(#m42a-glow)"><rect x="500" y="62" width="200" height="76" rx="14" fill="#1f1604" stroke="url(#m42a-grad)" stroke-width="2.5"/></g>
+            <text x="600" y="96" text-anchor="middle" fill="#fbbf24" font-weight="600" font-size="16">3 · Site-presente</text>
+            <text x="600" y="116" text-anchor="middle" fill="#fcd9a0" font-size="11.5">lead magnet</text>
+
+            <rect x="738" y="66" width="200" height="68" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
+            <text x="838" y="98" text-anchor="middle" fill="#bfe6ff" font-weight="600" font-size="16">4 · Contato</text>
+            <text x="838" y="118" text-anchor="middle" fill="#9ad6ff" font-size="11.5">via formulário</text>
+          </g>
+          <g fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.65">
+            <path d="M224,100 L262,100" marker-end="url(#m42a-ah)"/>
+            <path d="M462,100 L500,100" marker-end="url(#m42a-ah)"/>
+            <path d="M700,100 L738,100" marker-end="url(#m42a-ah)"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center"><span class="mr-2">🎯</span> A premissa</h3>
+        <p class="text-neutral-300">Você é uma agência de IA e quer clientes. A resposta: negócios locais que têm dinheiro. O sistema os encontra para você — começando por fontes onde os negócios já se pré-qualificaram como estabelecidos e com orçamento.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Pipeline, não monolito</div><p class="text-xs text-neutral-400">Uma skill por estágio.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Contrato entre etapas</div><p class="text-xs text-neutral-400">Saída de uma = entrada da próxima.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Testável em partes</div><p class="text-xs text-neutral-400">Conserta um estágio sem mexer no resto.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Valor de ponta a ponta</div><p class="text-xs text-neutral-400">Do diretório ao formulário enviado.</p></div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🕸️ Scraping de diretórios com Playwright</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">O primeiro estágio define a qualidade de tudo o que vem depois. A escolha estratégica aqui é a <strong class="text-amber-400">fonte</strong>: diretórios de associações comerciais e redes de networking listam negócios que já se pré-qualificaram — estabelecidos há anos, com orçamento, e frequentemente com sites datados (justamente a dor que a agência resolve).</p>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📚</span> Três fontes de leads pré-qualificados</h3>
+        <ul class="space-y-3 text-neutral-300 text-sm">
+          <li>• <strong>Diretórios de câmaras de comércio:</strong> negócios membros, geralmente longevos e estabelecidos na região.</li>
+          <li>• <strong>Diretórios de redes de networking (estilo BNI):</strong> donos de negócio ativos em grupos de indicação.</li>
+          <li>• <strong>Revistas de estilo de vida locais:</strong> cada anunciante paga caro pelo espaço — sinal forte de orçamento.</li>
+        </ul>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-3">Como o scraping funciona</h3>
+        <p class="text-neutral-300 text-sm mb-3">A skill usa automação de navegador (Playwright) para percorrer o diretório: abre cada cartão de membro, lê as informações do perfil e estrutura tudo numa planilha. Esse é o padrão de "scraping com browser real" da Trilha 3 aplicado a um objetivo de negócio.</p>
+        <pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">para cada cartão no diretório:
+    abrir o cartão / "learn more"
+    ler nome, negócio, telefone, endereço
+    anexar linha à planilha de leads</pre>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica: pré-qualificação vem da fonte</h3>
+        <p class="text-neutral-300">Você não "pré-qualifica" os leads depois — você escolhe uma fonte onde eles já chegam pré-qualificados. Um negócio que paga anuidade numa câmara de comércio há anos já provou longevidade e capacidade de pagar. A qualidade da lista nasce na escolha do diretório.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Browser automation</div><p class="text-xs text-neutral-400">Abre cada cartão como um humano.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Fonte pré-qualificada</div><p class="text-xs text-neutral-400">Diretório já filtra por estabilidade.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Dado estruturado</div><p class="text-xs text-neutral-400">Perfil vira linha de planilha.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Site datado = dor</div><p class="text-xs text-neutral-400">O alvo certo tem o problema certo.</p></div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">💧 Enriquecimento em cascata</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Um nome e um negócio não bastam. O estágio de enriquecimento descobre o <strong class="text-amber-400">site e o perfil de LinkedIn</strong> de cada contato. A técnica é a cascata (waterfall): tenta um provedor; se ele não encontrou, cai para o próximo, na ordem do mais barato/rápido para o mais caro/completo.</p>
+
+      <!-- SVG: cascata de provedores -->
+      <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+        <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Cascata de enriquecimento: um contato sem dados passa por provedores em sequência; cada degrau tenta achar site e LinkedIn antes de cair para o próximo provedor mais caro">
+          <defs>
+            <linearGradient id="m42b-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+            <filter id="m42b-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <pattern id="m42b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#f59e0b" opacity="0.12"/></pattern>
+            <marker id="m42b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"/></marker>
+          </defs>
+          <rect x="0" y="0" width="1000" height="240" fill="url(#m42b-grid)"/>
+          <!-- linha tracejada subindo de custo -->
+          <path d="M120,200 L880,40" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="9 9" opacity="0.4"/>
+          <!-- degraus -->
+          <g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+            <rect x="60" y="176" width="150" height="44" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="135" y="203" text-anchor="middle" fill="#bfe6ff">Provedor A · $</text>
+            <rect x="250" y="136" width="150" height="44" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="325" y="163" text-anchor="middle" fill="#bfe6ff">Provedor B · $$</text>
+            <rect x="440" y="96" width="150" height="44" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="515" y="123" text-anchor="middle" fill="#bfe6ff">Provedor C · $$$</text>
+            <rect x="630" y="56" width="170" height="44" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="715" y="83" text-anchor="middle" fill="#bfe6ff">API de e-mail · $$$$</text>
+          </g>
+          <g filter="url(#m42b-glow)"><rect x="800" y="22" width="150" height="48" rx="12" fill="#1f1604" stroke="url(#m42b-grad)" stroke-width="2.5"/></g>
+          <text x="875" y="44" text-anchor="middle" fill="#fbbf24" font-family="Inter,sans-serif" font-weight="600" font-size="14">Achou!</text>
+          <text x="875" y="60" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">site + LinkedIn</text>
+          <g fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.6">
+            <path d="M210,190 L250,170" marker-end="url(#m42b-ah)"/>
+            <path d="M400,150 L440,130" marker-end="url(#m42b-ah)"/>
+            <path d="M590,110 L630,90" marker-end="url(#m42b-ah)"/>
+            <path d="M800,70 L800,55" marker-end="url(#m42b-ah)"/>
+          </g>
+          <text x="135" y="232" text-anchor="middle" fill="#9ca3af" font-family="Inter,sans-serif" font-size="11">barato primeiro → cai pro próximo se não achou</text>
+        </svg>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-3">A lógica da cascata</h3>
+        <pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">resultado = vazio
+para provedor em [barato, médio, caro]:
+    resultado = provedor.buscar(nome, negócio)
+    se resultado tem site E linkedin:
+        parar  # achou, não gasta com os próximos
+se resultado vazio E quer e-mail:
+    usar API de e-mail dedicada (a mais cara)</pre>
+        <p class="text-neutral-400 text-sm mt-4">Encadeando provedores de busca, o sistema localiza o site e o LinkedIn associados a um nome com alta precisão — sem disparar a chamada cara em todo lead.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Cascata bem feita</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Ordena do mais barato para o mais caro.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Para assim que tem dado suficiente.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Reserva a API cara só para quem precisa do e-mail.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Registra qual provedor achou (auditoria).</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Cascata mal feita</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Chama todos os provedores em todo lead — custo explode.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Começa pelo provedor mais caro "porque é melhor".</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não para quando já achou — desperdício puro.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não sabe dizer de onde veio cada dado.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Waterfall</div><p class="text-xs text-neutral-400">Provedores em sequência ordenada.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Fallback</div><p class="text-xs text-neutral-400">Falhou? Tenta o próximo.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Custo crescente</div><p class="text-xs text-neutral-400">Barato → caro, para no acerto.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Alta precisão</div><p class="text-xs text-neutral-400">Site + LinkedIn pelo nome.</p></div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">🎁 O site como lead magnet</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Aqui está o golpe de mestre do sistema. Em vez de mandar uma mensagem pedindo atenção, o pipeline <strong class="text-amber-400">entrega valor antes de pedir qualquer coisa</strong>: para cada lead, gera uma versão melhorada do site dele — um clone com o cabeçalho atualizado, um redesign no estilo moderno, ou um widget de chat adicionado — e envia isso como presente para abrir a conversa.</p>
+
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Por que isso muda o jogo</h3>
+        <p class="text-neutral-300 mb-2">"Olha, peguei seu site e fiz uma versão melhor" é uma abordagem completamente diferente de "oi, posso te ajudar?". Você já demonstrou a competência, já mostrou o resultado, e fez isso sob medida para aquele negócio específico. O presente é o gancho.</p>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-3">Variações do presente (recriação ilustrativa)</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-dark-900 rounded-lg p-4 border border-dark-600">
+            <div class="flex items-center space-x-1.5 mb-2"><span class="w-2.5 h-2.5 rounded-full bg-red-400"></span><span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span></div>
+            <div class="font-mono text-xs text-neutral-300">clone fiel<br><span class="text-neutral-500">só o cabeçalho refeito; "este é o seu site, modernizado"</span></div>
+          </div>
+          <div class="bg-dark-900 rounded-lg p-4 border border-dark-600">
+            <div class="flex items-center space-x-1.5 mb-2"><span class="w-2.5 h-2.5 rounded-full bg-red-400"></span><span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span></div>
+            <div class="font-mono text-xs text-neutral-300">redesign<br><span class="text-neutral-500">layout moderno com boas práticas de design</span></div>
+          </div>
+          <div class="bg-dark-900 rounded-lg p-4 border border-dark-600">
+            <div class="flex items-center space-x-1.5 mb-2"><span class="w-2.5 h-2.5 rounded-full bg-red-400"></span><span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span></div>
+            <div class="font-mono text-xs text-neutral-300">+ widget de chat<br><span class="text-neutral-500">"veja como ficaria com um chat no seu site atual"</span></div>
+          </div>
+        </div>
+        <p class="text-neutral-500 text-xs mt-3">Mocks ilustrativos do conceito de variação do presente — não são telas reais.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica: storytelling no funil</h3>
+        <p class="text-neutral-300">O presente não termina em si. Ele leva a um pequeno storytelling: "este é o seu site → veja o que ele poderia ser → vamos conversar". O site-presente é o topo de funil; a meta é puxar para uma reunião, não fechar na primeira mensagem.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Lead magnet</div><p class="text-xs text-neutral-400">Um presente que abre porta.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Valor antecipado</div><p class="text-xs text-neutral-400">Entrega antes de pedir.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Personalização</div><p class="text-xs text-neutral-400">Sob medida pra cada negócio.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Escala</div><p class="text-xs text-neutral-400">Geração automática por lead.</p></div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">✉️ Contato via formulário</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">O passo final fecha o ciclo: a automação de navegador <strong class="text-amber-400">preenche e envia o formulário de contato</strong> do próprio site do negócio (ou do diretório), com a mensagem e o link do site-presente. Sair do canal saturado do cold e-mail é uma decisão estratégica — e o screenshot do envio bem-sucedido vira prova de entrega.</p>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">1</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold mb-2">Localizar o formulário</h4><p class="text-neutral-300 text-sm">A skill encontra o formulário de contato (geralmente no rodapé da página) no site do lead.</p></div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">2</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold mb-2">Preencher com a mensagem</h4><p class="text-neutral-300 text-sm">Insere a mensagem personalizada e o link do site-presente nos campos certos, automaticamente.</p></div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">3</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold mb-2">Enviar e capturar a prova</h4><p class="text-neutral-300 text-sm">Submete o formulário e tira um screenshot da confirmação — a evidência de que a mensagem passou.</p></div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Por que formulário e não cold e-mail</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li>• <strong>Canal menos saturado:</strong> a caixa de entrada está cheia; o formulário de contato chega ao dono direto.</li>
+          <li>• <strong>Contexto certo:</strong> a pessoa lê uma mensagem sobre o próprio site, vinda do próprio site.</li>
+          <li>• <strong>Prova de entrega:</strong> o screenshot do envio bem-sucedido confirma que a mensagem foi recebida.</li>
+        </ul>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atenção: automação responsável</h3>
+        <p class="text-neutral-300 text-sm">Enviar mensagens automáticas por formulários exige respeito a volume, relevância e às regras de cada site. A força do sistema é a personalização e o valor entregue — não o spam. Mensagens genéricas em massa queimam a reputação e violam termos de uso. Mantenha a abordagem específica e bem-vinda.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Canal alternativo</div><p class="text-xs text-neutral-400">Formulário &gt; caixa lotada.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Prova de envio</div><p class="text-xs text-neutral-400">Screenshot da confirmação.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Automação ética</div><p class="text-xs text-neutral-400">Personalizado, não spam.</p></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Ciclo fechado</div><p class="text-xs text-neutral-400">Do lead à conversa iniciada.</p></div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🔗 Orquestrar as skills do pipeline</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Quatro skills encadeadas só formam um sistema se houver uma <strong class="text-amber-400">orquestração</strong> que as conecte e um <strong class="text-amber-400">checkpoint</strong> que proteja o progresso. Sem isso, um erro no passo 4 te obriga a repetir os passos 1 a 3 — e em pipelines longos, isso custa horas e dinheiro de API.</p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-3">Prompt copiável — SKILL.md da orquestradora</h3>
+        <pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">---
+name: local-leads-pipeline
+description: Orchestrates a local-lead pipeline end to end. Use when the
+  user wants to find local businesses from directories, enrich the
+  contacts, build a gift website per lead, and reach out via their
+  contact form. Triggers include "find local leads", "run the lead
+  pipeline", "enrich and reach these businesses".
+---
+
+# Local Leads Pipeline (orchestrator)
+
+Run four stages in order. Each stage is its own skill. Pass the CSV
+forward. Save a checkpoint after each lead so the run can resume.
+
+1. scrape-directory  → leads.csv   (name, business, phone, address)
+2. enrich-contacts   → +website, +linkedin   (waterfall, cheap → costly)
+3. build-gift-site   → +gift_url   (clone / redesign / chat widget)
+4. submit-form       → +sent_proof (screenshot of the confirmation)
+
+## Rules
+- A stage only consumes rows where its input columns are filled and its
+  output columns are empty (idempotent — safe to re-run).
+- Write a checkpoint file after each lead. On restart, skip leads already
+  marked done.
+- If a stage fails on a lead, log it and continue — do NOT stop the batch.
+- Keep outreach personalised and respectful of each site's rules.</pre>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Orquestração robusta</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Contrato de colunas claro entre estágios.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Checkpoint após cada lead — retoma de onde parou.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Idempotente: re-rodar não duplica trabalho.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Falha de um lead não derruba o lote inteiro.</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Pipeline frágil</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Uma skill gigante que faz os quatro passos juntos.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem checkpoint — erro no fim recomeça tudo.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Re-rodar reprocessa leads já prontos (paga 2x).</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Um lead com erro para o batch de 600.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica: o CSV é o contrato</h3>
+        <p class="text-neutral-300">A planilha que atravessa o pipeline é o contrato entre as skills. Cada estágio sabe quais colunas ler e quais escrever. Esse padrão — "uma skill só toca nas linhas onde sua entrada está pronta e sua saída ainda está vazia" — é o que torna o sistema idempotente e seguro para retomar.</p>
+      </div>
+
+      <!-- EXERCÍCIOS -->
+      <div class="bg-dark-800 rounded-xl border border-amber-500/30 p-6">
+        <h3 class="text-xl font-bold text-amber-400 mb-4 flex items-center"><span class="mr-2">✍️</span> Exercícios práticos</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">1</span><p class="text-neutral-300 text-sm"><strong>Desenhe o contrato.</strong> Para cada um dos quatro estágios, liste as colunas que ele <em>lê</em> e as que <em>escreve</em> no CSV. Onde dois estágios encostam, o contrato bate?</p></div>
+          <div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">2</span><p class="text-neutral-300 text-sm"><strong>Crie um SKILL.md rodável.</strong> Salve a orquestradora acima em <code class="font-mono text-xs">~/.claude/skills/local-leads-pipeline/SKILL.md</code> e implemente só o estágio 1 (scrape) num diretório público qualquer, gravando um CSV. Teste o disparo da skill.</p></div>
+          <div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">3</span><p class="text-neutral-300 text-sm"><strong>Projete a cascata.</strong> Escolha 3 fontes de enriquecimento (gratuitas ou pagas), ordene-as por custo e escreva a regra de "parar quando achou site + LinkedIn".</p></div>
+          <div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">4</span><p class="text-neutral-300 text-sm"><strong>Teste a retomada.</strong> Rode o estágio 1 sobre 10 leads, interrompa no meio e rode de novo. Ele pula os já processados ou reprocessa tudo? Conserte para ser idempotente.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Pipeline &gt; monolito</strong><span class="text-neutral-400"> — quatro skills encadeadas, cada uma testável e corrigível sozinha.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">A fonte pré-qualifica</strong><span class="text-neutral-400"> — diretórios listam negócios estabelecidos com orçamento e sites datados.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Enriquecimento em cascata</strong><span class="text-neutral-400"> — barato → caro, para no acerto, reserva a API cara pra quem precisa.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Site-presente = lead magnet</strong><span class="text-neutral-400"> — entrega valor sob medida antes de pedir qualquer coisa.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Orquestrar com checkpoint</strong><span class="text-neutral-400"> — o CSV é o contrato; idempotência e retomada protegem o pipeline.</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">4.3 — 📊 Lead Scoring com Apify: pontuar cada lead em três dimensões para saber quem abordar primeiro.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-4-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo 4.1</a>
+          <a href="modulo-4-3.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo Módulo →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+      <p>Módulo 4.2 · Local Leads Abundance System</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

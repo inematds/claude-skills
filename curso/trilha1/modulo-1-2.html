@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 1.2 · Progressive disclosure & estrutura | Claude Skills na Prática</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📂 Progressive disclosure & estrutura</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Uma skill madura raramente é um único arquivo. Ela tem <strong class="text-neutral-300">pastas de apoio</strong> —
+        <code class="text-emerald-400 font-mono text-base">references/</code>, <code class="text-emerald-400 font-mono text-base">scripts/</code>,
+        <code class="text-emerald-400 font-mono text-base">assets/</code> — e um <code class="font-mono">SKILL.md</code> enxuto que decide
+        <strong class="text-neutral-300">o que carregar e quando</strong>. Esse é o princípio de progressive disclosure: revelar o detalhe só na hora.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Básico</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Teoria</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+
+    <!-- SVG ILUSTRATIVO: aninhamento -->
+    <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+      <svg viewBox="0 0 1000 300" class="w-full h-auto" role="img" aria-label="Estrutura de uma skill: o SKILL.md enxuto no centro aponta sob demanda para as pastas references, scripts e assets, que só são carregadas quando necessárias">
+        <defs>
+          <linearGradient id="m12-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+          <filter id="m12-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <pattern id="m12-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.12"/></pattern>
+          <marker id="m12-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+        </defs>
+        <rect x="0" y="0" width="1000" height="300" fill="url(#m12-grid)"/>
+        <!-- conectores tracejados (sob demanda) -->
+        <g fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="7 7" opacity="0.5">
+          <path d="M348,110 C520,90 560,60 660,60" marker-end="url(#m12-ahc)"/>
+          <path d="M348,150 L660,150" marker-end="url(#m12-ahc)"/>
+          <path d="M348,190 C520,210 560,240 660,240" marker-end="url(#m12-ahc)"/>
+        </g>
+        <!-- SKILL.md enxuto (foco) -->
+        <g filter="url(#m12-glow)"><rect x="60" y="100" width="288" height="100" rx="16" fill="#0e2018" stroke="url(#m12-grad)" stroke-width="2.5"/></g>
+        <text x="204" y="142" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="700" font-size="20">SKILL.md</text>
+        <text x="204" y="166" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="13">enxuto · só roteia</text>
+        <text x="204" y="186" text-anchor="middle" fill="#6ee7b7" font-family="Inter,sans-serif" font-size="11.5">"leia X quando Y"</text>
+        <!-- pastas (ciano) -->
+        <g font-family="Inter,sans-serif" font-weight="600" font-size="14">
+          <g class="wf-a"><rect x="660" y="36" width="280" height="48" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="684" y="58" fill="#38bdf8" font-size="20">📚</text><text x="716" y="58" fill="#bfe6ff">references/</text><text x="716" y="76" fill="#9ad6ff" font-size="11.5">templates, design, tabelas</text></g>
+          <g class="wf-a"><rect x="660" y="126" width="280" height="48" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="684" y="148" fill="#38bdf8" font-size="20">⚙️</text><text x="716" y="148" fill="#bfe6ff">scripts/</text><text x="716" y="166" fill="#9ad6ff" font-size="11.5">código executável</text></g>
+          <g class="wf-a"><rect x="660" y="216" width="280" height="48" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="684" y="238" fill="#38bdf8" font-size="20">🖼️</text><text x="716" y="238" fill="#bfe6ff">assets/</text><text x="716" y="256" fill="#9ad6ff" font-size="11.5">fontes, imagens, exemplos</text></g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🪜 O que é progressive disclosure</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-emerald-400">Progressive disclosure</strong> (revelação progressiva) é um princípio emprestado do design
+        de interfaces: mostre primeiro só o essencial e revele o detalhe apenas quando ele for necessário. Numa skill, isso significa
+        que o <code class="font-mono">SKILL.md</code> carrega o <strong class="text-neutral-100">fluxo principal</strong>, e o
+        conhecimento profundo fica guardado em arquivos que só são lidos sob demanda.</p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🪜</span> Por que isso importa</h3>
+        <p class="text-neutral-300 mb-4">Tudo que entra no <code class="font-mono">SKILL.md</code> custa <strong>contexto</strong> toda vez que a skill dispara — mesmo o detalhe que aquela execução específica nem vai usar.</p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Camada 1 — sempre vista:</strong> a description (no índice).</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Camada 2 — ao disparar:</strong> o corpo do SKILL.md.</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Camada 3 — sob demanda:</strong> os arquivos de <code class="font-mono">references/</code>, <code class="font-mono">scripts/</code>, <code class="font-mono">assets/</code>.</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+        <p class="text-neutral-300">Pense num manual de produto: a capa diz o que é, o índice mostra os capítulos, e você só lê o capítulo 7 quando precisa do capítulo 7. A skill bem estruturada funciona igual — ela não despeja o livro inteiro na sua frente.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Camadas</div><div class="text-xs text-neutral-400">Do leve ao pesado</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Sob demanda</div><div class="text-xs text-neutral-400">Só quando preciso</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Economia</div><div class="text-xs text-neutral-400">Contexto preservado</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Velocidade</div><div class="text-xs text-neutral-400">Dispara mais leve</div></div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">📚 A pasta references/</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A pasta <code class="font-mono text-emerald-400">references/</code> guarda o <strong class="text-emerald-400">conhecimento
+        profundo</strong> da skill: templates HTML, design systems, tabelas de cores, checklists, exemplos longos. São coisas que
+        tornariam o <code class="font-mono">SKILL.md</code> gigantesco se ficassem inline — e que nem toda execução precisa.</p>
+
+      <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono text-neutral-500">estrutura típica</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">árvore</span>
+        </div>
+        <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>minha-skill/
+├── SKILL.md              ← enxuto: fluxo + roteamento
+└── references/
+    ├── DESIGN-REFERENCE.md   ← paleta, componentes, tokens
+    ├── TEMPLATE.md           ← esqueleto da saída
+    └── CHECKLIST.md          ← revisão antes de entregar</code></pre>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Um caso real</h3>
+        <p class="text-neutral-300 text-sm mb-3">O gerador de itinerários que o curso disseca mantém um documento de <em>Design System</em> separado, com paleta, tipografia e uma biblioteca de 12 componentes (hero banner, flight cards, day selector, budget breakdown...). O <code class="font-mono">SKILL.md</code> só diz "siga o design system" — ele não repete tudo isso inline.</p>
+        <p class="text-neutral-300 text-sm">Resultado: o arquivo principal fica legível, e o detalhe pesado só entra em contexto quando a página realmente vai ser construída.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+        <p class="text-neutral-300">Regra de bolso: se um bloco do seu <code class="font-mono">SKILL.md</code> passa de ~40 linhas e é "conhecimento de consulta" (uma tabela, um template), ele provavelmente pertence a <code class="font-mono">references/</code>.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Templates</div><div class="text-xs text-neutral-400">Esqueletos de saída</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Design</div><div class="text-xs text-neutral-400">Cores, tipografia</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Tabelas</div><div class="text-xs text-neutral-400">Dados de consulta</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Checklists</div><div class="text-xs text-neutral-400">Revisão final</div></div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">⚙️ A pasta scripts/</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quando uma tarefa tem <strong class="text-emerald-400">lógica determinística</strong> — filtrar dados, transformar um arquivo,
+        chamar uma API com regras fixas —, é melhor escrever um <strong class="text-neutral-100">script</strong> e fazer a skill
+        executá-lo, em vez de pedir ao Claude para reinventar a lógica a cada chamada. Código roda igual sempre; prosa regenerada,
+        não.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Bom candidato a script</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cálculo repetível (scoring, parsing, conversão)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Chamada de API com formato fixo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Transformação de dados estruturados</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Qualquer coisa que precisa ser exata e idêntica toda vez</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ NÃO é trabalho de script</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Julgamento, redação, criatividade</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Decisões que dependem de contexto da conversa</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Interpretação de linguagem natural</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tarefas onde "depende" é a resposta certa</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono text-neutral-500">SKILL.md chamando um script (ilustrativo)</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Markdown</span>
+        </div>
+        <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>## Workflow
+1. Ask the user for the leads CSV path.
+2. Run `python scripts/qualify_leads.py &lt;path&gt;` to score each lead.
+3. Read the script's JSON output and summarize the top 10.
+
+# A lógica de scoring vive no script — não é regenerada
+# em cada execução. O Claude orquestra, o código calcula.</code></pre>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Determinismo</div><div class="text-xs text-neutral-400">Igual toda vez</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Reuso</div><div class="text-xs text-neutral-400">Escreve uma vez</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Barato</div><div class="text-xs text-neutral-400">Não gasta tokens</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Confiável</div><div class="text-xs text-neutral-400">Sem alucinação</div></div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">🖼️ A pasta assets/</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <code class="font-mono text-emerald-400">assets/</code> guarda os <strong class="text-emerald-400">recursos estáticos</strong>
+        que a saída usa ou referencia: fontes, imagens, ícones, um exemplo de saída pronto, um arquivo de configuração. A ideia é
+        manter a skill <strong class="text-neutral-100">autocontida</strong> — tudo que ela precisa viaja junto, então ela funciona
+        igual em qualquer máquina.</p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">📦</span> O valor de um exemplo pronto</h3>
+        <p class="text-neutral-300 mb-4">Um dos assets mais valiosos é um <strong>exemplo de saída completo</strong>. O gerador de itinerários, por exemplo, inclui um arquivo de exemplo (uma viagem de demonstração já renderizada).</p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Ancora a qualidade: o Claude vê o nível esperado.</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Documenta o formato melhor que mil palavras.</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Serve de teste: a nova saída deve ficar tão boa quanto.</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🧷</span> Autocontido na prática</h3>
+        <p class="text-neutral-300 text-sm">Skills bem feitas evitam dependências externas. O princípio "um arquivo, zero dependências" do gerador de itinerários — CSS e JS inline, imagens em base64, só uma fonte externa — é o mesmo espírito: o entregável não quebra porque um servidor caiu ou um link mudou.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Fontes</div><div class="text-xs text-neutral-400">Tipografia da saída</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Imagens</div><div class="text-xs text-neutral-400">Ícones, logos</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Exemplos</div><div class="text-xs text-neutral-400">Saída de referência</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Configs</div><div class="text-xs text-neutral-400">Arquivos de apoio</div></div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🪶 Mantendo o SKILL.md enxuto</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Esta é a <strong class="text-emerald-400">regra de ouro</strong> da estrutura: o <code class="font-mono">SKILL.md</code> é um
+        <strong class="text-neutral-100">roteador, não uma enciclopédia</strong>. Ele deve conter o fluxo, as decisões e as regras
+        — e <em>apontar</em> para os detalhes, não despejá-los. Um SKILL.md inchado paga o preço em contexto a cada disparo.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Fica no SKILL.md</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Frontmatter (name + description)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O workflow de alto nível</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>As regras duras e os princípios</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A tabela "leia X quando Y"</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Vai para os arquivos de apoio</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Templates HTML/CSS completos</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tabelas longas de dados de consulta</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Lógica de cálculo (vira script)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Exemplos enormes de saída</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> O sintoma do SKILL.md inchado</h3>
+        <p class="text-neutral-300">Se o seu arquivo principal tem 800 linhas e a maioria são tabelas e templates que só são usados em metade das execuções, você está pagando contexto por nada toda vez que a skill dispara. Mova o peso para <code class="font-mono">references/</code> e deixe o SKILL.md respirar.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+        <p class="text-neutral-300">Leia seu SKILL.md inteiro em voz alta. Se você se pega "pulando" um bloco porque é só uma tabela de referência, o Claude também não precisa dele sempre — esse bloco é candidato a virar arquivo de apoio.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Roteador</div><div class="text-xs text-neutral-400">Aponta, não despeja</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Fluxo</div><div class="text-xs text-neutral-400">Alto nível só</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Regras</div><div class="text-xs text-neutral-400">Inegociáveis aqui</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Leveza</div><div class="text-xs text-neutral-400">Detalhe fora</div></div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🗺️ Roteando entre os arquivos</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Ter pastas de apoio só funciona se o <code class="font-mono">SKILL.md</code> souber <strong class="text-emerald-400">quando
+        abrir cada uma</strong>. O padrão é simples e poderoso: uma instrução condicional do tipo
+        <em>"leia <code class="font-mono">references/X.md</code> quando for fazer Y"</em>. Isso transforma um amontoado de arquivos
+        numa skill que se navega sozinha.</p>
+
+      <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono text-neutral-500">tabela de roteamento no SKILL.md (ilustrativo)</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Markdown</span>
+        </div>
+        <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>## Quando ler cada arquivo
+
+| Se você vai...              | Leia primeiro              |
+|-----------------------------|----------------------------|
+| construir a página de saída | references/DESIGN.md       |
+| revisar antes de entregar   | references/CHECKLIST.md    |
+| calcular o score            | (rode scripts/score.py)    |
+
+Não leia tudo de uma vez — abra cada arquivo só na etapa
+que precisa dele.</code></pre>
+      </div>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">1</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Nomeie a condição</h4>
+            <p class="text-neutral-300 text-sm">"Quando for construir a saída", "quando o usuário pedir uma revisão". A condição precisa ser reconhecível dentro do fluxo.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">2</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Aponte o arquivo certo</h4>
+            <p class="text-neutral-300 text-sm">Um caminho explícito por condição. Evite "leia tudo em references/" — isso anula o ganho da revelação progressiva.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">3</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Reforce "só quando precisar"</h4>
+            <p class="text-neutral-300 text-sm">Deixe explícito que os arquivos não devem ser carregados antecipadamente. Essa linha protege o contexto.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Condição</div><div class="text-xs text-neutral-400">O gatilho da leitura</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Destino</div><div class="text-xs text-neutral-400">Qual arquivo abrir</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Tabela</div><div class="text-xs text-neutral-400">Mapa de roteamento</div></div>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">"Só se"</div><div class="text-xs text-neutral-400">Nunca tudo de uma vez</div></div>
+      </div>
+    </section>
+
+    <!-- PROMPTS COPIAVEIS -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">🧰 Prompts copiáveis</h2>
+      <p class="text-neutral-300 mb-6">Use estes prompts para refatorar suas skills aplicando progressive disclosure.</p>
+      <div class="space-y-4">
+        <div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+          <div class="text-xs font-mono text-neutral-500 mb-2">Prompt — diagnosticar inchaço</div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Aqui está meu SKILL.md: &lt;cole&gt;. Aponte quais blocos são
+"conhecimento de consulta" (tabelas, templates, exemplos longos)
+que deveriam sair para references/, e quais blocos são fluxo/regras
+que devem ficar. Justifique cada um.</code></pre>
+        </div>
+        <div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+          <div class="text-xs font-mono text-neutral-500 mb-2">Prompt — propor estrutura de pastas</div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Para uma skill que faz &lt;descreva&gt;, proponha a árvore de pastas
+(SKILL.md + references/ + scripts/ + assets/) e diga, para cada
+arquivo, o que ele contém e em que etapa do workflow é lido.</code></pre>
+        </div>
+        <div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+          <div class="text-xs font-mono text-neutral-500 mb-2">Prompt — escrever a tabela de roteamento</div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Escreva uma seção "Quando ler cada arquivo" para minha skill,
+em forma de tabela (condição → arquivo a abrir), deixando claro
+que os arquivos só devem ser carregados sob demanda.</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXEMPLO DE SAIDA -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">📤 Exemplo de saída</h2>
+      <p class="text-neutral-300 mb-6">Um <code class="font-mono">SKILL.md</code> enxuto que delega para arquivos de apoio — o padrão de progressive disclosure em ação.</p>
+      <div class="bg-dark-900 rounded-xl border border-emerald-500/30 p-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono text-neutral-500">invoice-builder/SKILL.md (enxuto)</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">rodável</span>
+        </div>
+        <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>---
+name: invoice-builder
+description: Builds a clean PDF-ready HTML invoice. Use when the
+  user wants to "create an invoice", "bill a client", or /invoice.
+---
+
+# Invoice Builder
+
+## Workflow
+1. Collect client, items, amounts, due date.
+2. When building the layout, read `references/TEMPLATE.md`.
+3. Before delivering, run `references/CHECKLIST.md`.
+
+## Rules
+- Never invent line items the user didn't provide.
+- Totals must match the sum of the lines exactly.
+
+## When to read each file
+| If you are...        | Read first              |
+|----------------------|-------------------------|
+| building the layout  | references/TEMPLATE.md  |
+| reviewing the output | references/CHECKLIST.md |
+
+Load support files only at the step that needs them.</code></pre>
+      </div>
+    </section>
+
+    <!-- EXERCICIOS -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">✏️ Exercícios práticos</h2>
+      <div class="space-y-4">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h3 class="font-semibold text-emerald-400 mb-2">1. Classifique cada bloco</h3>
+          <p class="text-neutral-300 text-sm">Pegue uma skill existente e classifique cada bloco do SKILL.md em: "fica" (fluxo/regras), "vai para references/", ou "vira script". Conte quantas linhas você conseguiria mover para fora.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h3 class="font-semibold text-emerald-400 mb-2">2. Desenhe a árvore</h3>
+          <p class="text-neutral-300 text-sm">Para uma skill que gere relatórios de auditoria, desenhe a árvore de pastas completa (SKILL.md + references/ + scripts/ + assets/) e justifique por que cada item está onde está.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-6">
+          <h3 class="font-semibold text-emerald-400 mb-2">3. Crie um SKILL.md rodável com referência ⭐</h3>
+          <p class="text-neutral-300 text-sm">Escreva um <code class="font-mono">SKILL.md</code> enxuto MAIS um arquivo <code class="font-mono">references/TEMPLATE.md</code> de apoio. O SKILL.md deve ter uma instrução de roteamento ("leia o template quando construir a saída"). Depois peça ao Claude para executar a skill e confirme que ele abre o template só na etapa certa — não antes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📂</span> Resumo do módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Progressive disclosure</strong><span class="text-neutral-400"> — revele o detalhe só quando ele for necessário; o resto fica fora do caminho.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">references/, scripts/, assets/</strong><span class="text-neutral-400"> — conhecimento profundo, lógica determinística e recursos estáticos, cada um no seu lugar.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">SKILL.md enxuto</strong><span class="text-neutral-400"> — é um roteador, não uma enciclopédia; o detalhe pesado vai para os arquivos de apoio.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Roteamento "leia X quando Y"</strong><span class="text-neutral-400"> — é o que transforma pastas soltas numa skill que se navega sozinha.</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Próximo módulo:</h3>
+          <p class="text-neutral-300">1.3 — Descriptions que disparam</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo anterior</a>
+          <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">Próximo Módulo →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+      <p>Trilha 1 · Módulo 1.2 · Progressive disclosure &amp; estrutura</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
