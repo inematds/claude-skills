@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+
+<html class="dark" lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🧩 Central de Skills — Claude Skills na Prática</title>
-  <meta name="description" content="Todas as skills do curso Claude Skills na Prática, prontas para baixar e instalar no seu Claude Code — com descrição e passo a passo de instalação.">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>🧩 Central de Skills — Claude Skills na Prática</title>
+<meta content="Todas as skills do curso Claude Skills na Prática, prontas para baixar e instalar no seu Claude Code — com descrição e passo a passo de instalação." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: { extend: { colors: {
@@ -15,8 +16,8 @@
       } } }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
 
@@ -87,195 +88,179 @@
     .dark .border-dark-600 { border-color: #374151; }
     .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <!-- NAV (idêntico ao da landing — paths a partir da raiz; nenhuma trilha ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
-          <a href="curso/trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
-          <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
-          <a href="curso/trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
-          <a href="curso/trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
-          <a href="curso/trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <header class="bg-gradient-to-br from-primary/10 via-dark-900 to-dark-900 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-      <span class="inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full mb-6">Pronto para baixar e instalar</span>
-      <h1 class="text-4xl sm:text-5xl font-extrabold mb-5 leading-tight">🧩 Central de Skills</h1>
-      <p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto">Todas as skills do curso, prontas para baixar e instalar no seu <strong class="text-neutral-100">Claude Code</strong>. Cada uma com a descrição do que faz, os arquivos para download e o passo a passo de instalação.</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-        <a href="#instalar" class="px-5 py-2.5 bg-primary text-dark-900 rounded-lg font-semibold hover:bg-yellow-300 transition-colors">Como instalar →</a>
-        <a href="index.html" class="px-5 py-2.5 bg-dark-700 hover:bg-dark-600 text-neutral-100 rounded-lg font-semibold transition-colors border border-dark-600">← Voltar ao curso</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-
-    <!-- GRID DE SKILLS -->
-    <section class="mb-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <!-- travel-itinerary -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-emerald-400">travel-itinerary</h2>
-            <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">Geração HTML</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Gera um itinerário de viagem em HTML interativo e autocontido — tema claro/escuro, rotas de voo animadas, agenda dia a dia, cards de hotel, mapas SVG, orçamento e checklists com persistência. A saída parece um app premium, não um documento. Começa com um fluxo de descoberta conversacional para puxar dados reais da sua viagem.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/travel-itinerary/SKILL.md" download class="px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">⬇ SKILL.md</a>
-            <a href="skills/travel-itinerary/README.md" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">README.md</a>
-            <a href="skills/travel-itinerary/DESIGN-REFERENCE.md" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">DESIGN-REFERENCE.md</a>
-            <a href="skills/travel-itinerary/example-tokyo-trip.html" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">example-tokyo-trip.html</a>
-          </div>
-          <p class="text-xs text-neutral-500 mt-3">Pasta completa: <span class="font-mono">skills/travel-itinerary/</span> (SKILL.md + README.md + DESIGN-REFERENCE.md + example-tokyo-trip.html).</p>
-        </article>
-
-        <!-- vibe-coding -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-purple-400">vibe-coding</h2>
-            <span class="px-2.5 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">Frontend ao vivo</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Resolve problemas de layout, CSS e DOM no frontend priorizando o feedback visual ao vivo no navegador antes de gravar qualquer alteração no código-fonte. Use quando quiser testar mudanças de CSS/HTML, corrigir elementos cortados ou ajustar layouts visualmente. Trabalha em uma branch-sandbox por segurança e só persiste após sua aprovação.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/vibe-coding.md" download class="px-3 py-1.5 text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">⬇ vibe-coding.md</a>
-          </div>
-        </article>
-
-        <!-- n8n-workflow-reviewer -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-amber-400">n8n-workflow-reviewer</h2>
-            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">Automação</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Revisa workflows do n8n em busca de erros, ineficiências e boas práticas ausentes — como um arquiteto de automação sênior fazendo um code review claro e acionável. Aceita JSON completo, config parcial, descrição em texto ou print da tela, e roda um framework de revisão em cinco categorias.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/n8n-workflow-reviewer.skill" download class="px-3 py-1.5 text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">⬇ n8n-workflow-reviewer.skill</a>
-          </div>
-        </article>
-
-        <!-- rag-architect -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-teal-400">rag-architect</h2>
-            <span class="px-2.5 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">Arquitetura RAG</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Projeta o sistema de RAG ideal para os seus dados: analisa estrutura, formato, relacionamentos e escala para recomendar a arquitetura certa — e então entrega um plano de implementação com código inicial. Dispara em qualquer pedido sobre RAG, busca vetorial/semântica, chunking ou "conversar com seus documentos", mesmo sem a palavra "RAG".</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/rag-architect.skill" download class="px-3 py-1.5 text-xs font-semibold bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">⬇ rag-architect.skill</a>
-          </div>
-        </article>
-
-        <!-- seo-aeo-auditor -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-blue-400">seo-aeo-auditor</h2>
-            <span class="px-2.5 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">SEO + AEO</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Especialista em SEO tradicional e em otimização para busca por IA (AEO). Faz auditorias de site, schema markup, Core Web Vitals, llms.txt e estratégia de citação — usando bash, criação de arquivos e web fetch para entregar resultados reais, não só conselhos. Cobre visibilidade em ChatGPT, Perplexity, Gemini e AI Overviews.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/seo-aeo-auditor.skill" download class="px-3 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">⬇ seo-aeo-auditor.skill</a>
-            <a href="skills/seo-aeo-auditor.zip" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">.zip</a>
-          </div>
-        </article>
-
-        <!-- improvised-intelligence -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-rose-400">improvised-intelligence</h2>
-            <span class="px-2.5 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">Mega-skill</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Motor full-stack de aquisição e entrega de clientes: combina pesquisa competitiva, estratégia de marca, pitch de vendas personalizado, arquitetura de agentes operacionais e captura de workflow auto-evolutiva em um único sistema. Leva um negócio de prospect frio a cliente totalmente operacionalizado, nas fases PROSPECT → PITCH → BRAND → OPERATE → CAPTURE.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/improvised-intelligence.skill" download class="px-3 py-1.5 text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">⬇ improvised-intelligence.skill</a>
-            <a href="skills/improvised-intelligence.zip" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">.zip</a>
-          </div>
-        </article>
-
-        <!-- multi-agent-memory -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-rose-400">multi-agent-memory</h2>
-            <span class="px-2.5 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">Memória compartilhada</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Dá aos seus agentes de IA um cérebro compartilhado que funciona entre máquinas, ferramentas e frameworks: guarde um fato no Claude Code do notebook e recupere-o de outro agente no servidor. Inclui o ritual <code class="font-mono text-rose-400">/sessionend</code>, que reflete sobre a sessão, guarda um resumo estruturado no Shared Brain e atualiza a memória local.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/multi-agent-memory.md" download class="px-3 py-1.5 text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">⬇ multi-agent-memory.md</a>
-            <a href="skills/multi-agent-memory-readme.md" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">README</a>
-          </div>
-        </article>
-
-        <!-- lead-scoring -->
-        <article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="font-mono text-lg font-bold text-amber-400">lead-scoring</h2>
-            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">Dados + Apify</span>
-          </div>
-          <p class="text-neutral-300 text-sm mb-4 flex-1">Qualifica, pontua e filtra leads usando o Apify Google Search. Classifica negócios que vendem produtos próprios como <code class="font-mono text-amber-400">brand</code> e pontua cada um em 3 dimensões — capacidade de desenvolvimento de produto, maturidade de dados e maturidade de marca — a partir de um CSV de leads. Acompanha o script Python que faz o enriquecimento.</p>
-          <div class="flex flex-wrap gap-2">
-            <a href="skills/lead-scoring.md" download class="px-3 py-1.5 text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">⬇ lead-scoring.md</a>
-            <a href="skills/qualify_leads_apify.py" download class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600">qualify_leads_apify.py</a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- COMO INSTALAR -->
-    <section id="instalar" class="mb-12">
-      <div class="bg-gradient-to-br from-primary/10 via-dark-800 to-dark-800 rounded-2xl border border-primary/30 p-8 sm:p-10">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center"><span class="mr-3">🛠️</span> Como instalar uma skill no Claude Code</h2>
-        <p class="text-neutral-300 mb-8 max-w-3xl">Uma Agent Skill é só uma pasta com um <code class="font-mono text-primary">SKILL.md</code> dentro. O Claude descobre a skill pela <code class="font-mono text-primary">description</code> do frontmatter e a dispara sozinho quando o seu pedido casa com os gatilhos descritos.</p>
-
-        <div class="space-y-5 mb-8">
-          <div class="flex items-start space-x-4">
-            <span class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">1</span>
-            <div>
-              <h3 class="font-semibold mb-1">Crie a pasta da skill</h3>
-              <p class="text-neutral-400 text-sm">Cada skill vive em <code class="font-mono text-primary">~/.claude/skills/&lt;nome&gt;/</code>, com um <code class="font-mono">SKILL.md</code> dentro. O nome da pasta deve bater com o <code class="font-mono">name</code> do frontmatter.</p>
-            </div>
-          </div>
-          <div class="flex items-start space-x-4">
-            <span class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">2</span>
-            <div>
-              <h3 class="font-semibold mb-1">Coloque o arquivo no lugar</h3>
-              <p class="text-neutral-400 text-sm">Baixe o <code class="font-mono">SKILL.md</code> (ou descompacte o <code class="font-mono">.skill</code>/<code class="font-mono">.zip</code>) e mova para dentro dessa pasta. Arquivos extras — <code class="font-mono">references/</code>, <code class="font-mono">scripts/</code>, <code class="font-mono">assets/</code> — ficam ao lado, carregados sob demanda (progressive disclosure).</p>
-            </div>
-          </div>
-          <div class="flex items-start space-x-4">
-            <span class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">3</span>
-            <div>
-              <h3 class="font-semibold mb-1">Reinicie o Claude Code</h3>
-              <p class="text-neutral-400 text-sm">Feche e reabra a sessão (ou rode <code class="font-mono">/skills</code>) para o Claude reindexar as skills. A partir daí, ele dispara a skill automaticamente quando o seu pedido casa com a <code class="font-mono">description</code>.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-dark-900 rounded-xl border border-dark-600 p-5 overflow-x-auto">
-          <p class="text-xs text-neutral-500 mb-3 font-mono">terminal</p>
+<link href="https://inematds.github.io/claude-skills/skills.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/skills.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/skills.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="skills.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="en/skills.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="es/skills.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV (idêntico ao da landing — paths a partir da raiz; nenhuma trilha ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="curso/trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="curso/trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HERO -->
+<header class="bg-gradient-to-br from-primary/10 via-dark-900 to-dark-900 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+<span class="inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full mb-6">Pronto para baixar e instalar</span>
+<h1 class="text-4xl sm:text-5xl font-extrabold mb-5 leading-tight">🧩 Central de Skills</h1>
+<p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto">Todas as skills do curso, prontas para baixar e instalar no seu <strong class="text-neutral-100">Claude Code</strong>. Cada uma com a descrição do que faz, os arquivos para download e o passo a passo de instalação.</p>
+<div class="mt-8 flex flex-wrap justify-center gap-3 text-sm">
+<a class="px-5 py-2.5 bg-primary text-dark-900 rounded-lg font-semibold hover:bg-yellow-300 transition-colors" href="#instalar">Como instalar →</a>
+<a class="px-5 py-2.5 bg-dark-700 hover:bg-dark-600 text-neutral-100 rounded-lg font-semibold transition-colors border border-dark-600" href="index.html">← Voltar ao curso</a>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+<!-- GRID DE SKILLS -->
+<section class="mb-16">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- travel-itinerary -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-emerald-400">travel-itinerary</h2>
+<span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">Geração HTML</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Gera um itinerário de viagem em HTML interativo e autocontido — tema claro/escuro, rotas de voo animadas, agenda dia a dia, cards de hotel, mapas SVG, orçamento e checklists com persistência. A saída parece um app premium, não um documento. Começa com um fluxo de descoberta conversacional para puxar dados reais da sua viagem.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" download="" href="skills/travel-itinerary/SKILL.md">⬇ SKILL.md</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/travel-itinerary/README.md">README.md</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/travel-itinerary/DESIGN-REFERENCE.md">DESIGN-REFERENCE.md</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/travel-itinerary/example-tokyo-trip.html">example-tokyo-trip.html</a>
+</div>
+<p class="text-xs text-neutral-500 mt-3">Pasta completa: <span class="font-mono">skills/travel-itinerary/</span> (SKILL.md + README.md + DESIGN-REFERENCE.md + example-tokyo-trip.html).</p>
+</article>
+<!-- vibe-coding -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-purple-400">vibe-coding</h2>
+<span class="px-2.5 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">Frontend ao vivo</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Resolve problemas de layout, CSS e DOM no frontend priorizando o feedback visual ao vivo no navegador antes de gravar qualquer alteração no código-fonte. Use quando quiser testar mudanças de CSS/HTML, corrigir elementos cortados ou ajustar layouts visualmente. Trabalha em uma branch-sandbox por segurança e só persiste após sua aprovação.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" download="" href="skills/vibe-coding.md">⬇ vibe-coding.md</a>
+</div>
+</article>
+<!-- n8n-workflow-reviewer -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-amber-400">n8n-workflow-reviewer</h2>
+<span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">Automação</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Revisa workflows do n8n em busca de erros, ineficiências e boas práticas ausentes — como um arquiteto de automação sênior fazendo um code review claro e acionável. Aceita JSON completo, config parcial, descrição em texto ou print da tela, e roda um framework de revisão em cinco categorias.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" download="" href="skills/n8n-workflow-reviewer.skill">⬇ n8n-workflow-reviewer.skill</a>
+</div>
+</article>
+<!-- rag-architect -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-teal-400">rag-architect</h2>
+<span class="px-2.5 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">Arquitetura RAG</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Projeta o sistema de RAG ideal para os seus dados: analisa estrutura, formato, relacionamentos e escala para recomendar a arquitetura certa — e então entrega um plano de implementação com código inicial. Dispara em qualquer pedido sobre RAG, busca vetorial/semântica, chunking ou "conversar com seus documentos", mesmo sem a palavra "RAG".</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors" download="" href="skills/rag-architect.skill">⬇ rag-architect.skill</a>
+</div>
+</article>
+<!-- seo-aeo-auditor -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-blue-400">seo-aeo-auditor</h2>
+<span class="px-2.5 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">SEO + AEO</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Especialista em SEO tradicional e em otimização para busca por IA (AEO). Faz auditorias de site, schema markup, Core Web Vitals, llms.txt e estratégia de citação — usando bash, criação de arquivos e web fetch para entregar resultados reais, não só conselhos. Cobre visibilidade em ChatGPT, Perplexity, Gemini e AI Overviews.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" download="" href="skills/seo-aeo-auditor.skill">⬇ seo-aeo-auditor.skill</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/seo-aeo-auditor.zip">.zip</a>
+</div>
+</article>
+<!-- improvised-intelligence -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-rose-400">improvised-intelligence</h2>
+<span class="px-2.5 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">Mega-skill</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Motor full-stack de aquisição e entrega de clientes: combina pesquisa competitiva, estratégia de marca, pitch de vendas personalizado, arquitetura de agentes operacionais e captura de workflow auto-evolutiva em um único sistema. Leva um negócio de prospect frio a cliente totalmente operacionalizado, nas fases PROSPECT → PITCH → BRAND → OPERATE → CAPTURE.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors" download="" href="skills/improvised-intelligence.skill">⬇ improvised-intelligence.skill</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/improvised-intelligence.zip">.zip</a>
+</div>
+</article>
+<!-- multi-agent-memory -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-rose-400">multi-agent-memory</h2>
+<span class="px-2.5 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">Memória compartilhada</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Dá aos seus agentes de IA um cérebro compartilhado que funciona entre máquinas, ferramentas e frameworks: guarde um fato no Claude Code do notebook e recupere-o de outro agente no servidor. Inclui o ritual <code class="font-mono text-rose-400">/sessionend</code>, que reflete sobre a sessão, guarda um resumo estruturado no Shared Brain e atualiza a memória local.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors" download="" href="skills/multi-agent-memory.md">⬇ multi-agent-memory.md</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/multi-agent-memory-readme.md">README</a>
+</div>
+</article>
+<!-- lead-scoring -->
+<article class="bg-dark-800 rounded-2xl border border-dark-600 p-6 flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-mono text-lg font-bold text-amber-400">lead-scoring</h2>
+<span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">Dados + Apify</span>
+</div>
+<p class="text-neutral-300 text-sm mb-4 flex-1">Qualifica, pontua e filtra leads usando o Apify Google Search. Classifica negócios que vendem produtos próprios como <code class="font-mono text-amber-400">brand</code> e pontua cada um em 3 dimensões — capacidade de desenvolvimento de produto, maturidade de dados e maturidade de marca — a partir de um CSV de leads. Acompanha o script Python que faz o enriquecimento.</p>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" download="" href="skills/lead-scoring.md">⬇ lead-scoring.md</a>
+<a class="px-3 py-1.5 text-xs font-medium bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors border border-dark-600" download="" href="skills/qualify_leads_apify.py">qualify_leads_apify.py</a>
+</div>
+</article>
+</div>
+</section>
+<!-- COMO INSTALAR -->
+<section class="mb-12" id="instalar">
+<div class="bg-gradient-to-br from-primary/10 via-dark-800 to-dark-800 rounded-2xl border border-primary/30 p-8 sm:p-10">
+<h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center"><span class="mr-3">🛠️</span> Como instalar uma skill no Claude Code</h2>
+<p class="text-neutral-300 mb-8 max-w-3xl">Uma Agent Skill é só uma pasta com um <code class="font-mono text-primary">SKILL.md</code> dentro. O Claude descobre a skill pela <code class="font-mono text-primary">description</code> do frontmatter e a dispara sozinho quando o seu pedido casa com os gatilhos descritos.</p>
+<div class="space-y-5 mb-8">
+<div class="flex items-start space-x-4">
+<span class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">1</span>
+<div>
+<h3 class="font-semibold mb-1">Crie a pasta da skill</h3>
+<p class="text-neutral-400 text-sm">Cada skill vive em <code class="font-mono text-primary">~/.claude/skills/&lt;nome&gt;/</code>, com um <code class="font-mono">SKILL.md</code> dentro. O nome da pasta deve bater com o <code class="font-mono">name</code> do frontmatter.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<span class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">2</span>
+<div>
+<h3 class="font-semibold mb-1">Coloque o arquivo no lugar</h3>
+<p class="text-neutral-400 text-sm">Baixe o <code class="font-mono">SKILL.md</code> (ou descompacte o <code class="font-mono">.skill</code>/<code class="font-mono">.zip</code>) e mova para dentro dessa pasta. Arquivos extras — <code class="font-mono">references/</code>, <code class="font-mono">scripts/</code>, <code class="font-mono">assets/</code> — ficam ao lado, carregados sob demanda (progressive disclosure).</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<span class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">3</span>
+<div>
+<h3 class="font-semibold mb-1">Reinicie o Claude Code</h3>
+<p class="text-neutral-400 text-sm">Feche e reabra a sessão (ou rode <code class="font-mono">/skills</code>) para o Claude reindexar as skills. A partir daí, ele dispara a skill automaticamente quando o seu pedido casa com a <code class="font-mono">description</code>.</p>
+</div>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5 overflow-x-auto">
+<p class="text-xs text-neutral-500 mb-3 font-mono">terminal</p>
 <pre class="font-mono text-sm text-neutral-300 leading-relaxed"><span class="text-neutral-500"># 1. criar a pasta da skill (escopo do usuário, vale em todo projeto)</span>
 mkdir -p ~/.claude/skills/travel-itinerary
 
@@ -288,25 +273,21 @@ mv ~/Downloads/DESIGN-REFERENCE.md ~/.claude/skills/travel-itinerary/
 unzip ~/Downloads/n8n-workflow-reviewer.skill -d ~/.claude/skills/
 
 <span class="text-neutral-500"># 3. reiniciar o Claude Code — pronto, a skill dispara pela description</span></pre>
-        </div>
-
-        <div class="mt-6 bg-primary/10 rounded-xl border border-primary/30 p-5">
-          <h3 class="font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> Dica: escopo de projeto vs. usuário</h3>
-          <p class="text-neutral-300 text-sm">Para uma skill valer só em um repositório, use <code class="font-mono text-primary">.claude/skills/&lt;nome&gt;/</code> dentro da raiz do projeto, em vez de <code class="font-mono">~/.claude/skills/</code>. Skills de projeto vão para o controle de versão e seguem com o repo; skills de usuário valem em qualquer pasta da sua máquina.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
-      <p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
-    </div>
-  </footer>
-
-  <script>
+</div>
+<div class="mt-6 bg-primary/10 rounded-xl border border-primary/30 p-5">
+<h3 class="font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> Dica: escopo de projeto vs. usuário</h3>
+<p class="text-neutral-300 text-sm">Para uma skill valer só em um repositório, use <code class="font-mono text-primary">.claude/skills/&lt;nome&gt;/</code> dentro da raiz do projeto, em vez de <code class="font-mono">~/.claude/skills/</code>. Skills de projeto vão para o controle de versão e seguem com o repo; skills de usuário valem em qualquer pasta da sua máquina.</p>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');

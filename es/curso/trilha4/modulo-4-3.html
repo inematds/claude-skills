@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 4.3 · Puntuación de clientes potenciales con Apify | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217,119,6,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217,119,6,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217,119,6,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha4/modulo-4-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha4/modulo-4-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha4/modulo-4-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha4/modulo-4-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-4-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-amber-400" href="index.html">Ruta 4</a>
+<span>/</span>
+<span class="text-amber-400">Módulo 4.3</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">📊 Lead Scoring con Apify</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Tener mil leads no te dice por dónde empezar. Esta skill de calificación <strong class="text-neutral-300">clasifica</strong> cada negocio, <strong class="text-neutral-300">puntúa las marcas en tres dimensiones</strong> con búsqueda en Google mediante Apify, y ordena la lista por prioridad, para que tu estrategia de mayor esfuerzo siempre se dirija al lead con más probabilidades de convertir.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Inter.</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Práctica</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🎯 Por qué calificar leads</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">El cuello de botella del outreach nunca es la cantidad de leads, sino tu <strong class="text-amber-400">tiempo</strong>. Con una lista grande, contactar al azar desperdicia el esfuerzo más costoso (un enfoque personalizado) en alguien que nunca iba a comprar. La puntuación de leads resuelve esto asignando una nota a cada lead y ordenando la fila según la probabilidad de conversión.</p>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center"><span class="mr-2">🎯</span> El problema concreto</h3>
+<p class="text-neutral-300">Recorres la web y Shopify para descubrir marcas de un nicho que fabrican sus propios productos. Encuentras cientos. Ahora bien: ¿a cuál contactar primero para ofrecerle tu producto de datos? Sin una puntuación, es cuestión de adivinar. Con una puntuación, tienes una lista ordenada.</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Los tres beneficios del scoring</h3>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li>• <strong>🚀 Priorización del outreach:</strong> en vez de contactar al azar, la skill los clasifica por disposición y afinidad: el mayor esfuerzo se dedica al lead con más probabilidades de convertirse en cliente.</li>
+<li>• <strong>📊 Puntuación consistente y sin sesgos:</strong> cada marca se evalúa con los mismos criterios, eliminando las suposiciones y el humor del día del proceso.</li>
+<li>• <strong>🧠 Contexto enriquecido por marca:</strong> el score genera evidencia sobre cada negocio, así sabes dónde enfocarte y cómo ajustar el mensaje antes de contactarlo.</li>
+</ul>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Priorización</div><p class="text-xs text-neutral-400">Cola ordenada según la probabilidad de cierre.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Sin sesgos</div><p class="text-xs text-neutral-400">Mismos criterios para todos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Repetible</div><p class="text-xs text-neutral-400">Se ejecuta igual en cualquier lista.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Contexto</div><p class="text-xs text-neutral-400">La evidencia guía el mensaje.</p></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🏷️ La clasificación que viene antes</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Evaluar a quien no es el público objetivo es una pérdida de tiempo y de llamadas a la API. Por eso, antes del score, la skill <strong class="text-amber-400">clasifica</strong> cada negocio leyendo el HTML del sitio: solo quienes venden productos propios (<code class="font-mono text-amber-400 text-sm">brand</code>) entra en la fase de scoring. Los salones, revendedores y desconocidos se marcan y se dejan fuera.</p>
+<!-- SVG: fluxo de decisão da classificação -->
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Árbol de decisión de la clasificación: a partir de las señales del sitio, el negocio se etiqueta como salon, brand o retailer, y solo brand pasa a la puntuación" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m43a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m43a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m43a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m43a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m43a-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m43a-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- origem: site -->
+<rect fill="#26201a" height="46" rx="12" stroke="#9ca3af" stroke-width="2" width="150" x="30" y="92"></rect>
+<text fill="#e5e7eb" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="105" y="113">HTML del sitio</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="105" y="130">señales</text>
+<!-- diamante pergunta -->
+<path d="M220,115 L320,75 L420,115 L320,155 Z" fill="#1f1604" stroke="url(#m43a-grad)" stroke-width="2"></path>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="320" y="110">producto</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="320" y="127">¿propio?</text>
+<path d="M180,115 L220,115" fill="none" marker-end="url(#m43a-ah)" opacity="0.65" stroke="#fbbf24" stroke-width="2"></path>
+<!-- ramos -->
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<rect fill="#2a0f16" height="40" rx="10" stroke="#fb7185" stroke-width="2" width="150" x="500" y="20"></rect><text fill="#fb7185" text-anchor="middle" x="575" y="45">salon / barber</text>
+<g filter="url(#m43a-glow)"><rect fill="#1f1604" height="40" rx="10" stroke="url(#m43a-grad)" stroke-width="2.5" width="150" x="500" y="95"></rect></g><text fill="#fbbf24" text-anchor="middle" x="575" y="120">brand ✓</text>
+<rect fill="#2a0f16" height="40" rx="10" stroke="#fb7185" stroke-width="2" width="150" x="500" y="170"></rect><text fill="#fb7185" text-anchor="middle" x="575" y="195">retailer</text>
+</g>
+<path d="M380,95 C440,60 460,40 500,40" fill="none" marker-end="url(#m43a-ah)" opacity="0.55" stroke="#9ca3af" stroke-width="1.8"></path>
+<path d="M420,115 L500,115" fill="none" marker-end="url(#m43a-ahg)" opacity="0.7" stroke="#34d399" stroke-width="2"></path>
+<path d="M380,135 C440,170 460,190 500,190" fill="none" marker-end="url(#m43a-ah)" opacity="0.55" stroke="#9ca3af" stroke-width="1.8"></path>
+<!-- segue pro scoring -->
+<rect fill="#0e1b26" height="46" rx="12" stroke="#38bdf8" stroke-width="2" width="160" x="800" y="92"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="880" y="113">scoring 3D</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="880" y="130">solo entra brand</text>
+<path d="M650,115 L800,115" fill="none" marker-end="url(#m43a-ahg)" opacity="0.7" stroke="#34d399" stroke-width="2"></path>
+</svg>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">El árbol de decisión (del código de la skill)</h3>
+<pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">1. ≥2 sinais de salão E nenhum produto próprio  → salon / barber
+2. tem sinal de produto próprio                 → brand
+3. tem páginas de produto, 0 revenda, ≥2 sinais → brand
+4. tem sinal de revenda E 0 produto próprio     → retailer
+5. tem páginas de produto                       → brand
+6. tipo já era salon/barber                      → preserva
+7. caso contrário                                → unknown</pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Señales de "brand" (producto propio)</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Páginas <code class="font-mono text-xs">/products</code>, <code class="font-mono text-xs">/collections</code>, <code class="font-mono text-xs">/shop</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Textos como "our formula", "small batch", "we formulate".</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Marcas ™ / ® en el contenido.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Historia de fundación: «our story», «founder».</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Señales que excluyen del scoring</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"tenemos en stock", "marcas que nos encantan" → es un revendedor (retailer).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"reservar cita", "nuestros servicios" → es un proveedor de servicios (salón).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Se omiten los dominios sociales, los marketplaces y los directorios.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Si no se detecta un producto propio → unknown, fuera de la cola.</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Árbol de decisión</div><p class="text-xs text-neutral-400">Reglas ordenadas y claras.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Señales en el HTML</div><p class="text-xs text-neutral-400">Lee el sitio, no adivina.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Solo puntúa brand</div><p class="text-xs text-neutral-400">Filtra antes de gastar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Sin evidencia, sin etiqueta</div><p class="text-xs text-neutral-400">No inventa "brand".</p></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📐 Las tres dimensiones de la puntuación</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Cada marca recibe una puntuación de 0 a 100, compuesta por <strong class="text-amber-400">tres dimensiones con pesos explícitos</strong>. Los pesos no son arbitrarios: reflejan lo que importa para vender un producto de datos; la capacidad de desarrollar productos pesa más y la madurez de marca pesa menos.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 text-center">
+<div class="text-3xl font-bold text-amber-400 mb-1">0–50</div>
+<div class="font-semibold mb-2">Desarrollo de producto</div>
+<p class="text-xs text-neutral-400">¿Tiene equipo de I+D? ¿Desarrolla formulaciones propias? ¿Contrata personal para puestos de R&amp;D?</p>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 text-center">
+<div class="text-3xl font-bold text-amber-400 mb-1">0–30</div>
+<div class="font-semibold mb-2">Madurez de datos</div>
+<p class="text-xs text-neutral-400">¿Tiene quiz/personalización? ¿Stack de marketing? ¿Puestos de datos/CRM?</p>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 text-center">
+<div class="text-3xl font-bold text-amber-400 mb-1">0–20</div>
+<div class="font-semibold mb-2">Madurez de marca</div>
+<p class="text-xs text-neutral-400">¿Está en grandes cadenas minoristas? ¿Tiene premios o cobertura de prensa? ¿Un equipo grande?</p>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50 text-neutral-300"><tr><th class="text-left font-semibold px-4 py-3">Señal (Dim. 1 — Producto)</th><th class="text-right font-semibold px-4 py-3">Puntos</th><th class="text-left font-semibold px-4 py-3 hidden sm:table-cell">Fuente</th></tr></thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="px-4 py-3">I+D / laboratorio / formulación en el sitio</td><td class="px-4 py-3 text-right text-amber-400 font-bold">+8</td><td class="px-4 py-3 hidden sm:table-cell text-neutral-400">sitio</td></tr>
+<tr><td class="px-4 py-3">Afirmaciones «clínicamente probado»</td><td class="px-4 py-3 text-right text-amber-400 font-bold">+7</td><td class="px-4 py-3 hidden sm:table-cell text-neutral-400">sitio</td></tr>
+<tr><td class="px-4 py-3">Puesto sénior de I+D en LinkedIn</td><td class="px-4 py-3 text-right text-amber-400 font-bold">+25</td><td class="px-4 py-3 hidden sm:table-cell text-neutral-400">Apify</td></tr>
+<tr><td class="px-4 py-3">Puesto júnior de formulación/I+D</td><td class="px-4 py-3 text-right text-amber-400 font-bold">+15</td><td class="px-4 py-3 hidden sm:table-cell text-neutral-400">Apify</td></tr>
+<tr><td class="px-4 py-3">Vacante abierta de desarrollo</td><td class="px-4 py-3 text-right text-amber-400 font-bold">+10</td><td class="px-4 py-3 hidden sm:table-cell text-neutral-400">Apify</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo: el score debe ser explicable</h3>
+<p class="text-neutral-300">Las dimensiones con pesos visibles hacen que el número sea fácil de entender. No solo sabes que la marca obtuvo 86 puntos: sabes que obtuvo 42 en producto, 30 en datos y 14 en marca. Eso permite interpretar el lead: «esta tiene un equipo de producto sólido, pero una marca incipiente» cambia el enfoque.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Tres dimensiones</div><p class="text-xs text-neutral-400">Producto, datos, marca.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Pesos 50/30/20</div><p class="text-xs text-neutral-400">El producto importa más.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Señales puntuadas</div><p class="text-xs text-neutral-400">Cada señal vale X puntos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Score explicable</div><p class="text-xs text-neutral-400">Sabes por qué da ese número.</p></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔎 Dos pasadas: sitio y Apify</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">El scoring ocurre en <strong class="text-amber-400">dos pasadas</strong>, y el orden importa: primero obtiene la señal barata y solo después paga por la cara. La pasada 1 solo lee el sitio (gratis). La pasada 2 ejecuta 5 búsquedas en Google vía Apify por marca para encontrar cargos en LinkedIn, vacantes, premios y presencia en el comercio minorista.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold mb-2">Primera pasada — solo el sitio (gratis)</h4>
+<p class="text-neutral-300 text-sm">Busca el sitio de la marca una vez (con caché) y busca señales en el HTML: menciones de I+D, afirmaciones científicas, quiz de personalización, sistema de reseñas, herramientas de marketing (Klaviyo, GA), página de «dónde comprar». Marca el resultado como <code class="font-mono text-xs">scoring_depth=website_only</code>.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold mb-2">Segunda pasada — enriquecimiento mediante Apify (de pago)</h4>
+<p class="text-neutral-300 text-sm">Ejecuta 5 búsquedas en Google por marca mediante Apify (actor <code class="font-mono text-xs">apify~google-search-scraper</code>): cargos de R&amp;D y de datos en LinkedIn, vacantes abiertas, presencia en minoristas, prensa/premios, tamaño del equipo. Suma estos puntos a los del sitio, con un límite por dimensión, y marca <code class="font-mono text-xs">scoring_depth=full</code>.</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Costo y tiempo reales</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li>• <strong>~$0,045 por marca</strong> — 5 búsquedas en Google por marca.</li>
+<li>• <strong>Ejecución completa (15 marcas):</strong> ~20 minutos, ~$0,70 de Apify.</li>
+<li>• <strong>Solo fase 2 (78 marcas):</strong> ~2 horas, ~$3,50 de Apify.</li>
+<li>• <strong>Filtrado de dominios:</strong> los resultados de redes sociales, marketplaces, cupones y directorios se descartan antes de la puntuación; solo cuenta la señal relevante.</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Ejemplo de consulta de Apify (Dim. 1 — puesto de R&amp;D)</h3>
+<pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">"{nome da marca}" (formulation OR chemist OR "R&amp;D"
+  OR "product development" OR "cosmetic scientist")
+  site:linkedin.com
+
+→ achou cargo sênior  → +25
+→ achou cargo júnior  → +15
+→ nada                → +0  (não inventa evidência)</pre>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Regla de oro: no fabricar evidencia</h3>
+<p class="text-neutral-300 text-sm">Si una búsqueda no devuelve resultados, la skill asigna 0 a esa señal; nunca inventa. Un score solo vale si cada punto tiene evidencia rastreable. Ese principio es lo que distingue un scoring confiable de un generador de números bonitos.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Two-pass</div><p class="text-xs text-neutral-400">Sitio web primero, Apify después.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Gratis vs. de pago</div><p class="text-xs text-neutral-400">Señal barata antes que la costosa.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">~$0,045/marca</div><p class="text-xs text-neutral-400">Costo predecible por lead.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Evidencia real</div><p class="text-xs text-neutral-400">Sin búsqueda, score 0.</p></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🏆 Niveles y el contrato de salida</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">El número de 0 a 100 se traduce en un <strong class="text-amber-400">nivel</strong> — la etiqueta accionable que indica por dónde empezar. Y el CSV de salida incluye no solo el score, sino también los sub-scores y la evidencia de cada dimensión, formando un <strong class="text-amber-400">contrato</strong> que la siguiente skill (la de outreach) consume sin tener que adivinar.</p>
+<!-- SVG: escada de tiers -->
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Escala de tiers: desde el Tier 4 con menos de 30 puntos hasta el Tier 1 con 70 o más, que es la máxima prioridad de contacto" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m43b-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m43b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m43b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle></pattern>
+</defs>
+<rect fill="url(#m43b-grid)" height="230" width="1000" x="0" y="0"></rect>
+<path d="M120,196 L880,44" fill="none" opacity="0.4" stroke="#f59e0b" stroke-dasharray="9 9" stroke-width="1.6"></path>
+<g font-family="Inter,sans-serif" font-weight="600">
+<rect fill="#0e1b26" height="48" rx="12" stroke="#38bdf8" stroke-width="2" width="200" x="70" y="168"></rect><text fill="#bfe6ff" font-size="15" text-anchor="middle" x="170" y="190">Tier 4 · &lt;30</text><text fill="#9ad6ff" font-size="11" text-anchor="middle" x="170" y="208">señales débiles</text>
+<rect fill="#0e1b26" height="48" rx="12" stroke="#38bdf8" stroke-width="2" width="200" x="290" y="124"></rect><text fill="#bfe6ff" font-size="15" text-anchor="middle" x="390" y="146">Tier 3 · 30–49</text><text fill="#9ad6ff" font-size="11" text-anchor="middle" x="390" y="164">vale la pena intentarlo</text>
+<rect fill="#0e1b26" height="48" rx="12" stroke="#38bdf8" stroke-width="2" width="200" x="510" y="80"></rect><text fill="#bfe6ff" font-size="15" text-anchor="middle" x="610" y="102">Tier 2 · 50–69</text><text fill="#9ad6ff" font-size="11" text-anchor="middle" x="610" y="120">alto potencial</text>
+<g filter="url(#m43b-glow)"><rect fill="#1f1604" height="52" rx="13" stroke="url(#m43b-grad)" stroke-width="2.5" width="210" x="730" y="34"></rect></g><text fill="#fbbf24" font-size="16" text-anchor="middle" x="835" y="58">Tier 1 · ≥70</text><text fill="#fcd9a0" font-size="11" text-anchor="middle" x="835" y="76">prioridad máxima</text>
+</g>
+</svg>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50 text-neutral-300"><tr><th class="text-left font-semibold px-4 py-3">Tier</th><th class="text-left font-semibold px-4 py-3">Score</th><th class="text-left font-semibold px-4 py-3">Significado</th></tr></thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="px-4 py-3 font-bold text-amber-400">Tier 1</td><td class="px-4 py-3">≥ 70</td><td class="px-4 py-3">Tiene equipo de producto Y capacidad de datos. <strong class="text-neutral-100">Prioridad máxima.</strong></td></tr>
+<tr><td class="px-4 py-3 font-bold text-amber-400">Tier 2</td><td class="px-4 py-3">50–69</td><td class="px-4 py-3">Tiene producto O datos, pero no ambos. Alto potencial.</td></tr>
+<tr><td class="px-4 py-3 font-bold text-amber-400">Tier 3</td><td class="px-4 py-3">30–49</td><td class="px-4 py-3">Responsable de marca con señales limitadas de R&amp;D/datos. Vale la pena contactarlo.</td></tr>
+<tr><td class="px-4 py-3 font-bold text-amber-400">Tier 4</td><td class="px-4 py-3">&lt; 30</td><td class="px-4 py-3">Señales débiles. Probablemente pequeña o en una etapa inicial.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Ejemplo de salida — una marca Tier 1 (recreación ilustrativa)</h3>
+<pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">business_name      : Marca Exemplo Hair Care
+qualification_score: 86
+qualification_tier : Tier 1
+product_dev_score  : 42  (cargo sênior de R&amp;D + ciência no site)
+data_maturity_score: 30  (quiz de cabelo, reviews, Klaviyo detectado)
+brand_maturity_score: 14 (imprensa + 2 redes sociais ativas)
+product_dev_evidence: LinkedIn: senior R&amp;D role found |
+                      science-backed claims on website
+data_evidence      : hair quiz on website | reviews system |
+                      marketing tech stack detected
+scoring_depth      : full</pre>
+<p class="text-neutral-500 text-xs mt-3">Línea de salida recreada para ilustrar el contrato del CSV: no son datos reales de clientes.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo: el contrato sirve a la siguiente skill</h3>
+<p class="text-neutral-300">El CSV está ordenado por puntuación descendente y tiene columnas predecibles (<code class="font-mono text-xs">qualification_tier</code>, <code class="font-mono text-xs">product_dev_evidence</code>, etc.). La skill de outreach lee ese contrato directamente: toma el primer elemento de la fila y usa la evidencia para personalizar el mensaje. Una salida clara es lo que permite conectar el pipeline.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Cuatro niveles</div><p class="text-xs text-neutral-400">≥70 / 50 / 30 / &lt;30.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Evidencia por dimensión.</div><p class="text-xs text-neutral-400">El CSV explica por qué.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Ordenado por puntuación</div><p class="text-xs text-neutral-400">La prioridad más alta = empezar aquí.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Contrato downstream</div><p class="text-xs text-neutral-400">Outreach consume directamente.</p></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">⚙️ Checkpoint, reanudar y modos</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Evaluar 78 marcas lleva horas y consume API. Una interrupción a mitad de camino no puede hacerte perder el trabajo ya hecho. Por eso la skill tiene <strong class="text-amber-400">dos modos</strong> de operación y un archivo de <strong class="text-amber-400">checkpoint</strong> que guarda el progreso después de cada marca, lo que permite interrumpir y reanudar la ejecución de forma segura.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-bold text-amber-400 mb-2">Modo 1 — ejecución completa (predeterminado)</h4>
+<p class="text-neutral-300 text-sm mb-3">Procesa solo las filas que aún no tienen score. Clasifica (fase 1b), puntúa según el sitio (pasada 1), enriquece con Apify (pasada 2), combina los resultados con los ya puntuados y guarda todo ordenado.</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900 rounded-lg p-3 overflow-x-auto border border-dark-600">python3 qualify_leads_apify.py \
+  --input leads.csv</pre>
+</div>
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-bold text-amber-400 mb-2">Modo 2 — solo fase 2</h4>
+<p class="text-neutral-300 text-sm mb-3">Vuelve a puntuar solo las filas marcadas <code class="font-mono text-xs">website_only</code> con Apify, sin volver a clasificar. Es útil cuando ya tienes un CSV puntuado solo a partir del sitio.</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900 rounded-lg p-3 overflow-x-auto border border-dark-600">python3 qualify_leads_apify.py \
+  --input scored.csv --phase2-only</pre>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Cómo protege el checkpoint la ejecución</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li>• Guarda un archivo de checkpoint <strong>después de cada marca</strong> puntuada.</li>
+<li>• Al reiniciar, omite las marcas que ya están en el checkpoint y continúa desde donde se detuvo.</li>
+<li>• Conserva las líneas ya puntuadas en el modo completo — no vuelve a procesar lo que ya estaba listo.</li>
+<li>• Al terminar la ejecución, el archivo de checkpoint se elimina automáticamente.</li>
+</ul>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Manejo robusto de errores</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Sin <code class="font-mono text-xs">APIFY_API_TOKEN</code> → detente y avisa.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>La ejecución síncrona expira → pasa al sondeo asíncrono.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>El sitio web devuelve 403/429 → omite la clasificación de esa fila.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>¿Se interrumpió? Ejecuta el mismo comando: retoma desde el checkpoint.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Sin estas salvaguardas</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Una caída en el punto 60 de 78 hace perder los 60 ya completados.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Volver a ejecutar hace que pagues de nuevo por todo lo que ya se había puntuado.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Un timeout de Apify derriba todo el proceso.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Un sitio fuera de servicio detiene el lote en vez de saltarse la línea.</span></li>
+</ul>
+</div>
+</div>
+<!-- EXERCÍCIOS -->
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-6">
+<h3 class="text-xl font-bold text-amber-400 mb-4 flex items-center"><span class="mr-2">✍️</span> Ejercicios prácticos</h3>
+<div class="space-y-4">
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">1</span><p class="text-neutral-300 text-sm"><strong>Define tus dimensiones.</strong> Para tu propio ICP, escribe 3 dimensiones y sus pesos (que sumen 100). ¿Qué señales suman puntos en cada una? Explica por qué el mayor peso corresponde a esa dimensión.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">2</span><p class="text-neutral-300 text-sm"><strong>Crea un SKILL.md ejecutable.</strong> Escribe un <code class="font-mono text-xs">SKILL.md</code> de calificación con la <code class="font-mono text-xs">description</code> se activa con "calificar/puntuar/filtrar leads", documenta los dos modos y el formato de salida del CSV. Prueba la activación con una hoja de cálculo pequeña.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">3</span><p class="text-neutral-300 text-sm"><strong>Diseña la clasificación.</strong> Antes de puntuar, ¿qué señales del sitio distinguen tu objetivo de lo que no lo es? Escribe el árbol de decisión (como el del tema 2) para tu nicho.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">4</span><p class="text-neutral-300 text-sm"><strong>Prueba el checkpoint.</strong> Evalúa 5 filas, interrumpe en la 3.ª y vuelve a ejecutar. ¿La skill retoma desde la 3.ª o empieza de nuevo? Asegúrate de que la evidencia de cada dimensión tenga una fuente rastreable (nunca inventada).</p></div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">El Score ordena la fila</strong><span class="text-neutral-400"> — tu tiempo es el cuello de botella; priorizar leads multiplica el retorno del mismo esfuerzo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Clasificar antes de puntuar</strong><span class="text-neutral-400"> — solo brand entra en la puntuación; un árbol de decisión sobre las señales del sitio filtra el ruido.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Tres dimensiones con pesos</strong><span class="text-neutral-400"> — producto (0–50), datos (0–30), marca (0–20); score explicable.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Two-pass: sitio, después Apify</strong><span class="text-neutral-400"> — primero una señal gratuita, después una búsqueda paga; ~$0,045/marca, sin fabricar evidencia.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Tiers + checkpoint</strong><span class="text-neutral-400"> — Tier 1 a 4, CSV como contrato y checkpoint que protege las ejecuciones largas.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Fin de la Ruta 4:</h3>
+<p class="text-neutral-300">Dominaste tres skills que trabajan con datos y automatización. La siguiente ruta lleva las skills a la consultoría de IA.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-4-2.html">← Módulo 4.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="../trilha5/index.html">Próxima Ruta · Consultoría →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Módulo 4.3 · Puntuación de clientes potenciales con Apify</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

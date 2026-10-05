@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 6.1 · Inteligencia improvisada | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (rose) */
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225,29,72,0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225,29,72,0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225,29,72,0.18); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    /* nav hover das outras trilhas no light */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - diagramas SVG mais suaves */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.8s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s}
+      .wf-a:nth-child(4){animation-delay:.9s} .wf-a:nth-child(5){animation-delay:1.2s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha6/modulo-6-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha6/modulo-6-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha6/modulo-6-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha6/modulo-6-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-6-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-rose-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-rose-400" href="index.html">Ruta 6</a>
+<span>/</span>
+<span class="text-rose-400">Módulo 6.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4">MÓDULO 6.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎷 Improvised Intelligence</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">La skill improvisada: un solo comando que investiga un negocio, prepara el pitch, construye el sistema de marca, diseña un equipo de agentes y, por debajo de todo, observa lo que creas y se ofrece a convertirse en nuevas skills. Veamos los tres beneficios y cómo activar cada fase.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">6</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">55</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Avanzado</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Práctica</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- SVG: pipeline de fases -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+<svg aria-label="Pipeline de cinco fases: prospectar, pitch, marca, operar y capturar — la fase capturar retroalimenta la skill con nuevas skills" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<lineargradient id="m61-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fb7185"></stop><stop offset="1" stop-color="#f43f5e"></stop>
+</lineargradient>
+<filter height="180%" id="m61-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m61-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m61-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m61-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m61-grid)" height="200" width="1000" x="0" y="0"></rect>
+<!-- conectores sequenciais -->
+<g fill="none" opacity="0.55" stroke="#fb7185" stroke-width="1.8">
+<path d="M170,70 L196,70" marker-end="url(#m61-ah)"></path>
+<path d="M366,70 L392,70" marker-end="url(#m61-ah)"></path>
+<path d="M562,70 L588,70" marker-end="url(#m61-ah)"></path>
+<path d="M758,70 L784,70" marker-end="url(#m61-ah)"></path>
+</g>
+<!-- 5 fases -->
+<g font-family="Inter,sans-serif">
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="20" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="95" y="68">1 · Prospectar</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="95" y="84">research</text>
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="216" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="291" y="68">2 · Presentación</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="291" y="84">S.O.U.L.</text>
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="412" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="487" y="68">3 · Marca</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="487" y="84">brand book</text>
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="608" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="683" y="68">4 · Operar</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="683" y="84">equipo de agentes</text>
+</g>
+<!-- fase capturar, em ciano, com glow (foco) -->
+<g filter="url(#m61-glow)"><rect fill="#0e1b26" height="48" rx="11" stroke="#38bdf8" stroke-width="2" width="172" x="804" y="46"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="890" y="68">5 · Capturar</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10.5" text-anchor="middle" x="890" y="84">Workflow Spotter</text>
+<!-- realimentação capturar -> prospectar -->
+<path d="M890,94 C890,150 95,150 95,94" fill="none" marker-end="url(#m61-ahc)" opacity="0.5" stroke="#38bdf8" stroke-dasharray="7 6" stroke-width="1.8"></path>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle" x="492" y="172">la captura se convierte en nuevas skills y mejora las próximas rondas</text>
+</svg>
+<p class="text-center text-xs text-neutral-500 mt-2">Diagrama ilustrativo · cinco fases encadenables con un solo comando; la fase CAPTURAR es lo que hace que la skill se mejore a sí misma.</p>
+</div>
+<!-- ===== TOPICO 1 ===== -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🎷 Qué es una mega-skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La mayoría de las skills resuelve <strong class="text-rose-400">una tarea</strong>: generar un itinerario, revisar un workflow, auditar un sitio. Una <strong class="text-rose-400">mega-skill</strong> hace otra cosa: conecta varias fases de un trabajo complejo bajo un único punto de entrada. Dices una frase y la skill guía la investigación, la propuesta, la marca y la operación como si fuera un pipeline.
+      </p>
+<div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-4 flex items-center"><span class="mr-2">🎯</span> La definición</h3>
+<p class="text-neutral-300 mb-4">Improvised Intelligence se define como un <em>motor unificado</em> que lleva un negocio de "prospecto frío" a "cliente totalmente operativo" —con captura del flujo de trabajo en cada etapa. Orquesta cuatro fases interconectadas y una quinta que observa todo:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>PROSPECT</strong> — inteligencia competitiva e investigación de mercado sobre el objetivo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>PITCH</strong> — una propuesta personalizada con 5 entregables que cierran el negocio.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>BRAND</strong> — creación guiada de un brand book en 8 fases.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>OPERATE</strong> — un equipo de agentes de IA que lleva la operación continua.</span></li>
+<li class="flex items-start space-x-2"><span class="text-sky-400 mt-1">•</span><span><strong>CAPTURE</strong> — detecta patrones repetibles y genera nuevas skills a partir del trabajo terminado.</span></li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">La mega skill no nace grande a propósito. Crece cuando te das cuenta de que varias de tus skills <strong>siempre se ejecutan en el mismo orden</strong>. En vez de llamar tres skills en secuencia cada vez, las reúnes bajo un comando y una tabla de detección de fase. El tamaño no es el objetivo: se trata de eliminar la coordinación manual.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Punto único</div><p class="text-sm text-neutral-400">Entra un comando y la skill decide el camino.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Fases</div><p class="text-sm text-neutral-400">Se ejecutan en secuencia o de forma aislada.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Detección</div><p class="text-sm text-neutral-400">La solicitud elige la fase.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Captura</div><p class="text-sm text-neutral-400">El flujo se convierte en una nueva skill.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 2 ===== -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🧠 Beneficio 1: reemplaza un flujo de trabajo de agencia</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        El primer beneficio es el más visible: la skill <strong class="text-rose-400">sustituye todo un flujo de trabajo de agencia</strong> — investigación, pitch, estrategia de marca y operaciones de IA, en una sola cadena de comandos. Lo que normalmente pasaría por varias personas y herramientas ocurre con frases sencillas.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50 text-left">
+<tr><th class="px-4 py-3 text-rose-400">Tú dices</th><th class="px-4 py-3 text-rose-400">Lo que produce la skill</th></tr>
+</thead>
+<tbody class="divide-y divide-dark-600">
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">pitch [empresa]</td><td class="px-4 py-3 text-neutral-400">Investiga el negocio, encuentra competidores, crea una landing personalizada, 3 PDFs y un guion de video.</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">crear manual de marca para [cliente]</td><td class="px-4 py-3 text-neutral-400">Guía 8 fases y produce un sistema completo de identidad de marca.</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">crear mi sistema de agentes</td><td class="px-4 py-3 text-neutral-400">Diseña un equipo multiagente con memoria, reglas de escalamiento y un COO que se audita a sí mismo.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Por qué esto es sólido</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Una solicitud activa un pipeline de entregables coherentes entre sí.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>La investigación de la fase 1 alimenta el pitch de la fase 2: no se pierde nada.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>La marca de la fase 3 se convierte en la base de voz de las operaciones de la fase 4.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Qué evitar al copiar</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Intentar generar los 5 entregables sin investigar primero.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Encadenar fases que no comparten contexto solo se convierte en un menú de tareas.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Usar marcadores genéricos en lugar del negocio real del cliente.</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Research</div><p class="text-sm text-neutral-400">Expediente del objetivo.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Pitch</div><p class="text-sm text-neutral-400">5 entregables.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Marca</div><p class="text-sm text-neutral-400">8 fases guiadas.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Operación</div><p class="text-sm text-neutral-400">Equipo de agentes.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 3 ===== -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📈 Beneficio 2: se vuelve más inteligente en cada sesión</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        El segundo beneficio es el más interesante para quienes estudian la arquitectura de skills: la Improvised Intelligence <strong class="text-rose-400">se vuelve más inteligente con cada sesión</strong>. Un detector integrado: el <strong class="text-rose-400">Workflow Spotter</strong> — captura lo que haces y lo convierte en skills reutilizables.
+      </p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔎</span> Cuándo se activa Spotter</h3>
+<p class="text-neutral-300 mb-3 text-sm">Evalúa "¿vale la pena convertirlo en una skill?" cuando ocurre CUALQUIERA de estos casos:</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li>• <strong>10+</strong> idas y vueltas en un único proyecto</li>
+<li>• <strong>5+</strong> llamadas a herramientas para un mismo resultado</li>
+<li>• <strong>3+</strong> archivos de salida creados</li>
+<li>• Un ciclo completo de Investigación → Análisis → Creación → Entrega</li>
+<li>• El usuario dice "vamos a hacer esto de nuevo" o "para la próxima vez"</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-3">La lista de verificación de detección</h3>
+<p class="text-neutral-400 text-sm mb-4">Antes de sugerir una skill, la propia skill se pregunta; si 3 o más respuestas son afirmativas, la ofrece:</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-sm text-neutral-300 border border-dark-600">
+<p>□ ¿Fue más que una simple sesión de preguntas y respuestas?</p>
+<p>□ ¿Involucró 3 o más fases distintas?</p>
+<p>□ ¿Se crearon artefactos reutilizables?</p>
+<p>□ ¿Es probable que el usuario vuelva a hacer algo parecido?</p>
+<p>□ ¿Se podría sistematizar el 50% o más del trabajo?</p>
+<p>□ ¿Descubrí algo que el "Claude del futuro" no debería volver a descubrir?</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Este es el mismo principio de autosuperación que verás en <strong>Taproot (6.2)</strong> y en el <strong>/sessionend (6.3)</strong>: capturar el trabajo en lugar de dejar que se evapore. Toma esta idea para cualquiera de tus skills: un bloque al final que pregunta "¿esto se repite? ¿quieres que lo guarde?".</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Observa</div><p class="text-sm text-neutral-400">Lo que haces.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Detecta</div><p class="text-sm text-neutral-400">Patrón repetible.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Ofrece</div><p class="text-sm text-neutral-400">Convertir en skill.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Empaqueta</div><p class="text-sm text-neutral-400">SKILL.md listo.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 4 ===== -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">⚙️ Beneficio 3: nació en producción</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        El tercer beneficio es una garantía de calidad: cada pieza de la skill <strong class="text-rose-400">ya funciona en frentes de negocio reales</strong> — se construyó en producción, no en teoría. Eso cambia todo en la calidad de los valores predeterminados, las reglas de marca y la description.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-4">Patrones de alto valor que la skill ya cataloga</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">client-accelerator</span><span class="text-neutral-400 block">Pipeline de adquisición de clientes</span></div>
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">podcast-workflow</span><span class="text-neutral-400 block">Producción de podcasts</span></div>
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">voice-agent-builder</span><span class="text-neutral-400 block">Setup de asistente de voz</span></div>
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">content-engine</span><span class="text-neutral-400 block">Producción de contenido por lotes</span></div>
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atención: una skill de producción tiene reglas de producción</h3>
+<p class="text-neutral-300 text-sm">Las skills creadas en producción llevan <strong>reglas explícitas</strong> que no inventarías sobre la marcha: protocolo para información sensible (nunca aprender automáticamente datos financieros, legales o de salud), límites de canal, voz de marca definida. Al escribir la tuya, copia esa disciplina: las restricciones claras valen más que la libertad vaga.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Estándar de calidad antes de entregar cualquier resultado</h3>
+<ol class="space-y-2 text-neutral-300 text-sm list-decimal list-inside">
+<li><strong>Especificidad</strong> — ¿hace referencia al negocio real, no a placeholders?</li>
+<li><strong>Basada en investigación</strong> — ¿las afirmaciones provienen de los datos del recon?</li>
+<li><strong>Accionable</strong> — ¿cada sección termina con un siguiente paso claro?</li>
+<li><strong>Alineada con la marca</strong> — ¿suena como la marca o como una consultoría genérica?</li>
+<li><strong>Completa</strong> — ¿incluye todos los elementos de la lista de verificación de la fase?</li>
+</ol>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Forjada en el uso</div><p class="text-sm text-neutral-400">No en la diapositiva.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Reglas claras</div><p class="text-sm text-neutral-400">Datos sensibles protegidos.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Voz bloqueada</div><p class="text-sm text-neutral-400">Consistencia de marca.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Calidad</div><p class="text-sm text-neutral-400">Lista de verificación por fase.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 5 ===== -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🗺️ Detección de fase: el comando elige el camino</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        ¿Cómo puede una skill tan grande tener un único punto de entrada sin convertirse en un laberinto? Con una <strong class="text-rose-400">tabla de detección de fase</strong>. La skill lee la solicitud, la relaciona con la fase adecuada y se dirige a sí misma. Si hay ambigüedad, pregunta <strong class="text-rose-400">una</strong> pregunta para desambiguar — no un interrogatorio.
+      </p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Lee la solicitud</h4>
+<p class="text-neutral-300 text-sm">"pitch X" → PROSPECT+PITCH · "brand book for Y" → BRAND · "build agent system" → OPERATE · "onboard Z" → todas en secuencia.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Desambigua con una pregunta</h4>
+<p class="text-neutral-300 text-sm">Si no puedes decidir: <em>"¿Estamos prospectando, haciendo onboarding o construyendo operaciones?"</em> Solo una. Nada de un menú con 10 opciones.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Ejecuta la fase (o la cadena)</h4>
+<p class="text-neutral-300 text-sm">Cada fase puede ejecutarse por separado o encadenada. Al final, la fase CAPTURE evalúa si lo ocurrido merece convertirse en una skill.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Patrón reutilizable</h3>
+<p class="text-neutral-300">La «tabla de detección de fase» es uno de los trucos más útiles para cualquier skill con modos. En vez de un if-else mental confuso, le das a Claude una tabla <code class="font-mono text-rose-400">Se o usuário diz → Fase → Ação</code>. Relaciona la solicitud y actúa. Copia esta tabla en tu próxima skill multimodo.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Tabla</div><p class="text-sm text-neutral-400">Solicitud → fase.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">1 pregunta</div><p class="text-sm text-neutral-400">Solo si es ambiguo.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Independiente</div><p class="text-sm text-neutral-400">La fase se ejecuta sola.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Encadenable</div><p class="text-sm text-neutral-400">O todo junto.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 6 ===== -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔁 Cómo usarlo en la práctica</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        En la práctica, activas la skill con frases de comando. Cada una activa la fase adecuada; juntas, ejecutan la cadena completa. Abajo encontrarás prompts copiables para probar, adaptados para uso general y sin vincularlos a ninguna marca específica.
+      </p>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · activar una fase</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p1')">Copiar</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p1">pitch [nome do negócio]
+
+Pesquise o negócio (avaliação, concorrentes, o que os clientes
+procuram), encontre a "lane não reivindicada" dele e monte:
+uma landing personalizada, 3 PDFs (calendário de conteúdo,
+posicionamento, snapshot de mercado) e um roteiro de vídeo curto.</pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · marca guiada</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p2')">Copiar</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p2">build brand book for [cliente]
+
+Conduza as 8 fases guiadas. NÃO pule fases nem assuma respostas:
+descoberta → missão → promessa → taglines → voz e tom →
+regras de vocabulário → bancos de frase por avatar → compilar.
+Confirme comigo a cada fase antes de seguir para a próxima.</pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · capturar el flujo</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p3')">Copiar</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p3">capture este flujo
+
+Ejecuta la lista de verificación de detección sobre lo que acabamos de hacer.
+Si coinciden 3+ elementos, propone una skill nueva: nombre sugerido,
+qué incluiría y las frases que la activarían. Todavía no la construyas:
+solo muéstrame la propuesta.</pre>
+</div>
+<!-- EXEMPLO DE SAIDA -->
+<h3 class="text-xl font-bold mb-4 flex items-center"><span class="mr-2">📤</span> Ejemplo de salida</h3>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-xs text-neutral-500 mb-3">Recreación ilustrativa del bloque que Workflow Spotter imprime al detectar un patrón (no es una captura de pantalla real):</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-sm text-neutral-300 border border-dark-600 whitespace-pre-wrap">---
+**Patrón de flujo detectado**
+
+Acabamos de completar un flujo de tipo ADQUISICIÓN DE CLIENTES:
+Investigación → Pitch → Propuesta → Seguimiento
+
+Esto parece repetible. ¿Quieres que lo capture como skill?
+
+**Skill sugerida:** client-accelerator
+**Incluiría:** prompts de research, templates de PDF, guion de video
+**Activadores:** «pitch X», «ejecutar X en el sistema», «propuesta para X»
+
+Puedo construirla ahora (5 min) o guardarla para después.
+---</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Personaliza antes de usar de verdad</h3>
+<p class="text-neutral-300">Para un uso real, cambia la voz de marca y los valores predeterminados por la <strong>tu</strong> identidad (colores del PDF, frase distintiva, tono). La mega skill se creó para coexistir con tu filosofía, no para imponer la del autor original.</p>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🏋️</span> Ejercicios prácticos</h2>
+<div class="space-y-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">1</span><h3 class="font-semibold">Mapea tus fases</h3></div>
+<p class="text-neutral-300 text-sm">Toma un trabajo tuyo que siempre siga el mismo orden. Anota las fases (de 3 a 5) y escribe la tabla de detección: "Si digo X → fase Y → acción Z".</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">2</span><h3 class="font-semibold">Escribe la lista de verificación de captura</h3></div>
+<p class="text-neutral-300 text-sm">Adapta la lista de verificación de 6 preguntas del Workflow Spotter a tu dominio. Define el umbral (cuántos elementos deben coincidir para sugerir una skill).</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">3</span><h3 class="font-semibold">Crea un SKILL.md ejecutable (mini mega-skill)</h3></div>
+<p class="text-neutral-300 text-sm mb-3">Escribe un <code class="font-mono text-rose-400">SKILL.md</code> de dos fases con un solo comando, con una tabla de detección y un bloque de captura al final. Esquema:</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-xs text-neutral-300 border border-dark-600 whitespace-pre-wrap">---
+name: meu-pipeline
+description: "Pipeline de dos fases en un comando. Úsalo cuando el
+  usuario diga 'ejecutar [X]' o 'pipeline de [X]'. Detecta la
+  fase según la solicitud. También se activa con 'capturar flujo'."
+---
+
+# Mi Pipeline
+
+## Detección de fase
+| El usuario dice     | Fase      | Acción                         |
+|---------------------|-----------|--------------------------------|
+| "ejecutar [X]"     | FASE 1→2  | Investiga y luego entrega      |
+| "solo investigar [X]"| FASE 1  | Solo el dossier                |
+| "capturar flujo"   | CAPTURE   | Evalúa y propone una nueva skill|
+
+## Fase 1 — Investigación
+(pasos)
+
+## Fase 2 — Entrega
+(pasos)
+
+## Captura
+Al terminar, ejecuta la lista de verificación. Si coinciden 3 o más, propone una skill.</div>
+<p class="text-neutral-400 text-xs mt-3">Guarda en <code class="font-mono">~/.claude/skills/meu-pipeline/SKILL.md</code>, abre Claude Code y prueba con "ejecutar acme".</p>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Mega-skill</strong><span class="text-neutral-400"> — orquesta fases desde un punto de entrada, no una tarea por skill.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Beneficio 1</strong><span class="text-neutral-400"> — reemplaza todo un flujo de agencia con una cadena de comandos.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Beneficio 2</strong><span class="text-neutral-400"> — Workflow Spotter captura patrones y los convierte en skills.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Beneficio 3</strong><span class="text-neutral-400"> — nació en producción; las reglas y los valores predeterminados vienen del uso real.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Detección de fase</strong><span class="text-neutral-400"> — tabla pedido→fase + una pregunta para desambiguar.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-rose-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">6.2 — 🧬 Taproot: árbol de skills (meta-skill)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors" href="modulo-6-2.html">Siguiente Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Módulo 6.1 · Inteligencia improvisada</p>
+</div>
+</footer>
+<script>
+    function copyPrompt(id) {
+      const el = document.getElementById(id);
+      navigator.clipboard.writeText(el.innerText);
+    }
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+
+<html class="dark" lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ Claude Skills na Prática — Construa Agent Skills do Claude Code</title>
-  <meta name="description" content="Curso completo e prático sobre construir Agent Skills do Claude Code: anatomia do SKILL.md, progressive disclosure, e 12 skills reais dissecadas — de geradores de conteúdo a sistemas multi-agente.">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>⚡ Claude Skills na Prática — Construa Agent Skills do Claude Code</title>
+<meta content="Curso completo e prático sobre construir Agent Skills do Claude Code: anatomia do SKILL.md, progressive disclosure, e 12 skills reais dissecadas — de geradores de conteúdo a sistemas multi-agente." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: { extend: { colors: {
@@ -15,8 +16,8 @@
       } } }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
 
@@ -87,191 +88,174 @@
     .dark .border-dark-600 { border-color: #374151; }
     .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <!-- NAV -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
-          <a href="curso/trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
-          <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
-          <a href="curso/trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
-          <a href="curso/trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
-          <a href="curso/trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <header class="bg-gradient-to-br from-emerald-900/20 via-dark-900 to-dark-900 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-      <span class="inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full mb-6">Curso prático · do zero ao avançado</span>
-      <h1 class="text-4xl sm:text-6xl font-extrabold mb-6 leading-tight">⚡ Claude Skills<br><span class="text-emerald-400">na Prática</span></h1>
-      <p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto mb-10">Aprenda a <strong class="text-neutral-100">ler, usar e construir Agent Skills</strong> do Claude Code — do <code class="text-emerald-400 font-mono text-base">SKILL.md</code> à arquitetura multi-agente — dissecando <strong class="text-neutral-100">12 skills reais</strong> e construindo as suas.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="curso/trilha1/index.html" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors">Começar pela Trilha 1 →</a>
-        <a href="skills.html" class="px-8 py-3.5 bg-dark-700 hover:bg-dark-600 text-neutral-100 rounded-lg font-semibold transition-colors border border-dark-600">🧩 Central de Skills</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-
-    <!-- STATS -->
-    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
-      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
-        <div class="text-3xl font-bold text-emerald-400">6</div>
-        <div class="text-sm text-neutral-400 mt-1">Trilhas</div>
-      </div>
-      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
-        <div class="text-3xl font-bold text-blue-400">16</div>
-        <div class="text-sm text-neutral-400 mt-1">Módulos</div>
-      </div>
-      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
-        <div class="text-3xl font-bold text-purple-400">96</div>
-        <div class="text-sm text-neutral-400 mt-1">Tópicos</div>
-      </div>
-      <div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
-        <div class="text-3xl font-bold text-amber-400">12</div>
-        <div class="text-sm text-neutral-400 mt-1">Skills reais</div>
-      </div>
-    </section>
-
-    <!-- O QUE VOCE VAI APRENDER -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-3 text-center">O que você vai dominar</h2>
-      <p class="text-neutral-400 text-center max-w-2xl mx-auto mb-10">Cada conceito sai de uma skill que funciona de verdade — você lê o código, entende a decisão e constrói a sua versão.</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
-          <div class="text-2xl mb-3">🧬</div>
-          <h3 class="font-semibold text-lg mb-2">A anatomia de uma Skill</h3>
-          <p class="text-neutral-400 text-sm">Frontmatter, <code class="font-mono text-emerald-400">name</code>/<code class="font-mono text-emerald-400">description</code>, progressive disclosure, <code class="font-mono">references/</code> e <code class="font-mono">scripts/</code>.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
-          <div class="text-2xl mb-3">🛠️</div>
-          <h3 class="font-semibold text-lg mb-2">Skills que produzem</h3>
-          <p class="text-neutral-400 text-sm">Geradores de itinerário, funis, auditorias de SEO, revisores de automação n8n — com prompts e saídas reais.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
-          <div class="text-2xl mb-3">🧠</div>
-          <h3 class="font-semibold text-lg mb-2">Arquitetura avançada</h3>
-          <p class="text-neutral-400 text-sm">Meta-skills, árvores de skills, memória compartilhada e pipelines multi-agente de produção.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- TRILHAS -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-10 text-center">As 6 trilhas</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <a href="curso/trilha1/index.html" class="group bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-2xl border border-emerald-500/30 p-7 hover:border-emerald-500/60 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRILHA 1 · 3 módulos</span>
-            <span class="text-emerald-400 text-xl">→</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🧬 Fundamentos de Agent Skills</h3>
-          <p class="text-neutral-400 text-sm">O que é uma Skill, como o Claude a descobre e dispara, e a estrutura que toda skill profissional segue.</p>
-        </a>
-
-        <a href="curso/trilha2/index.html" class="group bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl border border-blue-500/30 p-7 hover:border-blue-500/60 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRILHA 2 · 2 módulos</span>
-            <span class="text-blue-400 text-xl">→</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition-colors">🚀 Construindo Sua Primeira Skill</h3>
-          <p class="text-neutral-400 text-sm">Um estudo de caso completo: dissecamos um gerador de itinerários do SKILL.md à saída HTML — e você replica.</p>
-        </a>
-
-        <a href="curso/trilha3/index.html" class="group bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl border border-purple-500/30 p-7 hover:border-purple-500/60 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRILHA 3 · 2 módulos</span>
-            <span class="text-purple-400 text-xl">→</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🎨 Skills de Frontend & Geração</h3>
-          <p class="text-neutral-400 text-sm">Correções de frontend ao vivo no navegador e um funil inteiro a partir de um único prompt.</p>
-        </a>
-
-        <a href="curso/trilha4/index.html" class="group bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-2xl border border-amber-500/30 p-7 hover:border-amber-500/60 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">TRILHA 4 · 3 módulos</span>
-            <span class="text-amber-400 text-xl">→</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-2 group-hover:text-amber-400 transition-colors">⚙️ Skills de Automação & Dados</h3>
-          <p class="text-neutral-400 text-sm">Revisor de workflows n8n, sistema de captação de leads locais e scoring de leads com Apify.</p>
-        </a>
-
-        <a href="curso/trilha5/index.html" class="group bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-7 hover:border-teal-500/60 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">TRILHA 5 · 3 módulos</span>
-            <span class="text-teal-400 text-xl">→</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-2 group-hover:text-teal-400 transition-colors">💼 Skills de Consultoria AI</h3>
-          <p class="text-neutral-400 text-sm">Onboarding + relatório de auditoria, auditor de SEO/AEO e o arquiteto de RAG que evita o RAG errado.</p>
-        </a>
-
-        <a href="curso/trilha6/index.html" class="group bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-2xl border border-rose-500/30 p-7 hover:border-rose-500/60 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">TRILHA 6 · 3 módulos</span>
-            <span class="text-rose-400 text-xl">→</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-2 group-hover:text-rose-400 transition-colors">🧠 Arquitetura Avançada de Skills</h3>
-          <p class="text-neutral-400 text-sm">Inteligência de improviso, árvores de skills (meta-skills) e memória multi-agente compartilhada.</p>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- CENTRAL DE SKILLS -->
-    <section class="mb-12">
-      <div class="bg-gradient-to-br from-primary/10 via-dark-800 to-dark-800 rounded-2xl border border-primary/30 p-8 sm:p-12">
-        <div class="flex flex-col md:flex-row md:items-center gap-8">
-          <div class="flex-1">
-            <span class="text-3xl">🧩</span>
-            <h2 class="text-2xl sm:text-3xl font-bold mb-3 mt-2">Central de Skills</h2>
-            <p class="text-neutral-300 mb-6 max-w-2xl">Todas as <strong>12 skills estudadas no curso</strong>, juntas e prontas para baixar e instalar no seu Claude Code. Cada uma com descrição e o passo a passo de instalação.</p>
-            <a href="skills.html" class="inline-block px-6 py-3 bg-primary text-dark-900 rounded-lg font-semibold hover:bg-yellow-300 transition-colors">Abrir a Central de Skills →</a>
-          </div>
-          <div class="flex flex-wrap gap-2 md:max-w-xs">
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">travel-itinerary</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">vibe-coding</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">n8n-reviewer</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">rag-architect</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">seo-aeo-auditor</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">improvised-intelligence</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">multi-agent-memory</span>
-            <span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">lead-scoring</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
-      <p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
-    </div>
-  </footer>
-
-  <script>
+<link href="https://inematds.github.io/claude-skills/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="es/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="curso/trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="curso/trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HERO -->
+<header class="bg-gradient-to-br from-emerald-900/20 via-dark-900 to-dark-900 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+<span class="inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full mb-6">Curso prático · do zero ao avançado</span>
+<h1 class="text-4xl sm:text-6xl font-extrabold mb-6 leading-tight">⚡ Claude Skills<br/><span class="text-emerald-400">na Prática</span></h1>
+<p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto mb-10">Aprenda a <strong class="text-neutral-100">ler, usar e construir Agent Skills</strong> do Claude Code — do <code class="text-emerald-400 font-mono text-base">SKILL.md</code> à arquitetura multi-agente — dissecando <strong class="text-neutral-100">12 skills reais</strong> e construindo as suas.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors" href="curso/trilha1/index.html">Começar pela Trilha 1 →</a>
+<a class="px-8 py-3.5 bg-dark-700 hover:bg-dark-600 text-neutral-100 rounded-lg font-semibold transition-colors border border-dark-600" href="skills.html">🧩 Central de Skills</a>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<!-- STATS -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+<div class="text-3xl font-bold text-emerald-400">6</div>
+<div class="text-sm text-neutral-400 mt-1">Trilhas</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+<div class="text-3xl font-bold text-blue-400">16</div>
+<div class="text-sm text-neutral-400 mt-1">Módulos</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+<div class="text-3xl font-bold text-purple-400">96</div>
+<div class="text-sm text-neutral-400 mt-1">Tópicos</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600 text-center">
+<div class="text-3xl font-bold text-amber-400">12</div>
+<div class="text-sm text-neutral-400 mt-1">Skills reais</div>
+</div>
+</section>
+<!-- O QUE VOCE VAI APRENDER -->
+<section class="mb-20">
+<h2 class="text-3xl font-bold mb-3 text-center">O que você vai dominar</h2>
+<p class="text-neutral-400 text-center max-w-2xl mx-auto mb-10">Cada conceito sai de uma skill que funciona de verdade — você lê o código, entende a decisão e constrói a sua versão.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+<div class="text-2xl mb-3">🧬</div>
+<h3 class="font-semibold text-lg mb-2">A anatomia de uma Skill</h3>
+<p class="text-neutral-400 text-sm">Frontmatter, <code class="font-mono text-emerald-400">name</code>/<code class="font-mono text-emerald-400">description</code>, progressive disclosure, <code class="font-mono">references/</code> e <code class="font-mono">scripts/</code>.</p>
+</div>
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+<div class="text-2xl mb-3">🛠️</div>
+<h3 class="font-semibold text-lg mb-2">Skills que produzem</h3>
+<p class="text-neutral-400 text-sm">Geradores de itinerário, funis, auditorias de SEO, revisores de automação n8n — com prompts e saídas reais.</p>
+</div>
+<div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+<div class="text-2xl mb-3">🧠</div>
+<h3 class="font-semibold text-lg mb-2">Arquitetura avançada</h3>
+<p class="text-neutral-400 text-sm">Meta-skills, árvores de skills, memória compartilhada e pipelines multi-agente de produção.</p>
+</div>
+</div>
+</section>
+<!-- TRILHAS -->
+<section class="mb-20">
+<h2 class="text-3xl font-bold mb-10 text-center">As 6 trilhas</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<a class="group bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-2xl border border-emerald-500/30 p-7 hover:border-emerald-500/60 transition-all" href="curso/trilha1/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRILHA 1 · 3 módulos</span>
+<span class="text-emerald-400 text-xl">→</span>
+</div>
+<h3 class="text-2xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🧬 Fundamentos de Agent Skills</h3>
+<p class="text-neutral-400 text-sm">O que é uma Skill, como o Claude a descobre e dispara, e a estrutura que toda skill profissional segue.</p>
+</a>
+<a class="group bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl border border-blue-500/30 p-7 hover:border-blue-500/60 transition-all" href="curso/trilha2/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRILHA 2 · 2 módulos</span>
+<span class="text-blue-400 text-xl">→</span>
+</div>
+<h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition-colors">🚀 Construindo Sua Primeira Skill</h3>
+<p class="text-neutral-400 text-sm">Um estudo de caso completo: dissecamos um gerador de itinerários do SKILL.md à saída HTML — e você replica.</p>
+</a>
+<a class="group bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl border border-purple-500/30 p-7 hover:border-purple-500/60 transition-all" href="curso/trilha3/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRILHA 3 · 2 módulos</span>
+<span class="text-purple-400 text-xl">→</span>
+</div>
+<h3 class="text-2xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🎨 Skills de Frontend &amp; Geração</h3>
+<p class="text-neutral-400 text-sm">Correções de frontend ao vivo no navegador e um funil inteiro a partir de um único prompt.</p>
+</a>
+<a class="group bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-2xl border border-amber-500/30 p-7 hover:border-amber-500/60 transition-all" href="curso/trilha4/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">TRILHA 4 · 3 módulos</span>
+<span class="text-amber-400 text-xl">→</span>
+</div>
+<h3 class="text-2xl font-bold mb-2 group-hover:text-amber-400 transition-colors">⚙️ Skills de Automação &amp; Dados</h3>
+<p class="text-neutral-400 text-sm">Revisor de workflows n8n, sistema de captação de leads locais e scoring de leads com Apify.</p>
+</a>
+<a class="group bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-7 hover:border-teal-500/60 transition-all" href="curso/trilha5/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">TRILHA 5 · 3 módulos</span>
+<span class="text-teal-400 text-xl">→</span>
+</div>
+<h3 class="text-2xl font-bold mb-2 group-hover:text-teal-400 transition-colors">💼 Skills de Consultoria AI</h3>
+<p class="text-neutral-400 text-sm">Onboarding + relatório de auditoria, auditor de SEO/AEO e o arquiteto de RAG que evita o RAG errado.</p>
+</a>
+<a class="group bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-2xl border border-rose-500/30 p-7 hover:border-rose-500/60 transition-all" href="curso/trilha6/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">TRILHA 6 · 3 módulos</span>
+<span class="text-rose-400 text-xl">→</span>
+</div>
+<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-400 transition-colors">🧠 Arquitetura Avançada de Skills</h3>
+<p class="text-neutral-400 text-sm">Inteligência de improviso, árvores de skills (meta-skills) e memória multi-agente compartilhada.</p>
+</a>
+</div>
+</section>
+<!-- CENTRAL DE SKILLS -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-primary/10 via-dark-800 to-dark-800 rounded-2xl border border-primary/30 p-8 sm:p-12">
+<div class="flex flex-col md:flex-row md:items-center gap-8">
+<div class="flex-1">
+<span class="text-3xl">🧩</span>
+<h2 class="text-2xl sm:text-3xl font-bold mb-3 mt-2">Central de Skills</h2>
+<p class="text-neutral-300 mb-6 max-w-2xl">Todas as <strong>12 skills estudadas no curso</strong>, juntas e prontas para baixar e instalar no seu Claude Code. Cada uma com descrição e o passo a passo de instalação.</p>
+<a class="inline-block px-6 py-3 bg-primary text-dark-900 rounded-lg font-semibold hover:bg-yellow-300 transition-colors" href="skills.html">Abrir a Central de Skills →</a>
+</div>
+<div class="flex flex-wrap gap-2 md:max-w-xs">
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">travel-itinerary</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">vibe-coding</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">n8n-reviewer</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">rag-architect</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">seo-aeo-auditor</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">improvised-intelligence</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">multi-agent-memory</span>
+<span class="px-3 py-1.5 bg-dark-700 rounded-lg text-xs text-neutral-300">lead-scoring</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+
+<html class="dark" lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 2.1 — Dissecando um gerador de itinerários | Claude Skills</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 2.1 — Dissecando um gerador de itinerários | Claude Skills</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: { extend: { colors: {
@@ -14,8 +15,8 @@
       } } }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
 
@@ -79,137 +80,128 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <!-- NAV -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
-          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
-          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
-          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
-          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
-          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-blue-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
-      <span>/</span>
-      <span class="text-blue-400">Módulo 2.1</span>
-    </div>
-  </nav>
-
-  <!-- HEADER -->
-  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.1</span>
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔍 Dissecando um gerador de itinerários</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl">
+<link href="https://inematds.github.io/claude-skills/curso/trilha2/modulo-2-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha2/modulo-2-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha2/modulo-2-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-2-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha2/modulo-2-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha2/modulo-2-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Trilha 2</a>
+<span>/</span>
+<span class="text-blue-400">Módulo 2.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔍 Dissecando um gerador de itinerários</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
         Vamos abrir um <code class="text-blue-400 font-mono">SKILL.md</code> completo e real — o de um gerador de itinerários de viagem — e ler cada seção como quem vai escrever a próxima. Você sairá entendendo a promessa, o fluxo de coleta, as integrações e os princípios que mantêm tudo coerente.
       </p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Inter.</div><div class="text-xs text-neutral-400">Nível</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Estudo</div><div class="text-xs text-neutral-400">Tipo</div></div>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-    <!-- VISÃO GERAL: SVG da estrutura do SKILL.md -->
-    <section class="mb-16">
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Inter.</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Estudo</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- VISÃO GERAL: SVG da estrutura do SKILL.md -->
+<section class="mb-16">
+<p class="text-neutral-300 mb-6 leading-relaxed">
         Antes dos tópicos, uma visão de cima. Um <code class="text-blue-400 font-mono">SKILL.md</code> de produção não é uma parede de texto: é um documento com <strong class="text-blue-400">seções nomeadas</strong>, cada uma respondendo a uma pergunta do Claude na hora de executar. O diagrama abaixo mostra a espinha dorsal do arquivo que vamos dissecar.
       </p>
-      <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-4 overflow-hidden">
-        <svg viewBox="0 0 1000 230" class="w-full h-auto" role="img" aria-label="As seções do SKILL.md em sequência: o que faz, setup flow, design system, output e princípios">
-          <defs>
-            <linearGradient id="m21-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
-            <filter id="m21-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <pattern id="m21-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.12"/></pattern>
-            <marker id="m21-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="230" fill="url(#m21-grid)"/>
-          <!-- frontmatter destacado -->
-          <g filter="url(#m21-glow)"><rect x="24" y="40" width="170" height="56" rx="13" fill="#0e1622" stroke="url(#m21-grad)" stroke-width="2.5"/></g>
-          <text x="109" y="64" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="14">Trigger + promessa</text>
-          <text x="109" y="83" text-anchor="middle" fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11">"o que faz"</text>
-          <!-- linha vertical de seções -->
-          <g font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="none">
-            <g><rect x="250" y="20" width="200" height="34" rx="9" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/><text x="350" y="42" text-anchor="middle" fill="#bcd6ff">Setup Flow (CRITICAL)</text></g>
-            <g><rect x="250" y="64" width="200" height="34" rx="9" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/><text x="350" y="86" text-anchor="middle" fill="#bcd6ff">Design System</text></g>
-            <g><rect x="250" y="108" width="200" height="34" rx="9" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/><text x="350" y="130" text-anchor="middle" fill="#bcd6ff">Output Format</text></g>
-            <g><rect x="250" y="152" width="200" height="34" rx="9" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/><text x="350" y="174" text-anchor="middle" fill="#bcd6ff">Example Sections</text></g>
-            <g><rect x="250" y="196" width="200" height="34" rx="9" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/><text x="350" y="218" text-anchor="middle" fill="#bcd6ff">Key Principles</text></g>
-          </g>
-          <path d="M194,68 C220,68 224,37 248,37" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.5" marker-end="url(#m21-ah)"/>
-          <path d="M194,68 L248,81" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.45" marker-end="url(#m21-ah)"/>
-          <path d="M194,68 L248,125" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.4" marker-end="url(#m21-ah)"/>
-          <path d="M194,68 C224,68 226,169 248,169" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.4" marker-end="url(#m21-ah)"/>
-          <path d="M194,68 C228,68 230,213 248,213" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.4" marker-end="url(#m21-ah)"/>
-          <!-- saída -->
-          <g filter="url(#m21-glow)"><rect x="800" y="84" width="174" height="62" rx="14" fill="#0e1622" stroke="url(#m21-grad)" stroke-width="2.5"/></g>
-          <text x="887" y="110" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="15">Página HTML</text>
-          <text x="887" y="130" text-anchor="middle" fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11">interativa, 1 arquivo</text>
-          <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.5">
-            <path d="M450,37 C620,37 640,112 798,112" marker-end="url(#m21-ah)"/>
-            <path d="M450,81 C620,81 640,115 798,115" marker-end="url(#m21-ah)"/>
-            <path d="M450,213 C620,213 640,118 798,118" marker-end="url(#m21-ah)"/>
-          </g>
-        </svg>
-        <p class="text-xs text-neutral-500 text-center mt-1">A espinha dorsal do SKILL.md — ilustrativo. Cada seção alimenta a página final.</p>
-      </div>
-    </section>
-
-    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
-
-    <!-- TÓPICO 1 -->
-    <section id="topico-1" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
-        <h2 class="text-2xl font-bold">🗺️ A promessa: "What This Skill Does"</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-4 overflow-hidden">
+<svg aria-label="As seções do SKILL.md em sequência: o que faz, setup flow, design system, output e princípios" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m21-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<filter height="180%" id="m21-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m21-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m21-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m21-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- frontmatter destacado -->
+<g filter="url(#m21-glow)"><rect fill="#0e1622" height="56" rx="13" stroke="url(#m21-grad)" stroke-width="2.5" width="170" x="24" y="40"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="109" y="64">Trigger + promessa</text>
+<text fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="109" y="83">"o que faz"</text>
+<!-- linha vertical de seções -->
+<g fill="none" font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="20"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="42">Setup Flow (CRITICAL)</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="64"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="86">Design System</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="108"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="130">Output Format</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="152"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="174">Example Sections</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="196"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="218">Key Principles</text></g>
+</g>
+<path d="M194,68 C220,68 224,37 248,37" fill="none" marker-end="url(#m21-ah)" opacity="0.5" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 L248,81" fill="none" marker-end="url(#m21-ah)" opacity="0.45" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 L248,125" fill="none" marker-end="url(#m21-ah)" opacity="0.4" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 C224,68 226,169 248,169" fill="none" marker-end="url(#m21-ah)" opacity="0.4" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 C228,68 230,213 248,213" fill="none" marker-end="url(#m21-ah)" opacity="0.4" stroke="#60a5fa" stroke-width="1.8"></path>
+<!-- saída -->
+<g filter="url(#m21-glow)"><rect fill="#0e1622" height="62" rx="14" stroke="url(#m21-grad)" stroke-width="2.5" width="174" x="800" y="84"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="887" y="110">Página HTML</text>
+<text fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="887" y="130">interativa, 1 arquivo</text>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M450,37 C620,37 640,112 798,112" marker-end="url(#m21-ah)"></path>
+<path d="M450,81 C620,81 640,115 798,115" marker-end="url(#m21-ah)"></path>
+<path d="M450,213 C620,213 640,118 798,118" marker-end="url(#m21-ah)"></path>
+</g>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-1">A espinha dorsal do SKILL.md — ilustrativo. Cada seção alimenta a página final.</p>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🗺️ A promessa: "What This Skill Does"</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
         A primeira seção de conteúdo do arquivo é um único parágrafo, mas é o parágrafo mais importante. Ele <strong class="text-blue-400">define a saída de forma concreta</strong>: "uma página HTML interativa, autossuficiente, com tema claro/escuro, rotas de voo animadas, agenda dia a dia, cartões de voo expansíveis, checklists com persistência em localStorage e navegação multi-viagem". E fecha com a frase que carrega toda a filosofia: <em>"parece um app de viagem premium — não um documento"</em>.
       </p>
-
-      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🎯</span> O contrato em uma frase</h3>
-        <p class="text-neutral-300 mb-4">Toda skill madura começa dizendo, sem rodeios, o que vai entregar. Esse parágrafo é um contrato em três níveis:</p>
-        <ul class="space-y-2 text-neutral-300">
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Forma da saída:</strong> um arquivo HTML — não um PDF, não uma resposta em texto.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Funcionalidades:</strong> a lista de recursos vira um checklist implícito que o Claude tenta cumprir.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Sensação:</strong> "app premium, não documento" é a régua de qualidade.</span></li>
-        </ul>
-      </div>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-        <h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Trecho real do SKILL.md</h3>
-        <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">## What This Skill Does
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🎯</span> O contrato em uma frase</h3>
+<p class="text-neutral-300 mb-4">Toda skill madura começa dizendo, sem rodeios, o que vai entregar. Esse parágrafo é um contrato em três níveis:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Forma da saída:</strong> um arquivo HTML — não um PDF, não uma resposta em texto.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Funcionalidades:</strong> a lista de recursos vira um checklist implícito que o Claude tenta cumprir.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Sensação:</strong> "app premium, não documento" é a régua de qualidade.</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Trecho real do SKILL.md</h3>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">## What This Skill Does
 
 Generates a stunning, interactive HTML travel
 itinerary — a single self-contained file with
@@ -219,152 +211,139 @@ flight cards ... and multi-trip navigation.
 
 The output looks like a premium travel app —
 <span class="text-blue-400">not a document.</span></pre>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
-        <p class="text-neutral-300">Quando escrever a sua skill, force-se a descrever a saída em <strong>uma frase verificável</strong>. Se você não consegue, o Claude também não vai conseguir. "Gera algo útil sobre viagens" é ruim; "gera um HTML interativo com agenda, voos e orçamento" é um alvo.</p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Concreta</div><div class="text-xs text-neutral-400">A saída é nomeável.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Self-contained</div><div class="text-xs text-neutral-400">Um arquivo só.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Interativa</div><div class="text-xs text-neutral-400">Não é um PDF.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Régua</div><div class="text-xs text-neutral-400">"App, não doc."</div></div>
-      </div>
-    </section>
-
-    <!-- TÓPICO 2 -->
-    <section id="topico-2" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
-        <h2 class="text-2xl font-bold">💬 O Setup Flow conversacional</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">Quando escrever a sua skill, force-se a descrever a saída em <strong>uma frase verificável</strong>. Se você não consegue, o Claude também não vai conseguir. "Gera algo útil sobre viagens" é ruim; "gera um HTML interativo com agenda, voos e orçamento" é um alvo.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Concreta</div><div class="text-xs text-neutral-400">A saída é nomeável.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Self-contained</div><div class="text-xs text-neutral-400">Um arquivo só.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Interativa</div><div class="text-xs text-neutral-400">Não é um PDF.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Régua</div><div class="text-xs text-neutral-400">"App, não doc."</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">💬 O Setup Flow conversacional</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
         Aqui está o coração da skill, e ela faz questão de marcar: <strong class="text-blue-400">"Setup Flow — CRITICAL"</strong>. Antes de gerar QUALQUER coisa, o Claude precisa percorrer um processo de descoberta conversacional em quatro passos. Essa é a razão de a saída parecer mágica: ela é construída sobre dados reais da vida do usuário, não sobre suposições.
       </p>
-
-      <div class="space-y-6 mb-6">
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">1</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-white mb-2">Detalhes básicos da viagem</h4>
-            <p class="text-sm text-neutral-400 mb-3">As perguntas-âncora</p>
-            <p class="text-neutral-300 text-sm">Para onde vai, em que datas, de onde parte, se é por um evento específico, e quem viaja. Cinco perguntas que delimitam o resto da conversa.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">2</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-white mb-2">Checagem de integrações</h4>
-            <p class="text-sm text-neutral-400 mb-3">"ask every time"</p>
-            <p class="text-neutral-300 text-sm">Oferecer puxar dados reais de e-mail, agenda, Drive, mensagens e URLs. Detalhamos no Tópico 3 — é o que distingue assistente de gerador de texto.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">3</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-white mb-2">Detalhes profundos (gaps)</h4>
-            <p class="text-sm text-neutral-400 mb-3">Preencher o que faltou</p>
-            <p class="text-neutral-300 text-sm">Com base no que já reuniu, perguntar sobre voos, hospedagem, eventos, transporte, pets, orçamento, atividades e requisitos especiais — só o que está em branco.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">4</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-white mb-2">Confirmar &amp; gerar</h4>
-            <p class="text-sm text-neutral-400 mb-3">O portão antes da saída</p>
-            <p class="text-neutral-300 text-sm">Mostrar um resumo de tudo que foi reunido e confirmar antes de construir. Só então a página HTML é gerada.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Por que "coletar antes de gerar" funciona</h3>
-        <ul class="space-y-2 text-neutral-300">
-          <li><strong>Especificidade:</strong> dados reais produzem uma página que parece feita para aquela viagem, não um molde.</li>
-          <li><strong>Confiança:</strong> ao confirmar o resumo, o usuário corrige erros antes de gastar tokens gerando o HTML inteiro.</li>
-          <li><strong>Ordem:</strong> os passos vão do mais barato (perguntas) ao mais caro (gerar), reduzindo retrabalho.</li>
-        </ul>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">4 passos</div><div class="text-xs text-neutral-400">Sequência fixa.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">CRITICAL</div><div class="text-xs text-neutral-400">Não é opcional.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Confirmar</div><div class="text-xs text-neutral-400">Portão antes de gerar.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Discovery</div><div class="text-xs text-neutral-400">Conversa &gt; suposição.</div></div>
-      </div>
-    </section>
-
-    <!-- TÓPICO 3 -->
-    <section id="topico-3" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
-        <h2 class="text-2xl font-bold">🔌 Integrações via MCP: dados reais</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Detalhes básicos da viagem</h4>
+<p class="text-sm text-neutral-400 mb-3">As perguntas-âncora</p>
+<p class="text-neutral-300 text-sm">Para onde vai, em que datas, de onde parte, se é por um evento específico, e quem viaja. Cinco perguntas que delimitam o resto da conversa.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Checagem de integrações</h4>
+<p class="text-sm text-neutral-400 mb-3">"ask every time"</p>
+<p class="text-neutral-300 text-sm">Oferecer puxar dados reais de e-mail, agenda, Drive, mensagens e URLs. Detalhamos no Tópico 3 — é o que distingue assistente de gerador de texto.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Detalhes profundos (gaps)</h4>
+<p class="text-sm text-neutral-400 mb-3">Preencher o que faltou</p>
+<p class="text-neutral-300 text-sm">Com base no que já reuniu, perguntar sobre voos, hospedagem, eventos, transporte, pets, orçamento, atividades e requisitos especiais — só o que está em branco.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Confirmar &amp; gerar</h4>
+<p class="text-sm text-neutral-400 mb-3">O portão antes da saída</p>
+<p class="text-neutral-300 text-sm">Mostrar um resumo de tudo que foi reunido e confirmar antes de construir. Só então a página HTML é gerada.</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Por que "coletar antes de gerar" funciona</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>Especificidade:</strong> dados reais produzem uma página que parece feita para aquela viagem, não um molde.</li>
+<li><strong>Confiança:</strong> ao confirmar o resumo, o usuário corrige erros antes de gastar tokens gerando o HTML inteiro.</li>
+<li><strong>Ordem:</strong> os passos vão do mais barato (perguntas) ao mais caro (gerar), reduzindo retrabalho.</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">4 passos</div><div class="text-xs text-neutral-400">Sequência fixa.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">CRITICAL</div><div class="text-xs text-neutral-400">Não é opcional.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Confirmar</div><div class="text-xs text-neutral-400">Portão antes de gerar.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Discovery</div><div class="text-xs text-neutral-400">Conversa &gt; suposição.</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🔌 Integrações via MCP: dados reais</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
         O Passo 2 do setup é onde a skill ganha superpoderes. Ela instrui o Claude a oferecer — toda vez — checar fontes de dados do usuário: e-mail, agenda, Drive/Docs, Slack/mensagens, URLs e Notion. Se o usuário autorizar, o Claude usa as <strong class="text-blue-400">ferramentas MCP correspondentes</strong> (Gmail, Google Calendar, Google Drive) para puxar confirmações de voo, reservas e tickets de evento direto para o documento.
       </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-          <h4 class="font-bold text-emerald-400 mb-4">✓ O que FAZER</h4>
-          <ul class="space-y-3 text-neutral-300">
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Oferecer a integração e <strong>esperar a autorização</strong> do usuário.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar a ferramenta MCP certa para cada fonte (Gmail para e-mail, Calendar para agenda).</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Preencher o documento com os dados reais que voltarem.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cair de volta nas perguntas (Passo 3) para o que a integração não cobriu.</span></li>
-          </ul>
-        </div>
-        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-          <h4 class="font-bold text-red-400 mb-4">✗ O que NÃO fazer</h4>
-          <ul class="space-y-3 text-neutral-300">
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Acessar e-mail ou agenda <strong>sem perguntar</strong>.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Inventar números de voo ou reservas quando não há dados.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pular a oferta porque "deve dar trabalho" — a skill diz "ask every time".</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Misturar dados de placeholder com dados reais sem rotular.</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-        <h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">As fontes que a skill oferece checar</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 font-mono text-sm">
-          <div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📧 E-mail</div>
-          <div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📅 Agenda</div>
-          <div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📄 Drive / Docs</div>
-          <div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">💬 Slack / Mensagens</div>
-          <div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">🔗 URLs</div>
-          <div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📋 Notion</div>
-        </div>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
-        <p class="text-neutral-300">A frase da skill, <em>"I can pull in real data to make this way more useful"</em>, é um modelo de copy. Ela explica o benefício antes de pedir permissão — o usuário entende o porquê e tende a dizer sim. Copie esse padrão nas suas skills com integração.</p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">MCP</div><div class="text-xs text-neutral-400">Ferramentas externas.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Permissão</div><div class="text-xs text-neutral-400">Sempre perguntar.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Real &gt; fake</div><div class="text-xs text-neutral-400">Princípio nº 1.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Fallback</div><div class="text-xs text-neutral-400">Perguntar o resto.</div></div>
-      </div>
-    </section>
-
-    <!-- TÓPICO 4 -->
-    <section id="topico-4" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
-        <h2 class="text-2xl font-bold">📦 Output Format: um arquivo, zero dependências</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ O que FAZER</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Oferecer a integração e <strong>esperar a autorização</strong> do usuário.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar a ferramenta MCP certa para cada fonte (Gmail para e-mail, Calendar para agenda).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Preencher o documento com os dados reais que voltarem.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cair de volta nas perguntas (Passo 3) para o que a integração não cobriu.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ O que NÃO fazer</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Acessar e-mail ou agenda <strong>sem perguntar</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Inventar números de voo ou reservas quando não há dados.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pular a oferta porque "deve dar trabalho" — a skill diz "ask every time".</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Misturar dados de placeholder com dados reais sem rotular.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">As fontes que a skill oferece checar</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-3 font-mono text-sm">
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📧 E-mail</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📅 Agenda</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📄 Drive / Docs</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">💬 Slack / Mensagens</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">🔗 URLs</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📋 Notion</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">A frase da skill, <em>"I can pull in real data to make this way more useful"</em>, é um modelo de copy. Ela explica o benefício antes de pedir permissão — o usuário entende o porquê e tende a dizer sim. Copie esse padrão nas suas skills com integração.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">MCP</div><div class="text-xs text-neutral-400">Ferramentas externas.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Permissão</div><div class="text-xs text-neutral-400">Sempre perguntar.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Real &gt; fake</div><div class="text-xs text-neutral-400">Princípio nº 1.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Fallback</div><div class="text-xs text-neutral-400">Perguntar o resto.</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📦 Output Format: um arquivo, zero dependências</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
         Curtíssima, mas decisiva. A seção "Output Format" amarra a saída com regras explícitas: <strong class="text-blue-400">um único HTML autossuficiente</strong>, com todo o CSS num <code class="font-mono text-blue-400">&lt;style&gt;</code> e todo o JS num <code class="font-mono text-blue-400">&lt;script&gt;</code>; imagens como data URIs base64 ou emoji; nenhuma dependência externa além do Google Fonts (Inter); e um nome de arquivo padronizado.
       </p>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-        <h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Trecho real do SKILL.md</h3>
-        <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">## Output Format
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Trecho real do SKILL.md</h3>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">## Output Format
 
 Generate a single self-contained HTML file.
 All CSS inline in &lt;style&gt;. All JS inline in
@@ -373,157 +352,142 @@ fallbacks. No external dependencies except
 Google Fonts (Inter).
 
 Save as <span class="text-blue-400">travelwings-{destination}.html</span></pre>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> O que cada restrição evita</h3>
-        <ul class="space-y-2 text-neutral-300">
-          <li><strong>"Single file":</strong> evita arquivos espalhados que o usuário precisa juntar.</li>
-          <li><strong>"Inline CSS/JS":</strong> evita links para folhas/scripts que quebram ao mover o arquivo.</li>
-          <li><strong>"base64 / emoji":</strong> evita imagens que não carregam offline.</li>
-          <li><strong>"No external deps":</strong> evita dependências de CDN que somem com o tempo.</li>
-        </ul>
-      </div>
-
-      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atenção</h3>
-        <p class="text-neutral-300">Sem uma seção de Output Format, o Claude tende a "ajudar demais" — propondo um projeto com várias pastas, um framework, um build. Para uma skill que gera um artefato para o usuário final, isso é o oposto do que se quer. <strong>Restringir é projetar.</strong></p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">1 arquivo</div><div class="text-xs text-neutral-400">Portátil.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Inline</div><div class="text-xs text-neutral-400">CSS + JS juntos.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">base64</div><div class="text-xs text-neutral-400">Imagens embutidas.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Nome fixo</div><div class="text-xs text-neutral-400">Convenção clara.</div></div>
-      </div>
-    </section>
-
-    <!-- TÓPICO 5 -->
-    <section id="topico-5" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
-        <h2 class="text-2xl font-bold">🧩 Example Sections: a planta da página</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> O que cada restrição evita</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>"Single file":</strong> evita arquivos espalhados que o usuário precisa juntar.</li>
+<li><strong>"Inline CSS/JS":</strong> evita links para folhas/scripts que quebram ao mover o arquivo.</li>
+<li><strong>"base64 / emoji":</strong> evita imagens que não carregam offline.</li>
+<li><strong>"No external deps":</strong> evita dependências de CDN que somem com o tempo.</li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atenção</h3>
+<p class="text-neutral-300">Sem uma seção de Output Format, o Claude tende a "ajudar demais" — propondo um projeto com várias pastas, um framework, um build. Para uma skill que gera um artefato para o usuário final, isso é o oposto do que se quer. <strong>Restringir é projetar.</strong></p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">1 arquivo</div><div class="text-xs text-neutral-400">Portátil.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Inline</div><div class="text-xs text-neutral-400">CSS + JS juntos.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">base64</div><div class="text-xs text-neutral-400">Imagens embutidas.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Nome fixo</div><div class="text-xs text-neutral-400">Convenção clara.</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🧩 Example Sections: a planta da página</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
         Esta seção lista 13 blocos sugeridos para a página — hero, banner de evento, stats, mapa de rota, voos de ida, hotel, pets, agenda dia a dia, voos de volta, orçamento, checklists, rodapé e tema. Mas o detalhe que importa está entre parênteses: <strong class="text-blue-400">"adapt per trip"</strong>. É uma planta, não uma camisa de força.
       </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-          <h4 class="font-bold text-emerald-400 mb-4">✓ Como a lista ajuda</h4>
-          <ul class="space-y-3 text-neutral-300">
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Dá ao Claude uma <strong>ordem de referência</strong> dos blocos.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Lembra de seções fáceis de esquecer (rodapé, checklists).</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Marca quais são condicionais ("if attending an event", "if applicable").</span></li>
-          </ul>
-        </div>
-        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-          <h4 class="font-bold text-red-400 mb-4">✗ O que evitar</h4>
-          <ul class="space-y-3 text-neutral-300">
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Despejar <strong>todos</strong> os 13 blocos mesmo sem dados para eles.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar uma seção de pets numa viagem sem pet.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tratar a ordem sugerida como obrigatória e rígida.</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-        <h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Os 13 blocos sugeridos (adapt per trip)</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-neutral-300">
-          <div class="bg-dark-700/60 rounded p-2">1 · Hero + avião animado</div>
-          <div class="bg-dark-700/60 rounded p-2">2 · Banner de evento</div>
-          <div class="bg-dark-700/60 rounded p-2">3 · Stats bar</div>
-          <div class="bg-dark-700/60 rounded p-2">4 · Mapa de rota (SVG)</div>
-          <div class="bg-dark-700/60 rounded p-2">5 · Voos de ida</div>
-          <div class="bg-dark-700/60 rounded p-2">6 · Hotel</div>
-          <div class="bg-dark-700/60 rounded p-2">7 · Pet care (se houver)</div>
-          <div class="bg-dark-700/60 rounded p-2">8 · Agenda dia a dia</div>
-          <div class="bg-dark-700/60 rounded p-2">9 · Voos de volta</div>
-          <div class="bg-dark-700/60 rounded p-2">10 · Orçamento</div>
-          <div class="bg-dark-700/60 rounded p-2">11 · Checklists</div>
-          <div class="bg-dark-700/60 rounded p-2">12 · Rodapé / navegação</div>
-        </div>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
-        <p class="text-neutral-300">"Adapt per trip" é uma das duas palavras mais poderosas numa skill de geração. Sempre que listar blocos, marque o que é <strong>condicional</strong>. Assim você dá estrutura sem produzir páginas infladas com seções vazias.</p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Planta</div><div class="text-xs text-neutral-400">Não camisa de força.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Condicional</div><div class="text-xs text-neutral-400">"if applicable".</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Ordem</div><div class="text-xs text-neutral-400">Referência, não lei.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Lembrete</div><div class="text-xs text-neutral-400">Não esquecer blocos.</div></div>
-      </div>
-    </section>
-
-    <!-- TÓPICO 6 -->
-    <section id="topico-6" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
-        <h2 class="text-2xl font-bold">⭐ Key Principles: a bússola</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Como a lista ajuda</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Dá ao Claude uma <strong>ordem de referência</strong> dos blocos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Lembra de seções fáceis de esquecer (rodapé, checklists).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Marca quais são condicionais ("if attending an event", "if applicable").</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ O que evitar</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Despejar <strong>todos</strong> os 13 blocos mesmo sem dados para eles.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar uma seção de pets numa viagem sem pet.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tratar a ordem sugerida como obrigatória e rígida.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Os 13 blocos sugeridos (adapt per trip)</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-neutral-300">
+<div class="bg-dark-700/60 rounded p-2">1 · Hero + avião animado</div>
+<div class="bg-dark-700/60 rounded p-2">2 · Banner de evento</div>
+<div class="bg-dark-700/60 rounded p-2">3 · Stats bar</div>
+<div class="bg-dark-700/60 rounded p-2">4 · Mapa de rota (SVG)</div>
+<div class="bg-dark-700/60 rounded p-2">5 · Voos de ida</div>
+<div class="bg-dark-700/60 rounded p-2">6 · Hotel</div>
+<div class="bg-dark-700/60 rounded p-2">7 · Pet care (se houver)</div>
+<div class="bg-dark-700/60 rounded p-2">8 · Agenda dia a dia</div>
+<div class="bg-dark-700/60 rounded p-2">9 · Voos de volta</div>
+<div class="bg-dark-700/60 rounded p-2">10 · Orçamento</div>
+<div class="bg-dark-700/60 rounded p-2">11 · Checklists</div>
+<div class="bg-dark-700/60 rounded p-2">12 · Rodapé / navegação</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">"Adapt per trip" é uma das duas palavras mais poderosas numa skill de geração. Sempre que listar blocos, marque o que é <strong>condicional</strong>. Assim você dá estrutura sem produzir páginas infladas com seções vazias.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Planta</div><div class="text-xs text-neutral-400">Não camisa de força.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Condicional</div><div class="text-xs text-neutral-400">"if applicable".</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Ordem</div><div class="text-xs text-neutral-400">Referência, não lei.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Lembrete</div><div class="text-xs text-neutral-400">Não esquecer blocos.</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">⭐ Key Principles: a bússola</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
         A seção final são seis princípios curtos que resumem o espírito da skill. Enquanto os passos dizem <em>o quê fazer</em>, os princípios dizem <em>como decidir</em> quando a situação não estava no roteiro. São a regra de bolso do Claude.
       </p>
-
-      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🧭</span> Os seis princípios</h3>
-        <ul class="space-y-2 text-neutral-300">
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">1.</span><span><strong>Real data &gt; placeholder data.</strong> Sempre tentar puxar dos dados reais primeiro.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">2.</span><span><strong>Ask before assuming.</strong> A conversa de setup é o que dá valor.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">3.</span><span><strong>One file, zero dependencies.</strong> Tudo autossuficiente.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">4.</span><span><strong>Feel like a premium app, not a document.</strong> A régua de qualidade.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">5.</span><span><strong>Interactive &gt; static.</strong> Checklists salvam estado, dias clicam, voos expandem.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">6.</span><span><strong>Colour-code everything.</strong> Azul ida, verde confirmado, laranja volta, lavanda conexão, dourado evento.</span></li>
-        </ul>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Passos vs Princípios</h3>
-        <ul class="space-y-2 text-neutral-300">
-          <li><strong>Passos</strong> cobrem o caminho feliz: faça A, depois B, depois C.</li>
-          <li><strong>Princípios</strong> cobrem os imprevistos: e se faltar um dado? E se houver conflito? Decida pela régua.</li>
-          <li>Juntos, eles tornam a skill <strong>robusta</strong> — funciona mesmo fora do roteiro previsto.</li>
-        </ul>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
-        <p class="text-neutral-300">Bons princípios são <strong>curtos e oponíveis</strong>: cada um descarta uma alternativa concreta ("real &gt; placeholder" descarta inventar dados). Se um princípio seu não exclui nada, ele é só decoração — reescreva.</p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">6 regras</div><div class="text-xs text-neutral-400">Curtas e claras.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Decisão</div><div class="text-xs text-neutral-400">Para o imprevisto.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Oponíveis</div><div class="text-xs text-neutral-400">Excluem opções.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Robustez</div><div class="text-xs text-neutral-400">Fora do roteiro.</div></div>
-      </div>
-    </section>
-
-    <!-- EXERCÍCIOS -->
-    <section class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">✎</span>
-        <h2 class="text-2xl font-bold">Exercícios práticos</h2>
-      </div>
-
-      <div class="space-y-4 mb-6">
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <h4 class="font-semibold text-blue-400 mb-2">1. Mapeie as seções</h4>
-          <p class="text-neutral-300 text-sm">Abra qualquer skill que gere um artefato e identifique: onde está a promessa? Existe um setup flow? Há uma seção de Output Format? Há princípios? Anote o que falta.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <h4 class="font-semibold text-blue-400 mb-2">2. Escreva a promessa</h4>
-          <p class="text-neutral-300 text-sm">Em uma frase verificável, descreva a saída de uma skill que você gostaria de ter. Submeta a frase ao teste: dá para checar se a saída cumpriu?</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <h4 class="font-semibold text-blue-400 mb-2">3. Crie um SKILL.md rodável</h4>
-          <p class="text-neutral-300 text-sm mb-3">Salve o arquivo abaixo como <code class="font-mono text-blue-400">~/.claude/skills/menu-planner/SKILL.md</code>, reinicie o Claude Code e digite <code class="font-mono text-blue-400">/menu</code>. Veja a skill conduzir o próprio setup flow.</p>
-          <div class="bg-dark-900 rounded-lg p-4 border border-dark-600 relative">
-            <button onclick="copyCode(this)" class="absolute top-3 right-3 px-2 py-1 text-xs bg-dark-700 hover:bg-dark-600 rounded transition-colors">Copiar</button>
-            <pre class="font-mono text-xs text-neutral-300 overflow-x-auto leading-relaxed">---
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🧭</span> Os seis princípios</h3>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">1.</span><span><strong>Real data &gt; placeholder data.</strong> Sempre tentar puxar dos dados reais primeiro.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">2.</span><span><strong>Ask before assuming.</strong> A conversa de setup é o que dá valor.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">3.</span><span><strong>One file, zero dependencies.</strong> Tudo autossuficiente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">4.</span><span><strong>Feel like a premium app, not a document.</strong> A régua de qualidade.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">5.</span><span><strong>Interactive &gt; static.</strong> Checklists salvam estado, dias clicam, voos expandem.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">6.</span><span><strong>Colour-code everything.</strong> Azul ida, verde confirmado, laranja volta, lavanda conexão, dourado evento.</span></li>
+</ul>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Passos vs Princípios</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>Passos</strong> cobrem o caminho feliz: faça A, depois B, depois C.</li>
+<li><strong>Princípios</strong> cobrem os imprevistos: e se faltar um dado? E se houver conflito? Decida pela régua.</li>
+<li>Juntos, eles tornam a skill <strong>robusta</strong> — funciona mesmo fora do roteiro previsto.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">Bons princípios são <strong>curtos e oponíveis</strong>: cada um descarta uma alternativa concreta ("real &gt; placeholder" descarta inventar dados). Se um princípio seu não exclui nada, ele é só decoração — reescreva.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">6 regras</div><div class="text-xs text-neutral-400">Curtas e claras.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Decisão</div><div class="text-xs text-neutral-400">Para o imprevisto.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Oponíveis</div><div class="text-xs text-neutral-400">Excluem opções.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Robustez</div><div class="text-xs text-neutral-400">Fora do roteiro.</div></div>
+</div>
+</section>
+<!-- EXERCÍCIOS -->
+<section class="mb-16">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">✎</span>
+<h2 class="text-2xl font-bold">Exercícios práticos</h2>
+</div>
+<div class="space-y-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">1. Mapeie as seções</h4>
+<p class="text-neutral-300 text-sm">Abra qualquer skill que gere um artefato e identifique: onde está a promessa? Existe um setup flow? Há uma seção de Output Format? Há princípios? Anote o que falta.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">2. Escreva a promessa</h4>
+<p class="text-neutral-300 text-sm">Em uma frase verificável, descreva a saída de uma skill que você gostaria de ter. Submeta a frase ao teste: dá para checar se a saída cumpriu?</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">3. Crie um SKILL.md rodável</h4>
+<p class="text-neutral-300 text-sm mb-3">Salve o arquivo abaixo como <code class="font-mono text-blue-400">~/.claude/skills/menu-planner/SKILL.md</code>, reinicie o Claude Code e digite <code class="font-mono text-blue-400">/menu</code>. Veja a skill conduzir o próprio setup flow.</p>
+<div class="bg-dark-900 rounded-lg p-4 border border-dark-600 relative">
+<button class="absolute top-3 right-3 px-2 py-1 text-xs bg-dark-700 hover:bg-dark-600 rounded transition-colors" onclick="copyCode(this)">Copiar</button>
+<pre class="font-mono text-xs text-neutral-300 overflow-x-auto leading-relaxed">---
 name: menu-planner
 description: Generates a self-contained HTML weekly
   meal plan. Trigger on "/menu", "plan my meals",
@@ -557,43 +521,39 @@ Save as menu-{week}.html.
 2. One file, zero dependencies.
 3. Interactive &gt; static (check off items, save state).
 4. Colour-code by meal type.</pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- RESUMO -->
-    <section class="mb-12">
-      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
-        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
-        <div class="space-y-4 mb-8">
-          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">A promessa define a saída</strong><span class="text-neutral-400"> — uma frase verificável é o contrato da skill.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Setup flow é o coração</strong><span class="text-neutral-400"> — coletar em 4 passos antes de gerar, marcado como CRITICAL.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Integrações via MCP</strong><span class="text-neutral-400"> — dados reais &gt; placeholder, sempre com permissão.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Output Format restringe</strong><span class="text-neutral-400"> — um arquivo, zero dependências; restringir é projetar.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Example Sections + Principles</strong><span class="text-neutral-400"> — planta adaptável e bússola para o imprevisto.</span></div></div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-          <h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
-          <p class="text-neutral-300">2.2 — Setup flow, design system e saída: do prompt à página HTML</p>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
-          <a href="modulo-2-2.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo Módulo →</a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
-      <p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
-    </div>
-  </footer>
-
-  <script>
+</div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">A promessa define a saída</strong><span class="text-neutral-400"> — uma frase verificável é o contrato da skill.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Setup flow é o coração</strong><span class="text-neutral-400"> — coletar em 4 passos antes de gerar, marcado como CRITICAL.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Integrações via MCP</strong><span class="text-neutral-400"> — dados reais &gt; placeholder, sempre com permissão.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Output Format restringe</strong><span class="text-neutral-400"> — um arquivo, zero dependências; restringir é projetar.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Example Sections + Principles</strong><span class="text-neutral-400"> — planta adaptável e bússola para o imprevisto.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">2.2 — Setup flow, design system e saída: do prompt à página HTML</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Voltar para Trilha</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="modulo-2-2.html">Próximo Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Conteúdo educacional sobre Agent Skills do Claude Code.</p>
+</div>
+</footer>
+<script>
     function copyCode(button) {
       const pre = button.parentElement.querySelector('pre');
       const text = pre.innerText;

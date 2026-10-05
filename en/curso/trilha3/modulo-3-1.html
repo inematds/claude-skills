@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 3.1 · Vibe Coding | Claude Skills in Practice</title>
+<meta content="The agent fixes the frontend by looking at the live browser: branch first, visible browser, live injection, and hard stops before saving changes to the code." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha purple) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    /* hover das outras trilhas no nav */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG futurista - suavizar no light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha3/modulo-3-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha3/modulo-3-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha3/modulo-3-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/modulo-3-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-3-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha3/modulo-3-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">First Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consulting</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Advanced</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-purple-400" href="index.html">Track 3</a>
+<span>/</span>
+<span class="text-purple-400">Module 3.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MODULE 3.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🖥️ Vibe Coding: Live Frontend Fixes</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        Stop guessing at code. This skill teaches the agent to work like a real developer:
+        it opens the browser on your screen, applies the change live, shows you the result, and only writes to the
+        source code after your approval—always on a safe sandbox branch.
+      </p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">6</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">~50</div>
+<div class="text-xs text-neutral-400">Minutes</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Inter.</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Practice</div>
+<div class="text-xs text-neutral-400">Type</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- SECAO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🔄 The Reverse Flow</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Everyone has been through this: you’re staring at a CSS bug—a navbar overlapping the content, a
+        video iframe cut off at the edge, a modal that works on desktop and falls apart on mobile. You describe the
+        problem to the agent, and it <strong class="text-purple-400">dives straight into the code</strong>, edits three
+        files, runs the build... and the fix comes out wrong. You describe it again, it edits again, builds again —
+        and now something else is broken.
+      </p>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        The traditional AI workflow is <strong class="text-neutral-100">backward</strong>: it guesses at code changes
+        first and hopes the result turns out right. That's not how a developer works. A developer opens the
+        browser, inspects the element, adjusts the CSS live, sees the result right away — and <em>only then</em> writes
+        the permanent code. Vibe Coding makes your agent work exactly this way.
+      </p>
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden mt-6">
+<svg aria-label="Comparison: the traditional flow goes straight to editing files and breaks; the Vibe Coding flow inspects the live browser, validates with you, and only then saves changes to the code" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m31a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#a855f7"></stop></lineargradient>
+<filter height="180%" id="m31a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m31a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#a855f7" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m31a-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m31a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+<marker id="m31a-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m31a-grid)" height="220" width="1000" x="0" y="0"></rect>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="36">traditional</text>
+<rect fill="#2a0f16" height="40" rx="10" stroke="#fb7185" stroke-width="2" width="120" x="40" y="48"></rect><text fill="#fda4af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="100" y="73">edit 3 files</text>
+<path d="M160,68 L206,68" fill="none" marker-end="url(#m31a-ahr)" opacity="0.6" stroke="#fb7185" stroke-width="1.8"></path>
+<rect fill="#2a0f16" height="40" rx="10" stroke="#fb7185" stroke-width="2" width="86" x="210" y="48"></rect><text fill="#fda4af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="253" y="73">build</text>
+<path d="M296,68 L342,68" fill="none" marker-end="url(#m31a-ahr)" opacity="0.6" stroke="#fb7185" stroke-width="1.8"></path>
+<rect fill="#2a0f16" height="40" rx="10" stroke="#fb7185" stroke-width="2" width="120" x="346" y="48"></rect><text fill="#fda4af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="406" y="73">broken ✗</text>
+<path d="M406,88 C406,118 100,118 100,90" fill="none" marker-end="url(#m31a-ahr)" opacity="0.5" stroke="#fb7185" stroke-dasharray="6 6" stroke-width="1.5"></path>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="11" opacity="0.8" text-anchor="middle" x="253" y="138">rework loop</text>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="540" y="36">vibe coding</text>
+<g filter="url(#m31a-glow)"><rect fill="#1a1230" height="40" rx="10" stroke="url(#m31a-grad)" stroke-width="2.5" width="120" x="540" y="48"></rect></g><text fill="#d8b4fe" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="600" y="73">live browser</text>
+<path d="M660,68 L706,68" fill="none" marker-end="url(#m31a-ah)" opacity="0.6" stroke="#c084fc" stroke-width="1.8"></path>
+<rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="96" x="710" y="48"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="758" y="73">approve</text>
+<path d="M806,68 L852,68" fill="none" marker-end="url(#m31a-ah)" opacity="0.6" stroke="#c084fc" stroke-width="1.8"></path>
+<rect fill="#1a1230" height="40" rx="10" stroke="#c084fc" stroke-width="2" width="104" x="856" y="48"></rect><text fill="#d8b4fe" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="908" y="73">code ✓</text>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="11" opacity="0.85" text-anchor="middle" x="750" y="138">right the first time</text>
+</svg>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Preview before recording</div><p class="text-xs text-neutral-400">Every fix is validated on screen before touching the code.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Zero lost builds</div><p class="text-xs text-neutral-400">Ends the "edit → build → revert → repeat" cycle.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Pair programming</div><p class="text-xs text-neutral-400">Like a developer with DevTools open beside yours.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Frontend, not architecture</div><p class="text-xs text-neutral-400">Focus on layout and visual bugs—not database schemas.</p></div>
+</div>
+</section>
+<!-- SECAO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📂 Confirm the workspace</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Before you do it <strong class="text-purple-400">any</strong> work, the skill requires the agent to confirm
+        the active repository. It detects the current working directory and asks you clearly whether it's the right project
+        for the session. No Git, no browser, no editing until you confirm. It's a small step that
+        prevents costly damage: changing the wrong project.
+      </p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">📂</span> The repository check</h3>
+<p class="text-neutral-300 mb-4">The agent detects the workspace path and presents the confirmation as a hard stop. Something like this:</p>
+<div class="bg-dark-900 rounded-lg p-4 border border-dark-600 font-mono text-sm text-neutral-300">
+<span class="text-purple-400">📂 Repo check:</span> I'm working on <span class="text-sky-400">/home/voce/projetos/landing-app</span>. Is this the right repository for this session, or should we switch?
+        </div>
+<p class="text-neutral-400 text-sm mt-4">If you say the workspace is wrong, it <strong class="text-neutral-100">stop immediately</strong> and instructs you to reopen the correct project before triggering the flow again.</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔌</span> Portability note</h3>
+<p class="text-neutral-300 text-sm mb-3">The skill was originally designed for an environment with a native "hard stop" tool (which blocks and waits for the user). That tool may not exist in other agents.</p>
+<p class="text-neutral-300 text-sm">The lesson applies just as well: <strong class="text-neutral-100">replace the call with a direct question and truly stop</strong> — proceed only after the answer. The behavior (“stop and wait”) matters more than the tool’s name.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Detect path</div><p class="text-xs text-neutral-400">Automatically discover the active directory.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Show and wait</div><p class="text-xs text-neutral-400">Show the path and wait for confirmation.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Wrong = stop</div><p class="text-xs text-neutral-400">Wrong repo ends the flow immediately.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Before anything else</div><p class="text-xs text-neutral-400">No destructive action before this step.</p></div>
+</div>
+</section>
+<!-- SECAO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🌿 Branch-first &amp; git safety</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        With the workspace confirmed, the next move is <strong class="text-purple-400">create the sandbox before any
+        analysis</strong>. The agent checks the <code class="font-mono text-purple-400">git status</code>; if there is
+        uncommitted work, it pauses and offers a local backup. With a clean working tree, it asks for a short description of the
+        task and <strong class="text-neutral-100">immediately</strong> creates and switches to a local branch. You
+        can experiment without fear: the <code class="font-mono">main</code> is never touched.
+      </p>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs uppercase tracking-wide text-neutral-500 font-semibold">terminal · branch-first</span>
+<span class="text-xs text-purple-400 font-mono">git</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><span class="text-neutral-500"># 1. Verifica se há trabalho não commitado</span>
+git status
+
+<span class="text-neutral-500"># 2. (se sujo) oferece backup local antes de começar</span>
+git add . &amp;&amp; git commit -m "wip: backup antes do vibe"
+
+<span class="text-neutral-500"># 3. cria a sandbox ANTES de abrir o navegador</span>
+git checkout -b <span class="text-purple-400">vibe/fix-navbar-bleed</span></pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ What to DO</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Create the branch <em>before</em> to inspect or open the browser.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Offer a backup of uncommitted work.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Name the branch after the task: <code class="font-mono">vibe/fix-modal-ratio</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>One dedicated branch per fix.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ What NOT to do</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Edit in the <code class="font-mono">main</code> or <code class="font-mono">master</code> directly.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Start tinkering without checking the <code class="font-mono">git status</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Panic-revert files if the linter complains.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Reuse the same branch for multiple fixes.</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">git status</div><p class="text-xs text-neutral-400">Tree state before anything else.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Optional backup</div><p class="text-xs text-neutral-400">Uncommitted work becomes a local commit.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">checkout -b vibe/</div><p class="text-xs text-neutral-400">An isolated sandbox, created immediately.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">No fear</div><p class="text-xs text-neutral-400">Experiment freely without affecting main.</p></div>
+</div>
+</section>
+<!-- SECAO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🌐 Visible browser &amp; live injection</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Now comes the part that gives the skill its name. The agent identifies the target URL—it could be a local dev server
+        (<code class="font-mono text-purple-400">http://localhost:3000</code>) or a hosted staging/production URL.
+        If it's local, it starts the server in the background; if it's hosted, it skips this step. Then it launches an automated browser <strong class="text-neutral-100">visible, NOT headless</strong>, on your screen — you watch the
+        automation happen live.
+      </p>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        With the page open, the agent <strong class="text-purple-400">inspects the DOM</strong> (saving you from
+        copying/pasting HTML) and <strong class="text-purple-400">injects CSS/JS live</strong> to test fixes —
+        without editing any project files. It takes screenshots of the changes and shows them to you. Alternatively,
+        it generates a plain JavaScript snippet for you to paste into your own browser's console.
+      </p>
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 sm:p-5 mb-6 overflow-hidden">
+<div class="text-xs uppercase tracking-wide text-neutral-500 font-semibold mb-3">Illustrative recreation—not a real screenshot</div>
+<div class="bg-dark-900 rounded-lg border border-dark-600 overflow-hidden">
+<div class="flex items-center space-x-2 px-3 py-2 border-b border-dark-600">
+<span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-amber-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+<span class="ml-3 text-xs text-neutral-500 font-mono">localhost:3000 · visible browser</span>
+</div>
+<div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<div class="text-xs text-neutral-500 mb-2 font-mono">live page</div>
+<div class="space-y-2">
+<div class="h-6 rounded bg-purple-500/30 wf-a"></div>
+<div class="h-3 rounded bg-dark-600 w-3/4"></div>
+<div class="h-3 rounded bg-dark-600 w-full"></div>
+<div class="h-3 rounded bg-dark-600 w-5/6"></div>
+</div>
+</div>
+<div>
+<div class="text-xs text-neutral-500 mb-2 font-mono">DevTools · injection</div>
+<pre class="font-mono text-[11px] text-neutral-300 bg-dark-800 rounded p-2 border border-dark-600 leading-snug">document.querySelector('.navbar')
+  .style.position = 'relative';</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip: session recovery</h3>
+<p class="text-neutral-300 text-sm">If the browser reloads (intentionally or by accident) and the live injections are lost, it’s simple: re-inspect the DOM and reapply the CSS/JS. <strong class="text-neutral-100">No scratch files or complex injection logs</strong> — the way forward is to keep the process lightweight.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Local or hosted</div><p class="text-xs text-neutral-400">localhost with a dev server, or a staging URL.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Visible, not headless</div><p class="text-xs text-neutral-400">You watch the automation on your screen.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Live injection</div><p class="text-xs text-neutral-400">CSS/JS on the running page, zero files.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Screenshots</div><p class="text-xs text-neutral-400">Visual proof of the fix, shown to you.</p></div>
+</div>
+</section>
+<!-- SECAO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⛔ The hard stops</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        This is the heart of the skill. They are <strong class="text-purple-400">four mandatory approval gates</strong>.
+        The agent literally can’t skip steps: it pauses and waits for your “go ahead” at every critical moment.
+        Your code, your rules. Each gate has a clear boundary, and none lets the next step happen on its own.
+      </p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Visual approval</h4>
+<p class="text-sm text-neutral-400 mb-2">In the troubleshooting loop</p>
+<p class="text-neutral-300 text-sm">After injecting the fix, the agent stops and asks: "How does it look? Do you want to iterate more on the design, or are we ready to think about the code strategy?". Approval here only allows moving on to the <strong class="text-purple-400">strategy</strong> — does not apply code.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Strategy approval</h4>
+<p class="text-sm text-neutral-400 mb-2">Before touching the code</p>
+<p class="text-neutral-300 text-sm">The agent searches the repository for where the elements are defined and proposes the most robust approach (a <code class="font-mono">_overrides.scss</code> global? a nested React component? a Tailwind utility?). It explains <em>why</em> and asks for explicit approval.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Code review</h4>
+<p class="text-sm text-neutral-400 mb-2">After saving the files</p>
+<p class="text-neutral-300 text-sm">After applying the changes on the local branch, the agent stops and asks: “Review the diff in the Source Control panel and check it in the browser before pushing.” You decide whether the code is good <strong class="text-neutral-100">you</strong>, checking locally — not it.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Push approval</h4>
+<p class="text-sm text-neutral-400 mb-2">Before any git command that sends changes</p>
+<p class="text-neutral-300 text-sm">Only now does it ask for the destination remote and confirm "ready to commit and push?" Each push goes to a new, dedicated branch — never directly to the <code class="font-mono">main</code>.</p>
+</div>
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">🚫</span> Anti-steamroll rule</h3>
+<p class="text-neutral-300 text-sm mb-2">É <strong class="text-neutral-100">strictly prohibited</strong> combining steps into a single response. Phrases like "I'll sketch out the strategy and apply it all at once" or "since you approved it, I'll go ahead and apply it" are a <strong class="text-neutral-100">violation</strong> of the workflow.</p>
+<p class="text-neutral-300 text-sm">Presenting the strategy and applying the code in the same response breaks the rule. Each step requires your own explicit approval. If the agent is about to combine the two, it stops.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">4 gates</div><p class="text-xs text-neutral-400">Visuals · strategy · code · push.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Gate rule</div><p class="text-xs text-neutral-400">Approving one step does not approve the next.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Anti-merge</div><p class="text-xs text-neutral-400">Strategy and application, never together.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">You decide</div><p class="text-xs text-neutral-400">The user approves each critical moment.</p></div>
+</div>
+</section>
+<!-- SECAO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">✏️ Persist, review &amp; wrap up</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        With the strategy approved, the agent translates the browser's temporary injection into
+        <strong class="text-purple-400">clean, permanent source code</strong>. It removes temporary utility classes,
+        console logs, and hacks used during live testing. Notice the change in vocabulary: it’s
+        <strong class="text-neutral-100">"persist in the source"</strong>, don't hardcode it. Only the final, polished fix becomes code — the git history stays clean, without a dozen failed attempts.
+      </p>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⛔</span> During "persist": no terminal, no reverting</h3>
+<p class="text-neutral-300 text-sm mb-2">At this step, the agent is forbidden to run <em>any</em> terminal command—no <code class="font-mono">npm</code>, <code class="font-mono">npx</code>, and no git command (not even <code class="font-mono">git diff</code>, or <code class="font-mono">git add</code>). It only edits the files and saves them.</p>
+<p class="text-neutral-300 text-sm">And if a background compiler complains: <strong class="text-neutral-100">don’t panic or revert</strong> (<code class="font-mono">git checkout -- file</code>). Leave the files as they are — the user handles compilation.</p>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs uppercase tracking-wide text-neutral-500 font-semibold">terminal · push (only after approval)</span>
+<span class="text-xs text-purple-400 font-mono">git · one at a time</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><span class="text-neutral-500"># Em PowerShell (Windows) NÃO encadeie com &amp;&amp;.</span>
+<span class="text-neutral-500"># Rode um comando por vez:</span>
+git add .
+git commit -m "Fix: navbar bleed-through on staging"
+git push <span class="text-purple-400">origin vibe/fix-navbar-bleed</span></pre>
+</div>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">✅</span> Session wrap-up (required)</h3>
+<p class="text-neutral-300 text-sm mb-3">After a successful push, the vibe coding session is <strong class="text-neutral-100">complete</strong>. The agent says it’s finished and asks you to open a new chat for the next fix.</p>
+<p class="text-neutral-300 text-sm mb-3">Why? To <strong class="text-neutral-100">avoid context bleed</strong> between tasks: a clean chat prevents branch conflicts and context confusion from the previous fix.</p>
+<p class="text-neutral-300 text-sm"><strong class="text-purple-400">Scope limit:</strong> if you ask for a new architecture (e.g., a database schema) in the middle of a vibe session, it gently reminds you that Vibe Coding is for layout and visual bugs, and recommends a standard plan/task.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Persist in the source</div><p class="text-xs text-neutral-400">Clean code, not "hardcode".</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">No reverting</div><p class="text-xs text-neutral-400">Linter complained? Let the user handle it.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">One command at a time</div><p class="text-xs text-neutral-400">Compatible with PowerShell, without <code class="font-mono">&amp;&amp;</code>.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">New chat</div><p class="text-xs text-neutral-400">The next fix starts from scratch.</p></div>
+</div>
+</section>
+<!-- EXEMPLO DE SAIDA -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">Output example — a complete session</h2>
+<p class="text-neutral-300 mb-6 leading-relaxed">See how the agent handles fixing a cropped video iframe inside a modal—from the repo check to the push, stopping at each gate.</p>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 space-y-4 text-sm">
+<div><span class="text-purple-400 font-mono">📂 [repo check]</span> <span class="text-neutral-300">"I'm in <span class="text-sky-400">/app/landing</span>. Is this the right repo?” → <span class="text-emerald-400">you: yes</span></span></div>
+<div><span class="text-purple-400 font-mono">🌿 [branch]</span> <span class="text-neutral-300">clean git status → <code class="font-mono">git checkout -b vibe/fix-video-modal</code></span></div>
+<div><span class="text-purple-400 font-mono">🌐 [browser]</span> <span class="text-neutral-300">opens <code class="font-mono">localhost:3000/curso</code> visible, inspects the <code class="font-mono">.modal iframe</code>, sees the cut at the bottom edge</span></div>
+<div><span class="text-purple-400 font-mono">🔧 [live]</span> <span class="text-neutral-300">injects <code class="font-mono">max-width: 680px</code> in the container with <code class="font-mono">padding-bottom</code> → screenshot</span></div>
+<div><span class="text-red-400 font-mono">⛔ [hard stop #1]</span> <span class="text-neutral-300">"How did it turn out?" → <span class="text-emerald-400">you: perfect, persist it</span></span></div>
+<div><span class="text-purple-400 font-mono">📋 [strategy]</span> <span class="text-neutral-300">grep locates <code class="font-mono">VideoModal.jsx</code> → suggest adjusting the <code class="font-mono">max-width</code> from the wrapper there</span></div>
+<div><span class="text-red-400 font-mono">⛔ [hard stop #2]</span> <span class="text-neutral-300">approves strategy → <span class="text-emerald-400">you: you can</span></span></div>
+<div><span class="text-purple-400 font-mono">✏️ [persist]</span> <span class="text-neutral-300">edits the component, clears the temporary classes, saves</span></div>
+<div><span class="text-red-400 font-mono">⛔ [hard stop #3]</span> <span class="text-neutral-300">"Review the diff in Source Control" → <span class="text-emerald-400">you: approved</span></span></div>
+<div><span class="text-purple-400 font-mono">🚀 [push]</span> <span class="text-neutral-300">"remote? → origin" → add, commit, push in <code class="font-mono">vibe/fix-video-modal</code></span></div>
+<div><span class="text-emerald-400 font-mono">✅ [end]</span> <span class="text-neutral-300">"Session complete. Open a new chat for the next one."</span></div>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">🛠️ Practical exercises</h2>
+<div class="space-y-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-purple-400 mb-2">Exercise 1 — Map the gates</h3>
+<p class="text-neutral-300 text-sm mb-3">Choose a real visual bug in your project (navbar, modal, iframe). Write, one line each, what the agent would say at each of the 4 hard stops. This trains your eye to recognize when it's about to overstep.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-purple-400 mb-2">Exercise 2 — Trigger prompt</h3>
+<p class="text-neutral-300 text-sm mb-3">Use this copyable prompt to start a vibe coding session with your own agent:</p>
+<div class="bg-dark-900 rounded-lg p-4 border border-dark-600 font-mono text-sm text-neutral-300 leading-relaxed">I want to do vibe coding. The bug: <span class="text-purple-400">[describe the visual problem]</span>. The URL: <span class="text-purple-400">[localhost:3000/page or staging URL]</span>. Before anything else: confirm the workspace, create a sandbox branch, and open the visible browser. DO NOT edit any files until I approve the change on screen.</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-purple-500/30 p-6">
+<h3 class="font-semibold text-purple-400 mb-2">Exercise 3 — Create a runnable SKILL.md</h3>
+<p class="text-neutral-300 text-sm mb-3">Write your own concise version of the skill. Save it as <code class="font-mono text-purple-400">vibe-coding/SKILL.md</code> in your project's skills folder and launch it by requesting a visual fix. Adapt the "hard stop" and "browser" tools to your agent's native equivalents.</p>
+<div class="bg-dark-900 rounded-lg p-4 border border-dark-600 font-mono text-xs text-neutral-300 overflow-x-auto leading-relaxed">---
+name: vibe-coding
+description: Fixes frontend bugs (CSS/HTML/DOM), prioritizing live visual feedback in the browser before saving changes to code. Use when testing CSS/HTML changes, fixing clipped elements, or visually adjusting layouts.
+---
+
+# Vibe Coding
+
+CRITICAL DIRECTIVE: DO NOT edit any repo files when reading the request.
+Open the target URL FIRST. Only save changes to code after visual approval.
+
+## Workflow
+- [ ] Confirm workspace: detect the active directory, show it, and WAIT for confirmation.
+- [ ] Branch first: check `git status`, offer a backup, create `git checkout -b vibe/[desc]`.
+- [ ] Visible browser: open the URL (NOT headless), inspect the DOM, inject CSS/JS live, take a screenshot.
+- [ ] HARD STOP #1 — visual approval: “How does it look?” Proceed only with “yes, save it.”
+- [ ] Strategy (no code): grep the source, propose the most robust approach and explain why.
+- [ ] HARD STOP #2 — strategy approval.
+- [ ] Save to source: translate the injection into clean code. NO terminal, NO reverting.
+- [ ] HARD STOP #3 — user reviews the diff.
+- [ ] Push: ask for the remote, then add/commit/push to a dedicated branch (one command at a time).
+- [ ] Wrap up: session complete; ask for a new chat for the next fix.
+
+## Hard rules
+- Anti-merge: strategy and implementation NEVER in the same response.
+- One branch per fix. Never push directly to main.
+- Scope: frontend/layout only. Architecture → standard plan.</div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Module Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Reversed flow</strong><span class="text-neutral-400"> — see the adjustment in the browser before touching the code, like a real developer.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Confirm workspace</strong><span class="text-neutral-400"> — the right repo before any git, browser, or editing.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Branch-first</strong><span class="text-neutral-400"> — sandbox <code class="font-mono">vibe/</code> created immediately; main remains untouched.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Visible browser</strong><span class="text-neutral-400"> — live CSS/JS injection, screenshots, zero files edited.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">4 hard stops</strong><span class="text-neutral-400"> — visual design, strategy, code, and push; the agent doesn’t bulldoze ahead.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Persist and finish</strong><span class="text-neutral-400"> — only the final fix becomes code; start a new chat for the next one.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-purple-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">3.2 — Funnel Builder: one prompt, an entire funnel</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="modulo-3-2.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills in Practice — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Track 3 · Module 3.1 · Vibe Coding</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 6.3 · Multi-Agent Memory + /sessionend | Claude Skills in Practice</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225,29,72,0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225,29,72,0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225,29,72,0.18); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.8s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s}
+      .wf-a:nth-child(4){animation-delay:.9s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha6/modulo-6-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha6/modulo-6-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha6/modulo-6-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-6-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha6/modulo-6-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">First Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consulting</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Advanced</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-rose-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-rose-400" href="index.html">Track 6</a>
+<span>/</span>
+<span class="text-rose-400">Module 6.3</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4">MODULE 6.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧠 Multi-Agent Memory + /sessionend</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">One <strong class="text-neutral-300">shared brain</strong> among your AI agents, working across machines, tools, and frameworks. Save a fact in one agent, retrieve it from another, and get a briefing from a third. And the ritual <code class="font-mono text-rose-400">/sessionend</code> that makes every session leave the whole system smarter.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">6</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">55</div>
+<div class="text-xs text-neutral-400">Minutes</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Advanced</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">System</div>
+<div class="text-xs text-neutral-400">Type</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- SVG: vários agentes -> cérebro compartilhado -> briefing de volta -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+<svg aria-label="Multiple agents on different machines write to a central shared brain, which returns briefings to each agent at the start of every session" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m63-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fb7185"></stop><stop offset="1" stop-color="#f43f5e"></stop>
+</lineargradient>
+<filter height="180%" id="m63-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m63-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m63-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m63-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m63-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- agentes -> cérebro (escrita, rose) -->
+<g fill="none" opacity="0.6" stroke="#fb7185" stroke-width="2">
+<path d="M196,50  C340,50 380,110 452,118" marker-end="url(#m63-ah)"></path>
+<path d="M196,118 L452,125" marker-end="url(#m63-ah)"></path>
+<path d="M196,186 C340,186 380,135 452,132" marker-end="url(#m63-ah)"></path>
+</g>
+<!-- cérebro -> agentes (briefing, ciano) -->
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-dasharray="7 6" stroke-width="1.8">
+<path d="M452,108 C380,70 340,40 206,40" marker-end="url(#m63-ahc)"></path>
+<path d="M452,142 C380,200 340,210 206,196" marker-end="url(#m63-ahc)"></path>
+</g>
+<!-- agentes (3 máquinas) -->
+<g font-family="Inter,sans-serif" font-size="13">
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="150" x="46" y="30"></rect><text fill="#bfe6ff" font-weight="600" text-anchor="middle" x="121" y="55">Claude Code</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="150" x="46" y="98"></rect><text fill="#bfe6ff" font-weight="600" text-anchor="middle" x="121" y="123">Autonomous agent</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="150" x="46" y="166"></rect><text fill="#bfe6ff" font-weight="600" text-anchor="middle" x="121" y="191">n8n / scripts</text></g>
+</g>
+<!-- cérebro compartilhado (foco, glow) -->
+<g filter="url(#m63-glow)"><rect fill="#2a0f16" height="66" rx="16" stroke="url(#m63-grad)" stroke-width="2.5" width="180" x="452" y="92"></rect></g>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="542" y="120">🧠 Brain</text>
+<text fill="#fecdd3" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="542" y="140">shared memory</text>
+<!-- pipeline do cérebro -->
+<g fill="none" opacity="0.55" stroke="#fb7185" stroke-width="1.8">
+<path d="M632,125 L688,125" marker-end="url(#m63-ah)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="11.5">
+<rect fill="#2a0f16" height="34" rx="9" stroke="#fb7185" stroke-width="1.6" width="270" x="690" y="56"></rect><text fill="#fecdd3" text-anchor="middle" x="825" y="78">dedup → supersede → decay</text>
+<rect fill="#2a0f16" height="34" rx="9" stroke="#fb7185" stroke-width="1.6" width="270" x="690" y="108"></rect><text fill="#fecdd3" text-anchor="middle" x="825" y="130">LLM consolidation (6h)</text>
+<rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="1.6" width="270" x="690" y="160"></rect><text fill="#9ad6ff" text-anchor="middle" x="825" y="182">session briefing</text>
+</g>
+</svg>
+<p class="text-center text-xs text-neutral-500 mt-2">Illustrative diagram · agents write to the brain (rose); it processes and returns briefings (cyan) at the start of each session.</p>
+</div>
+<!-- ===== TOPICO 1 ===== -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧠 The problem: agents that forget</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        You run several agents—one for development, one autonomous agent for tasks, and automations for workflows. Each keeps its own context and <strong class="text-rose-400">forgets everything between sessions</strong>. When one discovers something important, the others never find out. That’s the problem that justifies a shared brain.
+      </p>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Why key-value isn’t enough</h3>
+<p class="text-neutral-300 text-sm">Existing solutions are either single-machine, require a paid cloud service, or treat memory as a flat key-value bag — without understanding that a <strong>fact</strong> and one <strong>event</strong> are fundamentally different things, with different life cycles. Real memory needs types.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ With a shared brain</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>What one agent learns becomes available to everyone.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Works across machines, tools, and frameworks.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The session starts with an understanding of what changed since last time.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Without it</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Each agent lives in its own context bubble.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Total amnesia at the start of every new session.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Valuable discoveries don't propagate.</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Isolation</div><p class="text-sm text-neutral-400">Separate context.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Amnesia</div><p class="text-sm text-neutral-400">Forget between sessions.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Silos</div><p class="text-sm text-neutral-400">Discoveries get stuck.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Solution</div><p class="text-sm text-neutral-400">Shared brain.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 2 ===== -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🧩 The 4 types of memory</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Here’s the central idea: a fact and an event are <strong class="text-rose-400">different things</strong>. The system understands four types, each with its own lifecycle and mutation rule. This taxonomy is what separates a real memory system from a pile of strings.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50 text-left">
+<tr><th class="px-4 py-3 text-rose-400">Type</th><th class="px-4 py-3 text-rose-400">Behavior</th><th class="px-4 py-3 text-rose-400">Example</th></tr>
+</thead>
+<tbody class="divide-y divide-dark-600">
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">event</td><td class="px-4 py-3 text-neutral-400">Append-only, immutable. You don’t update history; you record it.</td><td class="px-4 py-3 text-neutral-400">"Workflow failed at 3 a.m."</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">fact</td><td class="px-4 py-3 text-neutral-400">Upsert by <code class="font-mono">key</code>. New fact supersedes the old one.</td><td class="px-4 py-3 text-neutral-400">"API status: healthy"</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">status</td><td class="px-4 py-3 text-neutral-400">In-place update by <code class="font-mono">subject</code>. The latest one wins.</td><td class="px-4 py-3 text-neutral-400">"migration: 70%"</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">decision</td><td class="px-4 py-3 text-neutral-400">Append-only with reasoning. The why matters.</td><td class="px-4 py-3 text-neutral-400">"Postgres instead of MySQL because..."</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> It’s not taxonomy for its own sake</h3>
+<p class="text-neutral-300 text-sm">Typing tells the system <strong>how each memory should behave when it changes</strong>: a fact is superseded, a status is overwritten, an event is permanent, and a decision is a reasoning record. Different data, different rules. Without this, everything becomes the same blob, and you lose the ability to version it and trust what’s active.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Event</div><p class="text-sm text-neutral-400">Immutable.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Fact</div><p class="text-sm text-neutral-400">Upsert by key.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Status</div><p class="text-sm text-neutral-400">Last one wins.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Decision</div><p class="text-sm text-neutral-400">Keep the why.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 3 ===== -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🔄 The Memory Lifecycle</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Each memory goes through a pipeline. That’s what keeps the brain <strong class="text-rose-400">useful</strong> instead of turning into a repository that only grows. Four mechanisms work together: deduplication, supersession chains, confidence decay, and LLM consolidation.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-xs text-neutral-300 border border-dark-600 whitespace-pre-wrap">Store ──&gt; Dedup ──&gt; Supersedes ──&gt; Decay ──&gt; Consolidation (LLM)
+  │         │            │            │              │
+  saves   same hash?   same key?   fades over    groups, merges,
+          returns     marks old   time without   finds connections
+          existing    as inactive  access        and insights</div>
+</div>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Deduplication</h4>
+<p class="text-neutral-300 text-sm">Content is hashed with SHA-256 when saved. Exact duplicates are caught; consolidation still catches near-duplicates at 92% semantic similarity.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Supersedes chain</h4>
+<p class="text-neutral-300 text-sm">Recorded a fact with the same <code class="font-mono">key</code>? The old one is marked inactive, and the new one points back to it. Free version history, with no manual work.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Trust decay</h4>
+<p class="text-neutral-300 text-sm">Facts and status lose ~2%/day if no one accesses them. Search ranks by <code class="font-mono">similaridade × confiança</code>. Old knowledge sinks on its own; access resets the clock. Events and decisions don’t decay—they’re history.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center"><span class="text-sky-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">LLM consolidation (every 6h)</h4>
+<p class="text-neutral-300 text-sm">A background process analyzes new memories: merges duplicates, flags contradictions, discovers connections, and extracts cross-cutting insights. It’s a librarian that organizes knowledge instead of letting it pile up.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> The brain improves while you sleep</h3>
+<p class="text-neutral-300">Periodic consolidation is the differentiator. While ordinary systems only accumulate, this one reorganizes: the first pass after an upgrade automatically cleared hundreds of junk memories. Decay + consolidation = memory that ages like human memory, forgetting what’s irrelevant.</p>
+</div>
+</section>
+<!-- ===== TOPICO 4 ===== -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🛡️ Security and isolation</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Shared memory among agents that run <strong class="text-rose-400">without supervision</strong> is only viable with a well-designed gatekeeper. The API is the gatekeeper: no agent touches the database directly. They can store and retrieve—and that's it.
+      </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ What an agent CAN do</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Record and search memories through validated endpoints.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Read briefs, stats, and entities.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ What NOT to do</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deleting memories or dropping tables.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Bypass credential cleanup.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Access the database directly or alter someone else's memory.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🔐</span> Credential scrubbing</h3>
+<p class="text-neutral-300 text-sm">All content is cleaned before storage: API keys, JWTs, SSH keys, passwords, and base64 secrets are redacted automatically. Agents share context freely without leaking credentials into long-term memory.</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> The worst case is good data, not destruction</h3>
+<p class="text-neutral-300 text-sm">It’s by design: if an autonomous agent hallucinates or goes off script, the worst it can do is <strong>write bad data</strong> — cannot destroy good data. Add timing-safe auth and rate limiting (10 failures/min = lockout). The basics done right.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Gatekeeper</div><p class="text-sm text-neutral-400">API validates everything.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Scrubbing</div><p class="text-sm text-neutral-400">No credentials.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Isolation</div><p class="text-sm text-neutral-400">Doesn’t touch the database.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Auth</div><p class="text-sm text-neutral-400">Timing-safe + limit.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 5 ===== -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">📊 Session briefings</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        This is where coordination between agents actually happens — passively. Every session starts with a question: <strong class="text-rose-400">"what's happened since I was last here?"</strong>. The briefing endpoint returns updates from all the other agents, excluding your own.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-xs text-neutral-500 mb-3">Illustrative recreation of a briefing call (not a real screenshot):</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-sm text-neutral-300 border border-dark-600 whitespace-pre-wrap">GET /briefing?since=2026-06-13T00:00:00Z&amp;agent=claude-code
+
+→ events:   1  · "n8n: workflow daily-report failed (Thursday 11 p.m.)"
+→ facts:    2  · "acme client ranking rose to #3"
+→ status:   1  · "db-migration: completed"
+→ decisions:1  · "chose Qdrant for vectors — filterable search"</div>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        In practice: the dev agent opens a session on Friday morning and <strong>already knows</strong> that a workflow failed on Thursday night and another agent discovered something about a client’s ranking—without checking logs or remembering to look. The system surfaces it.
+      </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Good briefing practices</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Call in <strong>beginning</strong> for each session.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Exclude your own entries (they’re already known).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Sort by importance, then recency.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Antipatterns</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Rely on human memory to “go check the logs.”</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Bring everything without filtering by importance—it becomes noise.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Include its own entries and clutter the brief.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">Treat the briefing as the agent’s mandatory “good morning.” Put the call at the start of your session-opening flow—this makes coordination between agents a system habit, not something that depends on you remembering. It’s the natural counterpart to <code class="font-mono text-rose-400">/sessionend</code>: one opens, the other closes.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">"Since when?"</div><p class="text-sm text-neutral-400">Timestamp.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">From others</div><p class="text-sm text-neutral-400">Exclude itself.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Categorized</div><p class="text-sm text-neutral-400">By type.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Passive</div><p class="text-sm text-neutral-400">Effortless coordination.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 6 ===== -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔥 The /sessionend Ritual</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        O <code class="font-mono text-rose-400">/sessionend</code> is a skill that closes the loop of compound intelligence. At the end of each session, it turns what happened into <strong class="text-rose-400">institutional memory</strong>. The point isn’t just to summarize — it’s to evaluate honestly and save the result in a structured way.
+      </p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Gather — collect the artifacts</h4>
+<p class="text-neutral-300 text-sm">Runs <code class="font-mono">git log</code>, <code class="font-mono">diff</code>, <code class="font-mono">status</code> and reviews the conversation history: what was requested, which tools were used, what worked, and what needed a retry.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Reflect — reflect honestly</h4>
+<p class="text-neutral-300 text-sm">What went well, what went poorly, and how it could have been better. <strong>"Everything went well" is not valid reflection</strong> — if something was suboptimal, name it. That’s the rule that adds the most value.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Store — save in memory</h4>
+<p class="text-neutral-300 text-sm">Saves a structured summary (what was done · what went well · what went poorly · how to improve · relevant to other agents) under a dated topic.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Update — update local memory</h4>
+<p class="text-neutral-300 text-sm">Only save what's genuinely new: preferences, project facts, information about the user. Update the index. Don't save again what has already been captured.</p>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-3 flex items-center"><span class="mr-2">♾️</span> Why this composes</h3>
+<p class="text-neutral-300 text-sm">The end of a session feeds the <strong>consolidation</strong>, which feeds the <strong>briefing</strong> of the next session. Each session makes all future sessions smarter—not just for that agent, but for everyone. It's the same self-improvement loop as 6.1 (Workflow Spotter) and 6.2 (Taproot), now at the system memory level.</p>
+</div>
+<!-- PROMPTS -->
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · start the session</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p1')">Copy</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p1">"O que aconteceu desde a última vez que estive aqui?
+Traga o briefing de todos os outros agentes desde ontem,
+ordenado por importância. Exclua minhas próprias entradas."</pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · end the session</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p2')">Copy</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p2">/sessionend
+
+# (ou, sem a skill instalada:)
+"Encerre a sessão: reúna git log/diff, reflita com honestidade
+(o que foi bem, o que foi mal — 'tudo certo' NÃO vale), guarde
+um resumo estruturado e atualize a memória local só com o novo."</pre>
+</div>
+<!-- EXEMPLO DE SAIDA -->
+<h3 class="text-xl font-bold mb-4 flex items-center"><span class="mr-2">📤</span> Output example</h3>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<p class="text-xs text-neutral-500 mb-3">Illustrative recreation of the final summary that /sessionend prints for the user (not a real screenshot):</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-sm text-neutral-300 border border-dark-600 whitespace-pre-wrap">Session ended.
+
+Stored in memory: session-reflection/curso-trilha6/2026-06-15
+
+Done:        Built Track 6 (3 modules) in the INEMA format.
+Went well:   SVGs rendered on the first try; consistent light mode.
+Could improve: validate the line count before wrapping up.
+Memory:      yes — updated project_curso.md with the rose pattern.</div>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🏋️</span> Hands-on exercises</h2>
+<div class="space-y-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">1</span><h3 class="font-semibold">Classify 5 memories</h3></div>
+<p class="text-neutral-300 text-sm">Choose 5 pieces of information from your recent work and classify each as event, fact, status, or decision. Explain why the type matters in each case.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">2</span><h3 class="font-semibold">Design your brief</h3></div>
+<p class="text-neutral-300 text-sm">List your agents/tools and write the briefing question each one would ask at startup. Define the sorting criteria (importance × recency).</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">3</span><h3 class="font-semibold">Create a runnable /sessionend SKILL.md</h3></div>
+<p class="text-neutral-300 text-sm mb-3">Write a shutdown skill that adapts to any memory backend. Skeleton:</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-xs text-neutral-300 border border-dark-600 whitespace-pre-wrap">---
+name: sessionend
+description: "End-of-session ritual. Use when the user
+  types /sessionend or says they're finished/going to wrap up.
+  Gather what happened, reflect honestly, and save
+  a structured summary."
+---
+
+# Session End
+
+## 1. Gather
+git log --oneline --since="8 hours ago"; git diff --stat; git status
+Review the conversation: what was requested, tools, retries.
+
+## 2. Reflect (honestly — “everything’s fine” is forbidden)
+- What went well? · What went poorly? · How can we improve?
+
+## 3. Store (structured summary)
+topic: session-reflection/{projeto}/{AAAA-MM-DD}
+sections: done · went well · went poorly · improve · cross-agent
+
+## 4. Update local memory (only what’s new)
+
+## 5. Brief user output (no wall of text)</div>
+<p class="text-neutral-400 text-xs mt-3">Save in <code class="font-mono">~/.claude/skills/sessionend/SKILL.md</code> and test by typing "/sessionend" at the end of a work session. Works with any memory backend (or locally only).</p>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Module summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">The problem</strong><span class="text-neutral-400"> — isolated agents forget between sessions; plain key-value storage isn't enough.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">4 types</strong><span class="text-neutral-400"> — event, fact, status, decision; each with its own mutation rule.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Lifecycle</strong><span class="text-neutral-400"> — dedup, supersede, decay, and LLM consolidation keep the brain useful.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Security</strong><span class="text-neutral-400"> — API gatekeeper, credential scrubbing, agent isolation.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Briefing + /sessionend</strong><span class="text-neutral-400"> — close the loop: each session makes all future ones smarter.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-rose-400 mb-2">You’ve reached the end</h3>
+<p class="text-neutral-300">This is the final lesson of the course. From the anatomy of SKILL.md (T1) to multi-agent memory, you've covered the full path of Claude Skills in Practice.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-6-2.html">← Previous module</a>
+<a class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors" href="../../index.html">🏁 Back to the beginning</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills in Practice — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Module 6.3 · Multi-Agent Memory + /sessionend</p>
+</div>
+</footer>
+<script>
+    function copyPrompt(id) {
+      const el = document.getElementById(id);
+      navigator.clipboard.writeText(el.innerText);
+    }
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

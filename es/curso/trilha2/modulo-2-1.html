@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 2.1 — Analizando un generador de itinerarios | Claude Skills</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha blue) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    /* hover das outras trilhas no nav */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - SVG diagramas mais suaves */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* Pulso dos nós do SVG */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha2/modulo-2-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha2/modulo-2-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha2/modulo-2-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha2/modulo-2-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-2-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Ruta 2</a>
+<span>/</span>
+<span class="text-blue-400">Módulo 2.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔍 Desglosando un generador de itinerarios</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        Vamos a abrir un <code class="text-blue-400 font-mono">SKILL.md</code> completo y real — el de un generador de itinerarios de viaje — y leer cada sección como quien va a escribir la siguiente. Saldrás entendiendo la promesa, el flujo de recopilación, las integraciones y los principios que mantienen todo coherente.
+      </p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Inter.</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Estudio</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- VISÃO GERAL: SVG da estrutura do SKILL.md -->
+<section class="mb-16">
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de los temas, una vista general. Un <code class="text-blue-400 font-mono">SKILL.md</code> de producción no es un muro de texto: es un documento con <strong class="text-blue-400">secciones con nombre</strong>, cada una respondiendo una pregunta de Claude al ejecutarla. El diagrama de abajo muestra la estructura principal del archivo que vamos a analizar.
+      </p>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-4 overflow-hidden">
+<svg aria-label="Las secciones del SKILL.md en orden: qué hace, flujo de configuración, sistema de diseño, salida y principios" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m21-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<filter height="180%" id="m21-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m21-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m21-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m21-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- frontmatter destacado -->
+<g filter="url(#m21-glow)"><rect fill="#0e1622" height="56" rx="13" stroke="url(#m21-grad)" stroke-width="2.5" width="170" x="24" y="40"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="109" y="64">Trigger + promesa</text>
+<text fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="109" y="83">"qué hace"</text>
+<!-- linha vertical de seções -->
+<g fill="none" font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="20"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="42">Setup Flow (CRITICAL)</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="64"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="86">Design System</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="108"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="130">Output Format</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="152"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="174">Secciones de ejemplo</text></g>
+<g><rect fill="#0e1622" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="250" y="196"></rect><text fill="#bcd6ff" text-anchor="middle" x="350" y="218">Key Principles</text></g>
+</g>
+<path d="M194,68 C220,68 224,37 248,37" fill="none" marker-end="url(#m21-ah)" opacity="0.5" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 L248,81" fill="none" marker-end="url(#m21-ah)" opacity="0.45" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 L248,125" fill="none" marker-end="url(#m21-ah)" opacity="0.4" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 C224,68 226,169 248,169" fill="none" marker-end="url(#m21-ah)" opacity="0.4" stroke="#60a5fa" stroke-width="1.8"></path>
+<path d="M194,68 C228,68 230,213 248,213" fill="none" marker-end="url(#m21-ah)" opacity="0.4" stroke="#60a5fa" stroke-width="1.8"></path>
+<!-- saída -->
+<g filter="url(#m21-glow)"><rect fill="#0e1622" height="62" rx="14" stroke="url(#m21-grad)" stroke-width="2.5" width="174" x="800" y="84"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="887" y="110">Página HTML</text>
+<text fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="887" y="130">interactiva, 1 archivo</text>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M450,37 C620,37 640,112 798,112" marker-end="url(#m21-ah)"></path>
+<path d="M450,81 C620,81 640,115 798,115" marker-end="url(#m21-ah)"></path>
+<path d="M450,213 C620,213 640,118 798,118" marker-end="url(#m21-ah)"></path>
+</g>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-1">La columna vertebral del SKILL.md: ilustrativa. Cada sección alimenta la página final.</p>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🗺️ La promesa: "What This Skill Does"</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La primera sección de contenido del archivo es un solo párrafo, pero es el párrafo más importante. Él <strong class="text-blue-400">define la salida de forma concreta</strong>: "una página HTML interactiva y autónoma, con tema claro/oscuro, rutas de vuelo animadas, agenda día a día, tarjetas de vuelo expandibles, listas de verificación persistentes en localStorage y navegación multiviaje". Y termina con la frase que resume toda la filosofía: <em>"parece una app de viajes premium, no un documento"</em>.
+      </p>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🎯</span> El contrato en una frase</h3>
+<p class="text-neutral-300 mb-4">Toda skill madura empieza diciendo sin rodeos qué va a entregar. Ese párrafo es un contrato de tres niveles:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Forma de salida:</strong> un archivo HTML, no un PDF ni una respuesta en texto.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Funciones:</strong> la lista de recursos se convierte en una checklist implícita que Claude intenta cumplir.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Sensación:</strong> "app premium, no documento" es el criterio de calidad.</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Fragmento real del SKILL.md</h3>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">## What This Skill Does
+
+Generates a stunning, interactive HTML travel
+itinerary — a single self-contained file with
+dark/light theme toggle, animated flight paths,
+interactive day-by-day schedule, expandable
+flight cards ... and multi-trip navigation.
+
+The output looks like a premium travel app —
+<span class="text-blue-400">not a document.</span></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Cuando escribas tu skill, oblígate a describir la salida en <strong>una frase verificable</strong>. Si tú no puedes, Claude tampoco podrá. "Genera algo útil sobre viajes" es una mala indicación; "genera un HTML interactivo con agenda, vuelos y presupuesto" define un objetivo.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Concreta</div><div class="text-xs text-neutral-400">El resultado se puede nombrar.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Self-contained</div><div class="text-xs text-neutral-400">Un solo archivo.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Interactiva</div><div class="text-xs text-neutral-400">No es un PDF.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Regla</div><div class="text-xs text-neutral-400">"Una app, no un documento."</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">💬 El Setup Flow conversacional</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Aquí está el corazón de la skill, y se encarga de dejarlo claro: <strong class="text-blue-400">"Setup Flow — CRITICAL"</strong>. Antes de generar CUALQUIER cosa, Claude debe seguir un proceso de descubrimiento conversacional de cuatro pasos. Esa es la razón por la que el resultado parece mágico: se construye a partir de datos reales de la vida del usuario, no de suposiciones.
+      </p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Detalles básicos del viaje</h4>
+<p class="text-sm text-neutral-400 mb-3">Las preguntas clave</p>
+<p class="text-neutral-300 text-sm">Adónde va, en qué fechas, desde dónde sale, si es para un evento específico y quién viaja. Cinco preguntas que delimitan el resto de la conversación.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Verificación de integraciones</h4>
+<p class="text-sm text-neutral-400 mb-3">"preguntar cada vez"</p>
+<p class="text-neutral-300 text-sm">Ofrecer obtener datos reales de correo electrónico, calendario, Drive, mensajes y URLs. Lo detallamos en el Tema 3: es lo que distingue a un asistente de un generador de texto.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Detalles profundos (brechas)</h4>
+<p class="text-sm text-neutral-400 mb-3">Completar lo que falta</p>
+<p class="text-neutral-300 text-sm">Con base en lo que ya recopilaste, preguntar sobre vuelos, alojamiento, eventos, transporte, mascotas, presupuesto, actividades y requisitos especiales: solo lo que esté en blanco.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Confirmar y generar</h4>
+<p class="text-sm text-neutral-400 mb-3">La puerta antes del resultado</p>
+<p class="text-neutral-300 text-sm">Mostrar un resumen de todo lo recopilado y confirmar antes de construir. Solo entonces se genera la página HTML.</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Por qué «recopilar antes de generar» funciona</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>Especificidad:</strong> los datos reales producen una página que parece hecha para ese viaje, no una plantilla.</li>
+<li><strong>Confianza:</strong> al confirmar el resumen, el usuario corrige errores antes de gastar tokens generando todo el HTML.</li>
+<li><strong>Orden:</strong> los pasos van desde lo más barato (preguntas) hasta lo más caro (generar), reduciendo el retrabajo.</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">4 pasos</div><div class="text-xs text-neutral-400">Secuencia fija.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">CRITICAL</div><div class="text-xs text-neutral-400">No es opcional.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Confirmar</div><div class="text-xs text-neutral-400">Control antes de generar.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Discovery</div><div class="text-xs text-neutral-400">Conversación &gt; suposición.</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🔌 Integraciones vía MCP: datos reales</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        El Paso 2 de la configuración es donde la skill obtiene superpoderes. Le indica a Claude que ofrezca — cada vez — revisar las fuentes de datos del usuario: correo electrónico, calendario, Drive/Docs, Slack/mensajes, URLs y Notion. Si el usuario autoriza, Claude usa las <strong class="text-blue-400">herramientas MCP correspondientes</strong> (Gmail, Google Calendar, Google Drive) para traer confirmaciones de vuelos, reservas y entradas a eventos directamente al documento.
+      </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Qué HACER</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Ofrecer la integración y <strong>esperar la autorización</strong> del usuario.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar la herramienta MCP adecuada para cada fuente (Gmail para correo electrónico, Calendar para agenda).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Completar el documento con los datos reales que vuelvan.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Volver a las preguntas (Paso 3) para lo que la integración no cubrió.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Qué NO hacer</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Acceder al correo electrónico o al calendario <strong>sin preguntar</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Inventar números de vuelo o reservas cuando no hay datos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Omitir la oferta porque «debe dar trabajo» — la skill dice «ask every time».</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mezclar datos de marcador de posición con datos reales sin etiquetarlos.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Las fuentes que la skill ofrece verificar</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-3 font-mono text-sm">
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📧 Correo electrónico</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📅 Agenda</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📄 Drive / Docs</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">💬 Slack / Mensajes</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">🔗 URLs</div>
+<div class="bg-dark-700/60 rounded-lg p-3 text-neutral-300">📋 Notion</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">La frase de la skill, <em>"I can pull in real data to make this way more useful"</em>, es un modelo de copy. Explica el beneficio antes de pedir permiso: el usuario entiende por qué y tiende a decir que sí. Copia este patrón en tus skills con integración.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">MCP</div><div class="text-xs text-neutral-400">Herramientas externas.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Permiso</div><div class="text-xs text-neutral-400">Preguntar siempre.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Real &gt; falso</div><div class="text-xs text-neutral-400">Principio n.º 1.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Fallback</div><div class="text-xs text-neutral-400">Preguntar lo demás.</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📦 Output Format: un archivo, cero dependencias</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Muy breve, pero decisiva. La sección "Output Format" define la salida con reglas explícitas: <strong class="text-blue-400">un único HTML autónomo</strong>, con todo el CSS en un <code class="font-mono text-blue-400">&lt;style&gt;</code> y todo el JS en un <code class="font-mono text-blue-400">&lt;script&gt;</code>; imágenes como data URIs base64 o emoji; ninguna dependencia externa aparte de Google Fonts (Inter); y un nombre de archivo estandarizado.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Fragmento real del SKILL.md</h3>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">## Output Format
+
+Generate a single self-contained HTML file.
+All CSS inline in &lt;style&gt;. All JS inline in
+&lt;script&gt;. Images as base64 data URIs or emoji
+fallbacks. No external dependencies except
+Google Fonts (Inter).
+
+Save as <span class="text-blue-400">travelwings-{destination}.html</span></pre>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Lo que evita cada restricción</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>"Single file":</strong> evita archivos dispersos que el usuario tiene que juntar.</li>
+<li><strong>"Inline CSS/JS":</strong> evita enlaces a hojas/scripts que se rompen al mover el archivo.</li>
+<li><strong>"base64 / emoji":</strong> evita imágenes que no cargan sin conexión.</li>
+<li><strong>"No external deps":</strong> evita dependencias de CDN que desaparecen con el tiempo.</li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atención</h3>
+<p class="text-neutral-300">Sin una sección de Output Format, Claude tiende a «ayudar demasiado»: propone un proyecto con varias carpetas, un framework y un build. Para una skill que genera un artefacto para el usuario final, eso es lo opuesto a lo que se busca. <strong>Restringir es diseñar.</strong></p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">1 archivo</div><div class="text-xs text-neutral-400">Portátil.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Inline</div><div class="text-xs text-neutral-400">CSS + JS juntos.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">base64</div><div class="text-xs text-neutral-400">Imágenes integradas.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Nombre fijo</div><div class="text-xs text-neutral-400">Convención clara.</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🧩 Secciones de ejemplo: el plano de la página</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Esta sección enumera 13 bloques sugeridos para la página —hero, banner de evento, estadísticas, mapa de ruta, vuelos de ida, hotel, mascotas, agenda día a día, vuelos de vuelta, presupuesto, listas de verificación, pie de página y tema. Pero el detalle importante está entre paréntesis: <strong class="text-blue-400">"adaptar según cada viaje"</strong>. Es un plano, no una camisa de fuerza.
+      </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Cómo ayuda la lista</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Le da a Claude una <strong>orden de referencia</strong> de los bloques.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Recuerda las secciones que es fácil olvidar (pie de página, listas de verificación).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Marca cuáles son condicionales ("si asistes a un evento", "si corresponde").</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Qué evitar</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Volcar <strong>todos</strong> los 13 bloques incluso sin datos para ellos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Crear una sección de mascotas en un viaje sin mascotas.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tratar el orden sugerido como obligatorio y estricto.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Los 13 bloques sugeridos (adaptar según el viaje)</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-neutral-300">
+<div class="bg-dark-700/60 rounded p-2">1 · Hero + avión animado</div>
+<div class="bg-dark-700/60 rounded p-2">2 · Banner de evento</div>
+<div class="bg-dark-700/60 rounded p-2">3 · Barra de estadísticas</div>
+<div class="bg-dark-700/60 rounded p-2">4 · Mapa de ruta (SVG)</div>
+<div class="bg-dark-700/60 rounded p-2">5 · Vuelos de ida</div>
+<div class="bg-dark-700/60 rounded p-2">6 · Hotel</div>
+<div class="bg-dark-700/60 rounded p-2">7 · Cuidado de mascotas (si hace falta)</div>
+<div class="bg-dark-700/60 rounded p-2">8 · Agenda día a día</div>
+<div class="bg-dark-700/60 rounded p-2">9 · Vuelos de regreso</div>
+<div class="bg-dark-700/60 rounded p-2">10 · Presupuesto</div>
+<div class="bg-dark-700/60 rounded p-2">11 · Listas de verificación</div>
+<div class="bg-dark-700/60 rounded p-2">12 · Pie de página / navegación</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">"Adapt per trip" es una de las dos palabras más poderosas en una skill de generación. Siempre que enumeres bloques, marca cuáles son <strong>condicional</strong>. Así das estructura sin crear páginas infladas con secciones vacías.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Planta</div><div class="text-xs text-neutral-400">No es una camisa de fuerza.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Condicional</div><div class="text-xs text-neutral-400">"si corresponde".</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Orden</div><div class="text-xs text-neutral-400">Referencia, no ley.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Recordatorio</div><div class="text-xs text-neutral-400">No olvidar bloques.</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">⭐ Key Principles: la brújula</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La sección final consta de seis principios breves que resumen el espíritu de la skill. Mientras que los pasos indican <em>qué hacer</em>, los principios dicen <em>cómo decidir</em> cuando la situación no estaba en el guion. Son la regla práctica de Claude.
+      </p>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🧭</span> Los seis principios</h3>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">1.</span><span><strong>Datos reales &gt; datos de marcador de posición.</strong> Intentar siempre partir primero de los datos reales.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">2.</span><span><strong>Ask before assuming.</strong> La conversación de configuración es lo que aporta valor.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">3.</span><span><strong>One file, zero dependencies.</strong> Todo autosuficiente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">4.</span><span><strong>Parece una aplicación prémium, no un documento.</strong> El estándar de calidad.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">5.</span><span><strong>Interactive &gt; static.</strong> Las listas de verificación guardan el estado, los días se pueden marcar y los vuelos se expanden.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">6.</span><span><strong>Colour-code everything.</strong> Azul de ida, verde confirmado, naranja de vuelta, lavanda para conexión, dorado para evento.</span></li>
+</ul>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Pasos vs. principios</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>Pasos</strong> cubren el camino ideal: haz A, luego B y después C.</li>
+<li><strong>Principios</strong> cubren los imprevistos: ¿qué pasa si falta un dato? ¿Y si hay un conflicto? Decide según los criterios.</li>
+<li>Juntos, hacen que la skill <strong>robusta</strong> — funciona incluso fuera del flujo previsto.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Los buenos principios son <strong>cortos y refutables</strong>: cada uno descarta una alternativa concreta ("real &gt; placeholder" descarta inventar datos). Si un principio tuyo no excluye nada, es solo decoración: reescríbelo.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">6 reglas</div><div class="text-xs text-neutral-400">Breves y claras.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Decisión</div><div class="text-xs text-neutral-400">Para lo imprevisto.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Oponibles</div><div class="text-xs text-neutral-400">Excluyen opciones.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Robustez</div><div class="text-xs text-neutral-400">Fuera del guion.</div></div>
+</div>
+</section>
+<!-- EXERCÍCIOS -->
+<section class="mb-16">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">✎</span>
+<h2 class="text-2xl font-bold">Ejercicios prácticos</h2>
+</div>
+<div class="space-y-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">1. Mapea las secciones</h4>
+<p class="text-neutral-300 text-sm">Abre cualquier skill que genere un artefacto e identifica: ¿dónde está la promesa? ¿Hay un setup flow? ¿Hay una sección de Output Format? ¿Hay principios? Anota lo que falta.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">2. Escribe la promesa</h4>
+<p class="text-neutral-300 text-sm">Describe en una frase verificable el resultado de una skill que te gustaría tener. Pon la frase a prueba: ¿se puede comprobar si el resultado cumple?</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">3. Crea un SKILL.md ejecutable</h4>
+<p class="text-neutral-300 text-sm mb-3">Guarda el archivo de abajo como <code class="font-mono text-blue-400">~/.claude/skills/menu-planner/SKILL.md</code>, reinicia Claude Code y escribe <code class="font-mono text-blue-400">/menu</code>. Observa cómo la skill guía su propio setup flow.</p>
+<div class="bg-dark-900 rounded-lg p-4 border border-dark-600 relative">
+<button class="absolute top-3 right-3 px-2 py-1 text-xs bg-dark-700 hover:bg-dark-600 rounded transition-colors" onclick="copyCode(this)">Copiar</button>
+<pre class="font-mono text-xs text-neutral-300 overflow-x-auto leading-relaxed">---
+name: menu-planner
+description: Generates a self-contained HTML weekly
+  meal plan. Trigger on "/menu", "plan my meals",
+  "weekly menu", "meal prep". Asks about diet,
+  people, budget and pantry BEFORE generating.
+---
+
+# Menu Planner
+
+## What This Skill Does
+Generates a single self-contained HTML weekly meal
+plan: 7 day cards, a shopping list grouped by aisle,
+a budget total, and a print button. Looks like an
+app, not a document.
+
+## Setup Flow — CRITICAL
+Before generating, ask:
+1. How many people, and any diets/allergies?
+2. Budget for the week?
+3. What's already in the pantry? (offer to read a
+   note/doc if they have one)
+4. Confirm a summary, THEN generate.
+
+## Output Format
+One HTML file. CSS in &lt;style&gt;, JS in &lt;script&gt;.
+No external deps except Google Fonts (Inter).
+Save as menu-{week}.html.
+
+## Key Principles
+1. Ask before assuming.
+2. One file, zero dependencies.
+3. Interactive &gt; static (check off items, save state).
+4. Colour-code by meal type.</pre>
+</div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">La promesa define el resultado</strong><span class="text-neutral-400"> — una frase verificable es el contrato de la skill.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Setup flow es el corazón</strong><span class="text-neutral-400"> — recopilar en 4 pasos antes de generar, marcado como CRITICAL.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Integraciones vía MCP</strong><span class="text-neutral-400"> — datos reales &gt; marcadores de posición, siempre con permiso.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Output Format restringe</strong><span class="text-neutral-400"> — un archivo, cero dependencias; restringir es diseñar.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Secciones de ejemplo + principios</strong><span class="text-neutral-400"> — estructura adaptable y brújula para lo imprevisto.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Siguiente Módulo:</h3>
+<p class="text-neutral-300">2.2 — Flujo de configuración, sistema de diseño y resultado: del prompt a la página HTML</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="modulo-2-2.html">Siguiente Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Contenido educativo sobre Agent Skills de Claude Code.</p>
+</div>
+</footer>
+<script>
+    function copyCode(button) {
+      const pre = button.parentElement.querySelector('pre');
+      const text = pre.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = button.textContent;
+        button.textContent = 'Copiado!';
+        setTimeout(() => { button.textContent = original; }, 1500);
+      });
+    }
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

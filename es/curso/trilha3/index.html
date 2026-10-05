@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ruta 3 · Skills de Frontend &amp; Generación | Claude Skills na Prática</title>
+<meta content="Correcciones de frontend en vivo en el navegador y un embudo completo a partir de un solo prompt. Dos skills de frontend y generación, analizadas en la práctica." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha purple) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    /* hover das outras trilhas no nav */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG futurista - suavizar no light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha3/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha3/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha3/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha3/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="./" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">RUTA 3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎨 Skills de Frontend y generación</h1>
+<p class="text-lg text-neutral-400 max-w-3xl mb-8">
+        Dos skills que cambian el ritmo de quienes crean para la web. La primera enseña al agente a
+        <strong class="text-neutral-100">arreglar el frontend mirando el navegador en vivo</strong> — no a ciegas.
+        La segunda transforma <strong class="text-neutral-100">un único prompt</strong> en un embudo completo:
+        páginas, correos electrónicos, scripts y el propio imán digital, listos para publicar.
+      </p>
+<!-- Hero SVG: navegador ao vivo (purple) -> aprovação -> orquestrador -> assets (ciano) -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="A la izquierda, un agente inspecciona el navegador en vivo y solo guarda el código después de la aprobación visual; a la derecha, un único prompt activa un orquestador que genera páginas, correos electrónicos y scripts en paralelo" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="t3h-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#a855f7"></stop>
+</lineargradient>
+<filter height="180%" id="t3h-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t3h-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#a855f7" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t3h-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+<marker id="t3h-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#t3h-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- Lado esquerdo: vibe coding (navegador ao vivo) -->
+<g filter="url(#t3h-glow)">
+<rect fill="#1a1230" height="122" rx="14" stroke="url(#t3h-grad)" stroke-width="2.5" width="190" x="36" y="64"></rect>
+</g>
+<g>
+<circle cx="56" cy="84" fill="#fb7185" r="4"></circle><circle cx="70" cy="84" fill="#fbbf24" r="4"></circle><circle cx="84" cy="84" fill="#34d399" r="4"></circle>
+<line opacity="0.5" stroke="#a855f7" stroke-width="1.5" x1="36" x2="226" y1="98" y2="98"></line>
+<rect fill="#a855f7" height="9" opacity="0.55" rx="4.5" width="120" x="54" y="112"></rect>
+<rect fill="#38bdf8" height="9" opacity="0.45" rx="4.5" width="154" x="54" y="130"></rect>
+<rect fill="#a855f7" height="9" opacity="0.4" rx="4.5" width="92" x="54" y="148"></rect>
+</g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="131" y="206">navegador en vivo</text>
+<path d="M226,125 L296,125" fill="none" marker-end="url(#t3h-ah)" opacity="0.6" stroke="#c084fc" stroke-width="1.8"></path>
+<!-- Hard stop / aprovação -->
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="120" x="300" y="100"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="360" y="122">aprobación</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="360" y="139">tú decides</text>
+<path d="M420,125 L486,125" fill="none" marker-end="url(#t3h-ah)" opacity="0.6" stroke="#c084fc" stroke-width="1.8"></path>
+<!-- Lado direito: funnel builder (1 prompt -> orquestrador -> assets) -->
+<g filter="url(#t3h-glow)">
+<rect fill="#1a1230" height="54" rx="13" stroke="url(#t3h-grad)" stroke-width="2.5" width="120" x="490" y="98"></rect>
+</g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="550" y="121">1 prompt</text>
+<text fill="#d8b4fe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="550" y="139">orquestador</text>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M610,125 C690,125 700,42 786,42" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 C690,125 700,84 786,84" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 L786,125" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 C690,125 700,166 786,166" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 C690,125 700,208 786,208" marker-end="url(#t3h-ahc)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="27"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="47">páginas</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="69"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="89">correos electrónicos</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="110"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="130">scripts</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="151"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="171">imán digital</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="193"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="213">paquete para redes sociales …</text></g>
+</g>
+</svg>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-4 gap-4 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">2</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">12</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">~1h40</div>
+<div class="text-xs text-neutral-400">Duración</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Inter.</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa de la ruta</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.1</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🖥️ Vibe Coding</h3>
+<p class="text-xs text-neutral-400">Ver antes de grabar en el código</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🧲 Funnel Builder</h3>
+<p class="text-xs text-neutral-400">Un prompt, todo el funnel</p>
+</a>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- MODULO 3.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.1</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🖥️ Vibe Coding: correcciones de frontend en vivo</h3>
+<p class="text-neutral-400 text-sm">El agente deja de adivinar el código. Abre el navegador visible, inyecta el ajuste en vivo, lo muestra en pantalla y solo lo guarda en el código fuente después de tu aprobación — siempre en una branch sandbox segura.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- T1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">El flujo invertido</span><span class="text-neutral-500 text-sm ml-2">- Ver antes de editar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Invertir el orden clásico del agente: en vez de editar archivos y esperar que funcione, abre el navegador, inspecciona y prueba el ajuste en vivo primero.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Acaba con el ciclo "editar → compilar → revisar → revertir". Cada corrección se valida visualmente antes de tocar el código.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Así trabaja un verdadero desarrollador: DevTools abierto, ajuste visual y después código permanente.</p></div>
+</div>
+</div>
+</div>
+<!-- T2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📂</span>
+<div><span class="font-medium">Confirmar el workspace</span><span class="text-neutral-500 text-sm ml-2">- El repo correcto antes que nada</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Un hard stop desde el principio: el agente detecta el directorio activo y pregunta si es el repositorio correcto antes de cualquier acción con git, el navegador o una edición.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Evita la pesadilla de modificar el proyecto equivocado. Un paso barato que previene un daño costoso.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Detectar el workspace, mostrar la ruta, esperar una confirmación explícita. Sin «suposiciones» sobre el directorio.</p></div>
+</div>
+</div>
+</div>
+<!-- T3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🌿</span>
+<div><span class="font-medium">Branch-first &amp; git safety</span><span class="text-neutral-500 text-sm ml-2">- Sandbox inmediata</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Antes de analizar o abrir el navegador, el agente crea una rama local y cambia a ella <code class="font-mono text-purple-400">vibe/descricao</code> — un área de pruebas segura.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Experimentas sin miedo: la <code class="font-mono">main</code> nunca se toca y cada corrección queda aislada en su propia branch.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Verificar <code class="font-mono">git status</code>, ofrecer una copia de seguridad del trabajo sin commit, crear la branch ANTES de cualquier trabajo.</p></div>
+</div>
+</div>
+</div>
+<!-- T4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🌐</span>
+<div><span class="font-medium">Navegador visible e inyección en vivo</span><span class="text-neutral-500 text-sm ml-2">- Tú ves cómo sucede</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Un navegador automatizado, NO headless, abre la URL objetivo en tu pantalla. El agente inspecciona el DOM e inyecta CSS/JS directamente en la página en ejecución.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Ves la automatización en vivo y el agente prueba correcciones sin editar un solo archivo del proyecto.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Servidor de desarrollo local O URL alojada, inspección del DOM, capturas de pantalla, recuperación de sesión si la página se recarga.</p></div>
+</div>
+</div>
+</div>
+<!-- T5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⛔</span>
+<div><span class="font-medium">Los puntos de parada obligatoria</span><span class="text-neutral-500 text-sm ml-2">- El agente no se adelanta</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Cuatro puertas de aprobación obligatorias: aprobación visual, aprobación de la estrategia, revisión del código y aprobación del push.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Literalmente, el agente no puede saltarse pasos. Das el «adelante» en cada momento crítico — tu código, tus reglas.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Regla anti-merge y anti-steamroll: estrategia y aplicación NUNCA en la misma respuesta. Cada paso requiere su propia aprobación.</p></div>
+</div>
+</div>
+</div>
+<!-- T6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">✏️</span>
+<div><span class="font-medium">Persistir, revisar y cerrar</span><span class="text-neutral-500 text-sm ml-2">- De lo live al código limpio</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Traducir el ajuste temporal del navegador a código fuente limpio y permanente —solo después de aprobar la estrategia— y cerrar la sesión.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Solo la corrección final y perfecta se convierte en código. El historial de git queda limpio, sin una docena de intentos fallidos.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">"Persistir en la fuente" (no "hardcode"), limpiar los parches, hacer push en una branch dedicada y abrir una sesión nueva para la siguiente corrección.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-1')">Ver en modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-1.html">Ver completo</a>
+</div>
+</div>
+<!-- MODULO 3.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🧲 Funnel Builder: un prompt, un embudo completo</h3>
+<p class="text-neutral-400 text-sm">Una suite de skills coordinadas con un orquestador central que toma tu oferta y produce un embudo completo, listo para publicar — páginas, correos electrónicos, guiones y el propio imán digital — en una sola sesión.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- T1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🧩</span>
+<div><span class="font-medium">La suite y el orquestador</span><span class="text-neutral-500 text-sm ml-2">- Skills coordinadas</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Un conjunto de skills especializadas (landing, correo electrónico, VSL, lead magnet, quiz...) con un orquestador central que decide quién participa y cuándo.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">El cuello de botella nunca fue la estrategia, sino la ejecución. Una suite coordinada lo produce todo de forma consistente, en una sola sesión.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Orquestador + especialistas, mapa de assets, orden de construcción determinado por dependencias.</p></div>
+</div>
+</div>
+</div>
+<!-- T2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🗺️</span>
+<div><span class="font-medium">11 tipos de embudo</span><span class="text-neutral-500 text-sm ml-2">- Cada uno, su mapa</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Lead magnet, opt-in, webinar, VSL, lanzamiento, low/high-ticket, challenge, quiz, flash sale, re-engagement y SaaS/trial: cada uno con su mapa de assets.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Nombrar el tipo de funnel hace que la suite elija automáticamente qué páginas van primero y de qué depende cada correo electrónico.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Para cada tipo, conoce el orden exacto: qué scripts escribir antes de la secuencia y qué páginas antes de los correos.</p></div>
+</div>
+</div>
+</div>
+<!-- T3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">Lo que produce</span><span class="text-neutral-500 text-sm ml-2">- Assets listos, no borradores</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Páginas con textos completos, secuencias de correo electrónico, el recurso digital como archivo real (PDF descargable), paquetes para redes sociales, variantes de titulares y la carpeta completa del proyecto.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">No es un esquema: es el archivo real, listo para publicar en Kajabi, ClickFunnels, Webflow o HTML puro.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Una subcarpeta por tipo de asset, todo con nombre y guardado a medida que avanzas, confirmando cada pieza.</p></div>
+</div>
+</div>
+</div>
+<!-- T4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🚦</span>
+<div><span class="font-medium">Cómo iniciar un proyecto</span><span class="text-neutral-500 text-sm ml-2">- Nueva sesión, oferta clara</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Un ritual de arranque: sesión nueva, oferta en una frase, pegar los assets existentes, indicar la plataforma, el tipo y la meta del funnel.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Hacer esto da resultados mucho mejores. Una sesión nueva aísla el proyecto y evita que se filtre información de trabajos anteriores.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Una oferta clara ("un minicurso de $27 para freelancers...") &gt; una vaga ("un curso sobre precios").</p></div>
+</div>
+</div>
+</div>
+<!-- T5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">📋</span>
+<div><span class="font-medium">Intake, plan y "constrúyelo"</span><span class="text-neutral-500 text-sm ml-2">- Una aprobación, build completo</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Después del intake, la suite muestra el mapa completo de assets: todos los entregables, en orden. Una aprobación inicia todo el build.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">No se detiene para pedir permiso con cada pieza: aprueba el plan y deja que termine, guardando y confirmando cada recurso.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Revisa el plan, di "build it" y deja que termine. Todo queda organizado en una sola carpeta.</p></div>
+</div>
+</div>
+</div>
+<!-- T6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🎬</span>
+<div><span class="font-medium">Embudo en la práctica: el webinar</span><span class="text-neutral-500 text-sm ml-2">- Del brief al social pack</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">Qué es:</span> <p class="text-neutral-300 text-sm">Un caso real: un brief breve de webinar genera un guion de 75 min, una página de registro, una confirmación, secuencias de correo electrónico, una página de replay y un paquete para redes sociales.</p></div>
+<div><span class="text-purple-400 font-semibold">Por qué aprender:</span> <p class="text-neutral-300 text-sm">Ver cómo todo el embudo nace de una frase muestra lo que realmente ofrece la coordinación entre skills.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceptos clave:</span> <p class="text-neutral-300 text-sm">Brief → plan → script → páginas → correos electrónicos (recordatorio, attended, no-show) → replay → redes sociales. Todo en una carpeta.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-2')">Ver en modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-2.html">Ver completo</a>
+</div>
+</div>
+<!-- NAVEGACAO TRILHA -->
+<div class="flex flex-col sm:flex-row gap-4 mt-10">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha2/index.html">← Ruta 2: Primera Skill</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="../trilha4/index.html">Ruta 4: Automatización →</a>
+</div>
+</main>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-purple-400 font-bold">3.1</span>
+<span class="font-semibold">Vibe Coding: correcciones de frontend en vivo</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-purple-400 font-bold">3.2</span>
+<span class="font-semibold">Funnel Builder: un prompt, un embudo completo</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-2.html"></iframe>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Ruta 3 · Skills de Frontend &amp; Generación</p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

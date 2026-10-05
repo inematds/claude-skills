@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 4.1 · Revisor de flujos de trabajo de n8n | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (amber → amber-800) */
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217,119,6,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217,119,6,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217,119,6,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    /* outras cores de box usadas no conteúdo */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - suaviza diagramas SVG */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* Animação dos diagramas */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha4/modulo-4-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha4/modulo-4-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha4/modulo-4-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha4/modulo-4-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-4-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-amber-400" href="index.html">Ruta 4</a>
+<span>/</span>
+<span class="text-amber-400">Módulo 4.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔍 n8n Workflow Reviewer</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Construyes automatizaciones. Esta skill hace que Claude las revise como un ingeniero sénior: pega el JSON del workflow, describe la configuración o envía una captura del canvas, y recibe una auditoría estructurada en cinco categorías, con cada hallazgo identificado y una lista priorizada de correcciones.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Inter.</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Práctica</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧭 La revisión de código aplicada a las automatizaciones</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Un workflow de automatización no es «solo unos bloques conectados». Es <strong class="text-amber-400">código visual</strong>: tiene lógica, dependencias, puntos de falla y deuda técnica. Y, como el código, se deteriora en silencio. La idea central de esta skill es sencilla y poderosa: tratar un workflow n8n exactamente como tratarías un pull request, con un arquitecto sénior que hace la auditoría que nadie se detuvo a hacer.</p>
+<!-- SVG: erros silenciosos viram achados -->
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Un workflow con errores invisibles pasa por el reviewer y sale como una lista de hallazgos clasificados en cinco categorías" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m41a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m41a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m41a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m41a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m41a-grid)" height="220" width="1000" x="0" y="0"></rect>
+<!-- workflow de entrada -->
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<rect fill="#26201a" height="34" rx="9" stroke="#9ca3af" stroke-width="2" width="92" x="30" y="70"></rect><text fill="#e5e7eb" text-anchor="middle" x="76" y="92">Webhook</text>
+<rect fill="#26201a" height="34" rx="9" stroke="#9ca3af" stroke-width="2" width="92" x="30" y="118"></rect><text fill="#e5e7eb" text-anchor="middle" x="76" y="140">HTTP Req</text>
+<line opacity="0.5" stroke="#9ca3af" stroke-width="1.8" x1="76" x2="76" y1="104" y2="118"></line>
+<circle cx="118" cy="76" fill="#2a0f16" r="9" stroke="#fb7185" stroke-width="2"></circle><text fill="#fb7185" font-size="11" text-anchor="middle" x="118" y="80">!</text>
+<circle cx="118" cy="148" fill="#2a0f16" r="9" stroke="#fb7185" stroke-width="2"></circle><text fill="#fb7185" font-size="11" text-anchor="middle" x="118" y="152">!</text>
+</g>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="76" y="180">errores invisibles</text>
+<path d="M160,110 L300,110" fill="none" marker-end="url(#m41a-ah)" opacity="0.65" stroke="#fbbf24" stroke-width="2"></path>
+<!-- reviewer -->
+<g filter="url(#m41a-glow)"><rect fill="#1f1604" height="72" rx="14" stroke="url(#m41a-grad)" stroke-width="2.5" width="170" x="310" y="74"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="18" font-weight="600" text-anchor="middle" x="395" y="106">Revisor</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="395" y="126">ingeniero sénior</text>
+<path d="M490,110 L560,110" fill="none" marker-end="url(#m41a-ah)" opacity="0.65" stroke="#fbbf24" stroke-width="2"></path>
+<!-- saída: 5 categorias -->
+<g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="1.6" width="398" x="572" y="20"></rect><text fill="#bfe6ff" x="588" y="40">🔴 Errores que provocan fallos</text>
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="1.6" width="398" x="572" y="58"></rect><text fill="#bfe6ff" x="588" y="78">🟡 Falla silenciosa</text>
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="1.6" width="398" x="572" y="96"></rect><text fill="#bfe6ff" x="588" y="116">🔵 Rendimiento y costo</text>
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="1.6" width="398" x="572" y="134"></rect><text fill="#bfe6ff" x="588" y="154">🟢 Mantenibilidad</text>
+<rect fill="#1f1604" height="30" rx="8" stroke="#fbbf24" stroke-width="1.8" width="398" x="572" y="172"></rect><text fill="#fcd9a0" x="588" y="192">✅ Lista de prioridades + nota</text>
+</g>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center"><span class="mr-2">🎯</span> La promesa en una frase</h3>
+<p class="text-neutral-300 mb-2">"Creas automatizaciones. Claude las revisa como un ingeniero sénior." El valor no está en encontrar errores menores, sino en convertir una caja negra que "a veces funciona" en un diagnóstico que dice <strong class="text-neutral-100">exactamente</strong> qué se va a romper, dónde y cómo solucionarlo.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Auditoría estructurada</div><p class="text-xs text-neutral-400">Cinco categorías fijas, en el mismo orden, cada vez.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Hallazgo accionable</div><p class="text-xs text-neutral-400">Cada elemento tiene el arreglo concreto, no un consejo vago.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Persona sénior</div><p class="text-xs text-neutral-400">Tono de alguien que ya vio cómo esto falla en producción.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Sin rodeos</div><p class="text-xs text-neutral-400">"Esto va a fallar" &gt; "quizás considera...".</p></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📥 Cinco formas de entrada</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Una skill solo se usa de verdad si acepta el material que la persona tiene <em>ahora</em> — no el material idealizado. El reviewer se diseñó para aceptar entradas imperfectas y ser honesto sobre lo que cada formato permite (o no) evaluar.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50 text-neutral-300"><tr><th class="text-left font-semibold px-4 py-3">Formato de entrada</th><th class="text-left font-semibold px-4 py-3">Lo que se puede evaluar</th></tr></thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="px-4 py-3 font-medium text-amber-400">JSON completo</td><td class="px-4 py-3">Todo: expresiones, credenciales, parámetros, conexiones. La auditoría más profunda.</td></tr>
+<tr><td class="px-4 py-3 font-medium text-amber-400">JSON parcial</td><td class="px-4 py-3">El subconjunto de nodos enviado; indica lo que no se puede inferir del resto.</td></tr>
+<tr><td class="px-4 py-3 font-medium text-amber-400">Texto sin formato</td><td class="px-4 py-3">Reconstruye la estructura asumida, declara las suposiciones y revisa basándose en ellas.</td></tr>
+<tr><td class="px-4 py-3 font-medium text-amber-400">Mensaje de error</td><td class="px-4 py-3">Modo de depuración: pide node, el texto completo del error y la configuración; luego diagnostica.</td></tr>
+<tr><td class="px-4 py-3 font-medium text-amber-400">Captura de pantalla</td><td class="px-4 py-3">Lee los nodos, tipos y conexiones visibles; declara lo que solo revelaría el JSON.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo de diseño: degradación honesta</h3>
+<p class="text-neutral-300">En la captura de pantalla, la skill hace lo que puede (nombres, estructura, conexiones faltantes) y termina con: "Comparte el JSON para una auditoría completa, incluidas las expresiones y los parámetros." Nunca finge haber visto lo que no vio. Esa honestidad es lo que evita que se confíe ciegamente en el resultado.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🌐</span> Consejo: responde en el idioma del usuario</h3>
+<p class="text-neutral-300">Regla explícita del SKILL.md: responde siempre en el idioma en que la persona escribe, aunque las etiquetas del workflow estén en otro idioma. Un workflow con nodos en alemán y una pregunta en portugués recibe la respuesta en portugués.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Entrada flexible</div><p class="text-xs text-neutral-400">Acepta lo que la persona tiene a mano.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Suposiciones visibles</div><p class="text-xs text-neutral-400">Declara lo que asumió antes de revisar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Límites explícitos</div><p class="text-xs text-neutral-400">Di qué no pudo evaluar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Una sola pregunta</div><p class="text-xs text-neutral-400">Si es vago, pide UNA cosa específica.</p></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🚦 Las cinco categorías de la revisión</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">El corazón de la skill es un <strong class="text-amber-400">framework fijo de cinco categorías</strong> que siempre se ejecutan, en el mismo orden, sin saltarse ninguno. Si una categoría está limpia, la skill lo indica en una línea y continúa. Ejecutar la misma lista de verificación cada vez es lo que elimina el sesgo del revisor.</p>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold mb-1">🔴 Errores y fallos</h4><p class="text-neutral-400 text-sm">Lo que realmente va a fallar: campo obligatorio vacío, credencial hardcodeada, expresión que hace referencia a un campo inexistente, conexión faltante, método HTTP incorrecto, IF/Switch sin fallback.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold mb-1">🟡 Error silencioso</h4><p class="text-neutral-400 text-sm">Ahora no se rompe, pero después falla en silencio: sin Error Trigger, HTTP sin retry/timeout, escrituras en la base de datos sin comprobar duplicados y ninguna alerta cuando falla.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold mb-1">🔵 Rendimiento y eficiencia</h4><p class="text-neutral-400 text-sm">Funciona, pero cuesta tiempo/dinero/llamadas: API innecesaria, sin paginación, loop donde cabría un batch, activador demasiado frecuente, nodos Set redundantes.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold mb-1">🟢 Estructura y mantenibilidad</h4><p class="text-neutral-400 text-sm">Lo que se vuelve una pesadilla en 6 meses: nodos "HTTP Request1", sin sticky notes, lógica de negocio enterrada en una expresión, workflow gigante que debería convertirse en un subworkflow.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">5</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold mb-1">✅ Resumen y lista de prioridades</h4><p class="text-neutral-400 text-sm">Termina con correcciones clasificadas en tres niveles — ahora / después / opcional — más una nota de 0 a 10 con un veredicto de una frase.</p></div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Por qué funcionan cinco categorías fijas</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li>• <strong>Cobertura garantizada:</strong> "no omitas ninguna categoría" evita que la revisión se detenga en el primer error evidente.</li>
+<li>• <strong>Severidad legible:</strong> los colores 🔴🟡🔵🟢 indican de un vistazo qué es urgente y qué es solo un retoque.</li>
+<li>• <strong>Repetible:</strong> dos workflows diferentes reciben la misma perspectiva — comparable y sin el humor del día.</li>
+</ul>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Lista de verificación fija</div><p class="text-xs text-neutral-400">Siempre las cinco, en ese orden.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Severidad por color</div><p class="text-xs text-neutral-400">🔴 fallo · 🟡 silencio · 🔵 costo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">"Limpia" también cuenta</div><p class="text-xs text-neutral-400">Di en una línea cuándo está OK.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Termina con prioridades</div><p class="text-xs text-neutral-400">Ahora / después / opcional + nota.</p></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔇 El fallo silencioso</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Esta es la categoría más valiosa y la más ignorada. El error que <strong class="text-red-400">aparece</strong> es fácil: lo anuncia a gritos y alguien lo corrige. El error que <strong class="text-amber-400">desaparece</strong> — el registro que no se guardó, el lead que no entró, el webhook que devolvió 500 y nadie vio: eso es lo que erosiona la confianza en todo el sistema. La categoría 🟡 existe para buscar exactamente estos casos.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Salvaguardas que exige la skill</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Un Error Trigger conectado a una alerta (Slack, correo electrónico).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Reintento y tiempo de espera en los nodos HTTP de larga duración.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Validación de respuestas en los webhooks.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Verificación de duplicados antes de escribir en la base de datos/Airtable.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Decisión consciente de "Continue on Fail" (a veces se activa, a veces no).</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Síntomas de una falla silenciosa</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"El workflow se ejecuta, pero algunos registros no se actualizan."</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Funciona cuando lo pruebo, pero falla de vez en cuando."</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ninguna notificación cuando una ejecución falla de madrugada.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Se acumulan duplicados porque nada verifica antes de insertar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Un Schedule Trigger desconectado que nadie notó.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-4">El formato de cada hallazgo 🟡</h3>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">⚠️ [Node o sección] — [salvaguarda faltante]
+   Riesgo: [lo que fallará sin aviso]
+   Fix:   [qué agregar, en concreto]</pre>
+<p class="text-neutral-400 text-sm mt-4">Fíjate en los tres campos: <strong class="text-neutral-300">dónde</strong>, <strong class="text-neutral-300">cuál es el riesgo</strong> e <strong class="text-neutral-300">la reparación</strong>. Sin el riesgo explícito, nadie prioriza; sin el fix, nadie actúa.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Error Trigger</div><p class="text-xs text-neutral-400">La red de seguridad mínima.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Reintento + tiempo de espera</div><p class="text-xs text-neutral-400">Una API inestable no interrumpe el flujo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Alerta ante fallas</div><p class="text-xs text-neutral-400">Lo sabes antes que el cliente.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">"¿Qué dato desaparece?"</div><p class="text-xs text-neutral-400">La pregunta que guía la categoría.</p></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">💸 Costo y facilidad de mantenimiento</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Las categorías 🔵 y 🟢 se ocupan de lo que no se rompe hoy, pero cuesta caro mañana: la 🔵 analiza el dinero y el tiempo que el workflow desperdicia en producción; la 🟢 analiza las horas que «tú dentro de 6 meses» perderás intentando entender qué hace cada node.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Workflow eficiente y legible</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Operación por lotes en lugar de un bucle elemento por elemento.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Paginación preparada para grandes conjuntos de datos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Busca solo los campos que vas a usar, no el objeto entero.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Nodes con nombres descriptivos y sticky notes en la lógica compleja.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Secciones claras: entradas → procesamiento → salidas.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Lo que dispara los costos y consume tiempo</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>El bucle hace 1 llamada a la API por elemento: pagas por cada una.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Se activa cada minuto cuando cada hora sería suficiente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nodes "Set3" y "HTTP Request1": nadie sabe qué hacen.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Lógica de negocio enterrada en una expresión de 200 caracteres.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Un workflow monstruoso que debería ser tres subworkflows.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔵</span> El formato del hallazgo de rendimiento</h3>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">🔵 [Node ou padrão] — [ineficiência]
+   Impacto:     [custo / velocidade / confiabilidade]
+   Otimização:  [melhoria específica]</pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo: la prueba de los «6 meses»</h3>
+<p class="text-neutral-300">La pregunta guía de la categoría 🟢 es: "si abro este workflow dentro de 6 meses, sin contexto, ¿lo entiendo en 2 minutos?" Si la respuesta es no, hay un hallazgo de mantenibilidad, y la solución casi siempre es cambiar el nombre de un node, extraer la lógica a un Set node o agregar una sticky note.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Batch &gt; loop</div><p class="text-xs text-neutral-400">Menos llamadas, menos costo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Paginación</div><p class="text-xs text-neutral-400">Los datasets grandes no se desbordan.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Nombres descriptivos</div><p class="text-xs text-neutral-400">"Buscar contactos" &gt; "HTTP Request1".</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-bold text-sm mb-1">Notas adhesivas</div><p class="text-xs text-neutral-400">Documentan la lógica difícil.</p></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🏗️ Construir tu reviewer</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Ahora juntas todo en un <code class="font-mono text-amber-400 text-sm">SKILL.md</code> de autor. La estructura se puede replicar para revisar <strong class="text-amber-400">cualquier</strong> artefacto técnico: basta con cambiar el dominio y la lista de verificación. Lo que hace que el reviewer sea bueno no es n8n: es el tono directo, el formato de los hallazgos y el veredicto honesto.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Prompt copiable: esqueleto del SKILL.md</h3>
+<pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">---
+name: workflow-reviewer
+description: Reviews automation workflows for errors, inefficiencies and
+  missing best practices. Use whenever a user shares a workflow JSON,
+  pastes node configs, describes their setup in plain text, sends an
+  error message, or asks "what's wrong with my automation". Trigger
+  even on a partial workflow or a single node.
+---
+
+# Workflow Reviewer
+
+You are an expert automation engineer doing a senior code review.
+No fluff, no vague advice. Name the exact node. Give the exact fix.
+
+## Run ALL five categories, in order. Skip none.
+
+1. 🔴 ERRORS &amp; BREAKS — what will fail in production
+2. 🟡 MISSING ERROR HANDLING — what will fail silently
+3. 🔵 PERFORMANCE — unnecessary calls, cost leaks, slow loops
+4. 🟢 STRUCTURE — naming, maintainability, subworkflow candidates
+5. ✅ SUMMARY — priority fix list + OVERALL SCORE: [X/10]
+
+For each finding use:
+  [emoji] [Node Name] — [issue]
+     Fix: [exact fix, 1-2 sentences]
+
+If a category is clean, say so in one line. If the input is too vague,
+ask ONE specific question. If it's well-built, say so — don't invent problems.</pre>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Ejemplo de salida — auditoría real (recreación ilustrativa)</h3>
+<pre class="font-mono text-xs sm:text-sm text-neutral-300 bg-dark-900 rounded-lg p-4 overflow-x-auto border border-dark-600">🔴 ERRORS &amp; BREAKS
+❌ Schedule Trigger — node desconectado do resto do fluxo.
+   Fix: conecte a saída do Schedule Trigger ao node "Buscar leads".
+❌ Parse JSON — expressão {{ $json.data.items }} quebra quando a API
+   retorna {error}. Fix: adicione um IF checando $json.error antes do parse.
+
+🟡 MISSING ERROR HANDLING
+⚠️ HTTP Request "Enviar Slack" — sem retry nem alerta.
+   Risco: notificação some se o Slack der 429. Fix: ative retry (3x) e
+   conecte um Error Trigger a um e-mail de fallback.
+⚠️ Airtable "Inserir" — sem checagem de duplicata.
+   Risco: leads duplicados a cada re-execução. Fix: use "Upsert" pela chave email.
+
+🔵 PERFORMANCE
+🔵 Loop "Para cada lead" — 1 chamada HTTP por item.
+   Impacto: ~600 chamadas/dia, custo e lentidão. Otimização: troque por
+   uma chamada batch enviando o array inteiro.
+
+🟢 STRUCTURE
+🟢 Nodes "Set3", "HTTP Request1" — nomes default.
+   Sugestão: renomeie para "Montar payload" e "Buscar perfil".
+
+✅ SUMMARY
+PRIORITY FIXES (do these now):
+  1. Conectar o Schedule Trigger.
+  2. Tratar o parse de JSON na resposta de erro.
+  3. Adicionar Error Trigger + retry no Slack.
+IMPROVEMENTS (next): batch no loop; upsert no Airtable.
+OPTIONAL: renomear nodes; sticky notes nas seções.
+OVERALL SCORE: 5/10 — funciona no caminho feliz, frágil em produção.</pre>
+<p class="text-neutral-500 text-xs mt-3">Salida recreada con fines didácticos: ilustra el formato, no es un informe real de un cliente.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">⭐</span> Las reglas de tono que marcan la diferencia</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li>• <strong>Sé directo:</strong> "esto va a fallar en producción" &gt; "quizás quieras considerar...".</li>
+<li>• <strong>Nombra el node exacto:</strong> el feedback vago no sirve.</li>
+<li>• <strong>Da la solución, no la dirección:</strong> "agrega un Error Trigger conectado a Slack" &gt; "agrega manejo de errores".</li>
+<li>• <strong>Elogia lo que está bien:</strong> si el workflow es sólido, dilo; no inventes problemas.</li>
+<li>• <strong>Cuando preguntan «¿está bien?»:</strong> da una calificación honesta + los 3 problemas más importantes; no solo valides.</li>
+</ul>
+</div>
+<!-- EXERCÍCIOS -->
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-6">
+<h3 class="text-xl font-bold text-amber-400 mb-4 flex items-center"><span class="mr-2">✍️</span> Ejercicios prácticos</h3>
+<div class="space-y-4">
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">1</span><p class="text-neutral-300 text-sm"><strong>Revisa uno de tus flujos.</strong> Toma un workflow que tengas (o describe uno por escrito) y recorre mentalmente las cinco categorías. Anota al menos un hallazgo 🟡 de fallo silencioso que nunca habías notado.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">2</span><p class="text-neutral-300 text-sm"><strong>Crea un SKILL.md ejecutable.</strong> Copia el esqueleto de arriba en <code class="font-mono text-xs">~/.claude/skills/workflow-reviewer/SKILL.md</code>, ajusta la <code class="font-mono text-xs">description</code> con sus activadores y prueba pidiéndole a Claude que revise un flujo descrito en texto.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">3</span><p class="text-neutral-300 text-sm"><strong>Generaliza.</strong> Cambia el dominio: adapta el reviewer para auditar un schema de base de datos o un archivo de configuración de CI. ¿Cuáles de las cinco categorías cambian? ¿Cuáles permanecen idénticas?</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center">4</span><p class="text-neutral-300 text-sm"><strong>Prueba el "¿está bien?".</strong> Pídele a tu reviewer que evalúe un flujo deliberadamente bien hecho. ¿Resiste la tentación de inventar problemas y da una nota alta honesta?</p></div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Workflow es código</strong><span class="text-neutral-400"> — y merece una revisión de código estructurada, no un «parece estar bien».</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Cinco entradas aceptadas</strong><span class="text-neutral-400"> — JSON, parcial, texto, error o captura; siempre con honestidad sobre lo que se puede evaluar.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Cinco categorías fijas</strong><span class="text-neutral-400"> — 🔴 falla, 🟡 silencio, 🔵 costo, 🟢 mantenimiento, ✅ prioridades + nota.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">El fallo silencioso es oro</strong><span class="text-neutral-400"> — el error que desaparece es el que destruye la confianza; Error Trigger es lo mínimo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Tono directo + solución concreta</strong><span class="text-neutral-400"> — nombra el nodo, da la solución, elogia lo que está bien y pon una nota honesta.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Siguiente Módulo:</h3>
+<p class="text-neutral-300">4.2 — 🔥 Local Leads Abundance System: encadenar varias skills en un pipeline multiagente.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="modulo-4-2.html">Siguiente Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Módulo 4.1 · Revisor de flujos de trabajo de n8n</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

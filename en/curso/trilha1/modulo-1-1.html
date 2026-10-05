@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 1.1 · Anatomy of a Skill | Claude Skills in Practice</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha emerald) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - SVG diagramas */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG pulse */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha1/modulo-1-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha1/modulo-1-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha1/modulo-1-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-1-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha1/modulo-1-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">First Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consulting</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Advanced</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Track 1</a>
+<span>/</span>
+<span class="text-emerald-400">Module 1.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MODULE 1.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧬 Anatomy of a Skill</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        A skill isn’t magic or a compiled plugin. It’s a <strong class="text-neutral-300">text file</strong> — o
+        <code class="text-emerald-400 font-mono text-base">SKILL.md</code> — that Claude reads, decides to load, and then follows.
+        In this module, you open this file and understand each part: the frontmatter, the body, and the mechanics of discovery and triggering.
+      </p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">40</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Basic</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Theory</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<h2 class="text-2xl font-bold mb-6">Detailed content</h2>
+<!-- SVG ILUSTRATIVO -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+<svg aria-label="Anatomy of a SKILL.md file: a frontmatter block at the top with the name and description fields, followed by the body of instructions with workflow, rules, and output format" class="w-full h-auto" role="img" viewbox="0 0 1000 300">
+<defs>
+<lineargradient id="m11-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<filter height="180%" id="m11-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m11-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+</defs>
+<rect fill="url(#m11-grid)" height="300" width="1000" x="0" y="0"></rect>
+<!-- frontmatter (foco) -->
+<g filter="url(#m11-glow)"><rect fill="#0e2018" height="120" rx="14" stroke="url(#m11-grad)" stroke-width="2.5" width="500" x="60" y="32"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="15" font-weight="700" x="84" y="60">--- frontmatter (YAML) ---</text>
+<text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="14.5" x="84" y="92">name:</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14.5" x="170" y="92">travel-itinerary</text>
+<text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="14.5" x="84" y="120">description:</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13.5" x="200" y="120">does X · use when Y…</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="12" x="84" y="142">↑ this is all Claude sees at the start</text>
+<!-- corpo -->
+<rect fill="#0e1b26" height="96" rx="14" stroke="#38bdf8" stroke-width="2" width="500" x="60" y="176"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="15" font-weight="600" x="84" y="204"># Instruction body (Markdown)</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13.5" x="84" y="230">workflow · hard rules · output format</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12.5" x="84" y="254">loaded only when the skill triggers</text>
+<!-- claude lendo -->
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="1.8"><path d="M560,92 L700,140" marker-end="url(#m11-ah)"></path></g>
+<defs><marker id="m11-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker></defs>
+<g filter="url(#m11-glow)"><rect fill="#0e2018" height="64" rx="14" stroke="url(#m11-grad)" stroke-width="2.5" width="220" x="700" y="118"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="18" font-weight="700" text-anchor="middle" x="810" y="148">Claude</text>
+<text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="12.5" text-anchor="middle" x="810" y="168">decides and executes</text>
+</svg>
+</div>
+<!-- TOPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📄 What exactly is a SKILL.md</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        An Agent Skill is, at its core, <strong class="text-emerald-400">a Markdown text file</strong> called
+        <code class="font-mono text-emerald-400">SKILL.md</code>. No compiled binary, no complex installation: it’s a
+        document you can open in a text editor and read from top to bottom. What makes it special isn’t the technology, but
+        the <strong class="text-neutral-100">contract</strong> that it establishes—it teaches Claude to perform a specific task and says when that task applies.
+      </p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🧬</span> The file’s two zones</h3>
+<p class="text-neutral-300 mb-4">Every <code class="font-mono">SKILL.md</code> is divided into two zones with very different roles:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Frontmatter (YAML):</strong> the business card — <code class="font-mono">name</code> e <code class="font-mono">description</code>. This is what Claude reads to <em>decide</em> use the skill.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Body (Markdown):</strong> the actual instructions — the “how to.” Only loaded <em>then</em> that the skill is chosen.</span></li>
+</ul>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">SKILL.md — minimal example</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Markdown</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>---
+name: travel-itinerary
+description: Generates an interactive HTML travel itinerary.
+  Use when the user wants to "plan a trip", "create an itinerary",
+  or types /travel.
+---
+
+# TravelWings — AI Travel Itinerary Generator
+
+## Setup Flow
+Before generating anything, ask the user the trip basics...
+
+## Output Format
+Generate a single self-contained HTML file...</code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">If you know how to write a good README, you already know 80% of how to write a <code class="font-mono">SKILL.md</code>. The difference lies in <strong>two top fields</strong> — they aren't documentation; they're the trigger that makes Claude use the skill on its own.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Text</div><div class="text-xs text-neutral-400">Plain Markdown, no build step</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Versionable</div><div class="text-xs text-neutral-400">Lives in git as code</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Portable</div><div class="text-xs text-neutral-400">Copy from machine to machine</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Readable</div><div class="text-xs text-neutral-400">You and Claude read it the same way</div></div>
+</div>
+</section>
+<!-- TOPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🏷️ The name field: the identity</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        O <code class="font-mono text-emerald-400">name</code> is the skill identifier. It seems like the silliest field in the file,
+        but it’s the <strong class="text-emerald-400">stable key</strong> by which the skill is referenced — in commands, in
+        other skills, in logs. A good <code class="font-mono">name</code> is short, in <code class="font-mono">kebab-case</code>,
+        and says what the skill is at a glance.
+      </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Names that work</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code class="font-mono">travel-itinerary</code> — says exactly what it produces</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code class="font-mono">vibe-coding</code> — a memorable, specific term</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code class="font-mono">n8n-workflow-reviewer</code> — clear domain + action</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Names that get in the way</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><code class="font-mono">helper</code> — too generic; what does it help with?</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><code class="font-mono">my_skill_v2_final</code> — noise, no meaning</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><code class="font-mono">SkillDeViagem</code> — outside the kebab-case convention</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📐</span> Conventions worth keeping</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>kebab-case:</strong> all lowercase, words separated by hyphens.</li>
+<li><strong>Stable:</strong> change the <code class="font-mono">name</code> can break references and commands — choose carefully and keep it.</li>
+<li><strong>Only:</strong> two <code class="font-mono">name</code> identical ones create ambiguity about which one to load.</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Short</div><div class="text-xs text-neutral-400">2–4 words</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Descriptive</div><div class="text-xs text-neutral-400">Say what it does</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Stable</div><div class="text-xs text-neutral-400">Doesn’t change things for no reason</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">kebab-case</div><div class="text-xs text-neutral-400">The convention</div></div>
+</div>
+</section>
+<!-- TOPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🎯 The description field: the trigger</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        If the <code class="font-mono">name</code> is the identity, the <code class="font-mono text-emerald-400">description</code> é o
+        <strong class="text-emerald-400">discovery brain</strong>. It’s the only part of the skill Claude reads when deciding whether
+        to use it. That’s why it can’t be a simple definition — it needs to say <strong class="text-neutral-100">what
+        the skill does</strong> E <strong class="text-neutral-100">when it should be used</strong>. This module only introduces the
+        idea; the entire Module 1.3 is dedicated to writing sharp descriptions.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">⚖️</span> The “Does + When” formula</h3>
+<p class="text-neutral-300 mb-4">Compare the same skill described in two ways:</p>
+<div class="space-y-3">
+<div class="bg-dark-800/60 rounded-lg p-4 border border-red-500/30">
+<span class="text-red-400 text-xs font-semibold">JUST "DOES IT" — weak</span>
+<p class="font-mono text-sm text-neutral-300 mt-1">"Generates travel itineraries."</p>
+</div>
+<div class="bg-dark-800/60 rounded-lg p-4 border border-emerald-500/30">
+<span class="text-emerald-400 text-xs font-semibold">"DO + WHEN" — strong</span>
+<p class="font-mono text-sm text-neutral-300 mt-1">"Generates an interactive HTML travel itinerary. Use when the user wants to plan a trip, create an itinerary, or types /travel."</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">Reread your description as if you were Claude seeing only this line, without the rest of the file. If you can't decide “does this skill apply to this request?”, Claude won't be able to either.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Does</div><div class="text-xs text-neutral-400">What it produces</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">When</div><div class="text-xs text-neutral-400">Usage triggers</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Concrete</div><div class="text-xs text-neutral-400">Real phrases</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Decision-making</div><div class="text-xs text-neutral-400">Allows you to choose</div></div>
+</div>
+</section>
+<!-- TOPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📝 The body: the "how to"</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Below the frontmatter comes the <strong class="text-emerald-400">skill body</strong> — Freeform Markdown where you write the
+        execution steps. This is where the quality of the result is decided. A well-structured body usually has four
+        recurring blocks, as we see in the real skills analyzed in this course.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Setup / discovery</h4>
+<p class="text-sm text-neutral-400 mb-3">"What to ask before producing"</p>
+<p class="text-neutral-300 text-sm">The itinerary generator, for example, defines a <em>Setup Flow</em> required: before generating any HTML, Claude collects the destination, dates, source, and integrations. That’s what makes the output useful instead of generic.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Workflow / steps</h4>
+<p class="text-sm text-neutral-400 mb-3">"The execution sequence"</p>
+<p class="text-neutral-300 text-sm">The order of actions. The frontend-fix skill, for example, defines steps with gates: confirm the workspace, create a branch, test live, and only then edit the code.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Hard rules / limits</h4>
+<p class="text-sm text-neutral-400 mb-3">"What never to do"</p>
+<p class="text-neutral-300 text-sm">Nonnegotiable constraints—usually in uppercase or accompanied by warnings. They prevent Claude from skipping critical steps or taking destructive actions.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Output format</h4>
+<p class="text-sm text-neutral-400 mb-3">"How the result should be delivered"</p>
+<p class="text-neutral-300 text-sm">The precise definition of the deliverable: a single self-contained HTML file, a report with fixed sections, or a JSON. Without this, each run produces a different format.</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> What makes a good body</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Specific &gt; generic:</strong> "generate a self-contained HTML file" takes precedence over "generate a good output".</li>
+<li><strong>Principles at the end:</strong> good skills end with a list of principles that summarize the philosophy (“real data &gt; placeholder”).</li>
+<li><strong>Embedded examples:</strong> input/output snippets anchor behavior better than abstract prose.</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Setup</div><div class="text-xs text-neutral-400">What to ask</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Workflow</div><div class="text-xs text-neutral-400">The sequence</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Rules</div><div class="text-xs text-neutral-400">The limits</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Output</div><div class="text-xs text-neutral-400">The final format</div></div>
+</div>
+</section>
+<!-- TOPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔍 How Claude Discovers the Skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Here’s the detail that changes everything: Claude <strong class="text-emerald-400">doesn’t read the body of every skill all
+        the time</strong>. Imagine 50 installed skills, each with hundreds of lines — loading everything with every message would be
+        impractical. Instead, it keeps a <strong class="text-neutral-100">lightweight index</strong>: only the
+        <code class="font-mono">name</code> + a <code class="font-mono">description</code> for each skill. This is the index that
+        the user's request is matched against.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🗂️</span> The description index</h3>
+<p class="text-neutral-300 mb-4">Think of a library catalog: you don't read every book to find one—you read the <em>cards</em>. The description is the skill’s profile.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>The user’s request is compared against the available descriptions.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>The skill whose description best matches the intent is the candidate.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Only then does the full body of that skill enter the context.</span></li>
+</ul>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">the index Claude looks up (illustrative)</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">lightweight index</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>travel-itinerary    → "plan a trip, create an itinerary, /travel"
+vibe-coding         → "fix CSS/layout live in the browser before editing"
+n8n-reviewer        → "review an n8n automation as a senior engineer"
+rag-architect       → "design the right RAG before writing code"
+...                 → (só name + description, nunca o corpo inteiro)</code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">This mechanic explains a common frustration: "I created the perfect skill and Claude never uses it." Almost always, the body is great — but the <strong>description</strong> doesn’t say when to trigger. Claude never gets to read the brilliant body because the description didn’t convince it.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Lightweight index</div><div class="text-xs text-neutral-400">name + description</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Matching</div><div class="text-xs text-neutral-400">Request × description</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">On demand</div><div class="text-xs text-neutral-400">Body only afterward</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Scale</div><div class="text-xs text-neutral-400">Many skills, lightweight</div></div>
+</div>
+</section>
+<!-- TOPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">⚡ How Claude triggers the skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Discovery means recognizing that the skill applies; <strong class="text-emerald-400">trigger</strong> is effectively loading the
+        body and following its instructions. There are two ways this can happen, and understanding the difference avoids a lot of
+        confusion.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Automatic trigger</h4>
+<p class="text-neutral-300 text-sm mb-3">Claude reads the request, sees that it matches a description, and uses the skill on its own.</p>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Triggered by intent: "plan my trip to Tokyo"</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The ideal: the user doesn’t even need to know the skill exists</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Depends 100% on a good description</span></li>
+</ul>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">↳ Explicit invocation</h4>
+<p class="text-neutral-300 text-sm mb-3">The user calls the skill by name or with a slash command.</p>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Triggered by the command: <code class="font-mono">/travel</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Useful when the user knows exactly what they want</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Works even with a weak description</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> The mistake to avoid</h3>
+<p class="text-neutral-300">Relying only on explicit invocation wastes half the power of skills. If the skill <em>never</em> triggers on its own, it becomes a manual command—and the user has to remember it. The goal of a well-made skill is to disappear: activate at the right time without anyone asking.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">Always test both paths. Ask for the task in natural language (without mentioning the skill) and see if it triggers. Then invoke it by name. If only the second one works, your description needs work—and that's exactly what Module 1.3 teaches you to fix.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Automatic</div><div class="text-xs text-neutral-400">By intent</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Explicit</div><div class="text-xs text-neutral-400">By command</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Context</div><div class="text-xs text-neutral-400">Carries weight in the decision</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Disappear</div><div class="text-xs text-neutral-400">The ideal: invisible</div></div>
+</div>
+</section>
+<!-- PROMPTS COPIAVEIS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">🧰 Copyable prompts</h2>
+<p class="text-neutral-300 mb-6">Use these prompts with Claude to put the module’s content into practice.</p>
+<div class="space-y-4">
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+<div class="text-xs font-mono text-neutral-500 mb-2">Prompt — explain the anatomy</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Abra um SKILL.md qualquer que você tenha acesso e me explique,
+linha a linha: qual é o frontmatter, o que cada campo (name,
+description) faz, e onde começa o corpo de instruções.</code></pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+<div class="text-xs font-mono text-neutral-500 mb-2">Prompt — audit the trigger</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Aqui está a description da minha skill: "&lt;cole aqui&gt;".
+Lendo SÓ essa linha, sem o corpo, você saberia em quais pedidos
+de usuário disparar esta skill? Liste 3 pedidos que disparariam
+e 3 que NÃO disparariam.</code></pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+<div class="text-xs font-mono text-neutral-500 mb-2">Prompt — separate identity from instruction</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Vou descrever uma tarefa que faço sempre. Me ajude a separar:
+(1) qual seria o name e a description (o gatilho), e
+(2) o que vai no corpo (workflow, regras, formato de saída).
+A tarefa é: &lt;descreva&gt;.</code></pre>
+</div>
+</div>
+</section>
+<!-- EXEMPLO DE SAIDA -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">📤 Sample Output</h2>
+<p class="text-neutral-300 mb-6">One <code class="font-mono">SKILL.md</code> minimal, but complete and valid — exactly the skeleton you'll expand in the next modules.</p>
+<div class="bg-dark-900 rounded-xl border border-emerald-500/30 p-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">changelog-writer/SKILL.md</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">runnable</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>---
+name: changelog-writer
+description: Writes a clean CHANGELOG entry from a list of git
+  commits. Use when the user asks to "write a changelog",
+  "summarize these commits", or "prep release notes".
+---
+
+# Changelog Writer
+
+## Workflow
+1. Ask for the version number and the commit list (or read it).
+2. Group commits into: Added, Changed, Fixed, Removed.
+3. Rewrite each line in plain, user-facing language.
+
+## Rules
+- Never invent changes that aren't in the commits.
+- Keep each entry to a single line.
+
+## Output Format
+Markdown under a `## [version] - YYYY-MM-DD` header,
+one section per group, bullets per change.</code></pre>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">✏️ Practical exercises</h2>
+<div class="space-y-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">1. Dissect a SKILL.md</h3>
+<p class="text-neutral-300 text-sm">Choose any skill you know and mark, with a color marker, where the frontmatter ends and the body begins. Identify the body's four sections (setup, workflow, rules, output)—note which one is missing.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">2. Rewrite a weak description</h3>
+<p class="text-neutral-300 text-sm">Take the description "Generates reports." and rewrite it in the "Does + When" format, adding at least two specific triggers a user might say.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">3. Create a runnable SKILL.md ⭐</h3>
+<p class="text-neutral-300 text-sm">Write, from scratch, a <code class="font-mono">SKILL.md</code> complete for a repetitive task of yours (e.g., "summarize meetings," "standardize commit names"). It should have: frontmatter with <code class="font-mono">name</code> + <code class="font-mono">description</code> in the “Does + When” format, with a body that includes a workflow, at least one hard rule, and an output format. Then ask Claude to run it with a test input and see whether the result follows the defined format.</p>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧬</span> Module summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Skill = SKILL.md</strong><span class="text-neutral-400"> — a Markdown file, plain text, versionable and portable.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Frontmatter rules</strong><span class="text-neutral-400"> — <code class="font-mono">name</code> (identity) and <code class="font-mono">description</code> (trigger) determine when it fires.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">The body is the “how”</strong><span class="text-neutral-400"> — setup, workflow, rules, and output format shape the quality.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Discovery ≠ trigger</strong><span class="text-neutral-400"> — Claude indexes only the descriptions and loads the body on demand.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Next module:</h3>
+<p class="text-neutral-300">1.2 — Progressive disclosure &amp; structure</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to the Track</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-2.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills in Practice — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Track 1 · Module 1.1 · Anatomy of a Skill</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

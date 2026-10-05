@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 2.2 — Flujo de configuración, sistema de diseño y salida | Claude Skills</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha blue) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    /* hover das outras trilhas no nav */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - SVG diagramas mais suaves */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* Mock de página (ilustrativo) */
+    .mockwin { background:#0a0a12; }
+    .mockorb { filter: blur(40px); opacity:.35; }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha2/modulo-2-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha2/modulo-2-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha2/modulo-2-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha2/modulo-2-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-2-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Ruta 2</a>
+<span>/</span>
+<span class="text-blue-400">Módulo 2.2</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎨 Flujo de configuración, sistema de diseño y resultado</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        Ahora bajamos a la parte que se convierte en píxeles. Cómo la skill describe la paleta, la tipografía, los doce componentes, las etiquetas por color, los efectos visuales y los patrones de JavaScript, y cómo todo eso se condensa en una sola página HTML que parece una app premium.
+      </p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Inter.</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Práctico</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- VISÃO GERAL: SVG do design system -> página -->
+<section class="mb-16">
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Una skill de generación visual carga un <strong class="text-blue-400">sistema de diseño integrado</strong>: tokens de color, escala tipográfica y una biblioteca de componentes. Estos tres pilares se combinan para producir cada bloque de la página. El diagrama muestra cómo las partes del sistema de diseño convergen en el resultado.
+      </p>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-4 overflow-hidden">
+<svg aria-label="La combinación de paleta, tipografía y componentes produce la página HTML; los efectos visuales y JavaScript dan la sensación de una app premium" class="w-full h-auto" role="img" viewbox="0 0 1000 240">
+<defs>
+<lineargradient id="m22-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<filter height="180%" id="m22-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m22-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m22-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m22-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m22-grid)" height="240" width="1000" x="0" y="0"></rect>
+<!-- A + B + C = página -->
+<g font-family="Inter,sans-serif">
+<rect fill="#0e1622" height="44" rx="10" stroke="#60a5fa" stroke-width="2" width="150" x="40" y="50"></rect><text fill="#bcd6ff" font-size="14" font-weight="600" text-anchor="middle" x="115" y="78">Paleta (:root)</text>
+<rect fill="#0e1622" height="44" rx="10" stroke="#60a5fa" stroke-width="2" width="150" x="40" y="106"></rect><text fill="#bcd6ff" font-size="14" font-weight="600" text-anchor="middle" x="115" y="134">Tipografía</text>
+<rect fill="#0e1622" height="44" rx="10" stroke="#60a5fa" stroke-width="2" width="150" x="40" y="162"></rect><text fill="#bcd6ff" font-size="14" font-weight="600" text-anchor="middle" x="115" y="190">Componentes</text>
+</g>
+<g fill="none" opacity="0.55" stroke="#60a5fa" stroke-width="1.8">
+<path d="M190,72 C300,72 320,118 400,118" marker-end="url(#m22-ah)"></path>
+<path d="M190,128 L400,128" marker-end="url(#m22-ah)"></path>
+<path d="M190,184 C300,184 320,138 400,138" marker-end="url(#m22-ah)"></path>
+</g>
+<!-- montagem -->
+<rect fill="#0e1622" height="64" rx="13" stroke="#60a5fa" stroke-width="2" width="150" x="402" y="96"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="477" y="124">Montaje</text>
+<text fill="#bcd6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="477" y="143">bloques por viaje</text>
+<!-- efeitos + JS (ciano) entram -->
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<g class="wf-a" opacity="0.9"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="150" x="402" y="30"></rect><text fill="#bfe6ff" text-anchor="middle" x="477" y="51">✨ efectos visuales</text></g>
+<g class="wf-a" opacity="0.9"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="150" x="402" y="190"></rect><text fill="#bfe6ff" text-anchor="middle" x="477" y="211">⚙️ JS + estado</text></g>
+</g>
+<path d="M477,62 L477,94" fill="none" marker-end="url(#m22-ahc)" opacity="0.5" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M477,190 L477,162" fill="none" marker-end="url(#m22-ahc)" opacity="0.5" stroke="#38bdf8" stroke-width="1.8"></path>
+<!-- página final -->
+<path d="M552,128 L596,128" fill="none" marker-end="url(#m22-ah)" opacity="0.65" stroke="#60a5fa" stroke-width="2"></path>
+<g filter="url(#m22-glow)"><rect fill="#0e1622" height="120" rx="16" stroke="url(#m22-grad)" stroke-width="2.5" width="362" x="598" y="64"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="17" font-weight="600" text-anchor="middle" x="779" y="96">Página HTML</text>
+<g opacity="0.85">
+<rect fill="#13243a" height="14" rx="4" width="120" x="624" y="112"></rect>
+<rect fill="#13243a" height="14" rx="4" width="160" x="624" y="134"></rect>
+<rect fill="#13243a" height="14" rx="4" width="90" x="624" y="156"></rect>
+<rect fill="#0e1b26" height="58" opacity="0.7" rx="8" stroke="#38bdf8" stroke-width="1.5" width="166" x="770" y="112"></rect>
+</g>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-1">El sistema de diseño integrado — ilustrativo. Los efectos y JS (cian) se incorporan durante el montaje.</p>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🎨 La paleta como variables CSS</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La skill no dice "usa colores bonitos". Incorpora un bloque <code class="text-blue-400 font-mono">:root</code> con <strong class="text-blue-400">variables CSS con nombre</strong>: fondo, superficies transparentes, bordes y cinco acentos con significado: azul (primario), naranja (regreso/aviso), verde (confirmado), lavanda (conexión) y dorado (evento/VIP). Cada acento tiene un par "glow".
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Fragmento real del SKILL.md</h3>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">:root {
+  --bg: #06060a;               /* deep space black */
+  --surface: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.07);
+  --accent: <span class="text-blue-400">#5ad1ff</span>;          /* sky blue — primary */
+  --orange: <span class="text-blue-400">#ff7a59</span>;          /* returns / warnings */
+  --green:  <span class="text-blue-400">#7dffaa</span>;          /* confirmations / go */
+  --purple: <span class="text-blue-400">#c084fc</span>;          /* transit / layovers */
+  --gold:   <span class="text-blue-400">#fbbf24</span>;          /* events / VIP */
+  --radius: 16px;
+}</pre>
+</div>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Por qué usar tokens y no colores sueltos</h3>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Identidad:</strong> toda salida tiene el mismo aspecto, sin que Claude reinvente la paleta.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Significado:</strong> el color transmite información (verde = confirmado), no es solo decoración.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Tema:</strong> cambiar de claro a oscuro solo requiere reescribir las variables.</span></li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">En tu skill, dales nombres a las variables <strong>semánticos</strong> (<code class="font-mono">--accent</code>, <code class="font-mono">--green</code>), no nombres de colores (<code class="font-mono">--blue1</code>). Un nombre semántico sobrevive a un cambio de paleta; un nombre de color se vuelve mentira en la primera revisión.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">:root</div><div class="text-xs text-neutral-400">Tokens centrales.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">5 acentos</div><div class="text-xs text-neutral-400">Cada una con sentido.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Glow</div><div class="text-xs text-neutral-400">Un par de cada color.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Semántico</div><div class="text-xs text-neutral-400">Nombre &gt; valor.</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔤 Tipografía y escala</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La skill define una escala tipográfica explícita: <strong class="text-blue-400">Inter</strong> para texto (pesos 300–900), una fuente <strong class="text-blue-400">mono</strong> para horarios y códigos, y tamaños por rol — hero responsivo vía <code class="font-mono text-blue-400">clamp()</code>, encabezados de sección, cuerpo y etiquetas en mayúsculas con letter-spacing.
+      </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Buenas elecciones de la skill</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Mono para datos:</strong> los horarios y los códigos se alinean y son legibles.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>clamp() en el hero:</strong> escala fluida sin media query.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Etiquetas en mayúsculas + espaciado entre letras:</strong> jerarquía clara para las etiquetas.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Qué evita esto</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tamaños aleatorios en cada generación.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Horarios desalineados en una fuente proporcional.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Hero que se desborda en mobile o desaparece en desktop.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">La escala, de un vistazo</h3>
+<div class="space-y-2 font-mono text-sm text-neutral-300">
+<div class="flex justify-between bg-dark-700/60 rounded p-2"><span>Hero</span><span class="text-blue-400">clamp(32px, 6vw, 50px) · 900</span></div>
+<div class="flex justify-between bg-dark-700/60 rounded p-2"><span>Encabezado de sección</span><span class="text-blue-400">16px · 800</span></div>
+<div class="flex justify-between bg-dark-700/60 rounded p-2"><span>Body</span><span class="text-blue-400">12–13px</span></div>
+<div class="flex justify-between bg-dark-700/60 rounded p-2"><span>Etiquetas</span><span class="text-blue-400">9–11px · mayúsculas</span></div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Reserva la fuente mono para <strong>datos que se alinean</strong> — horas, valores, códigos. Es un truco barato que hace que las tarjetas de vuelo y las tablas de presupuesto parezcan un producto real.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Inter</div><div class="text-xs text-neutral-400">Texto, 300–900.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Mono</div><div class="text-xs text-neutral-400">Horas y códigos.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">clamp()</div><div class="text-xs text-neutral-400">Hero fluido.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Escala</div><div class="text-xs text-neutral-400">El papel define el tamaño.</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🧱 La Component Library (12 bloques)</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Esta es la sección más extensa del sistema de diseño: doce componentes, cada uno descrito con su <strong class="text-blue-400">anatomía</strong> — lo que contiene, cómo se comporta al pasar el cursor y cuándo se expande. Hero, banner de evento, tarjetas de vuelos, selector de día + agenda, hotel, cuidado de mascotas, mapa de ruta SVG, stats bar, presupuesto, listas de verificación, pie de navegación y theme toggle.
+      </p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">A</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Tarjetas de vuelo expandibles</h4>
+<p class="text-sm text-neutral-400 mb-3">Componente n.º 3</p>
+<p class="text-neutral-300 text-sm">Encabezado con logo, número + ruta y una etiqueta de color (Leg 1/2/3, Transit, Return). Al hacer clic, el cuerpo se expande y muestra horarios, terminales, duración, aeronave, clase y código de reserva.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">B</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Selector de día + agenda</h4>
+<p class="text-sm text-neutral-400 mb-3">Componente n.º 4</p>
+<p class="text-neutral-300 text-sm">Botones de día en desplazamiento horizontal; el activo tiene un borde verde. Al hacer clic, carga la cronología de ese día en una tarjeta debajo, con la hora en mono y una descripción.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">C</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Listas de verificación interactivas</h4>
+<p class="text-sm text-neutral-400 mb-3">Componente n.º 10</p>
+<p class="text-neutral-300 text-sm">Agrupadas por categoría (previo al vuelo, mascota, día de regreso). Cada elemento se alterna al hacer clic, con barra de progreso y contador. El estado persiste mediante localStorage.</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Por qué describir la anatomía</h3>
+<ul class="space-y-2 text-neutral-300">
+<li>Cada componente se convierte en una <strong>pieza lista</strong> que Claude arma, en lugar de improvisar el diseño desde cero.</li>
+<li>La anatomía define estados (hover, expandido, activo): sin esto, la interactividad desaparece.</li>
+<li>La reutilización garantiza que todas las tarjetas de la página tengan el mismo comportamiento.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Describe cada componente como "contiene X, al pasar el cursor hace Y, al hacer clic hace Z". Este formato breve le da a Claude todo lo que necesita para recrear el comportamiento sin que pegues todo el CSS.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">12 piezas</div><div class="text-xs text-neutral-400">Biblioteca.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Anatomía</div><div class="text-xs text-neutral-400">Contiene + estados.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Reutilización</div><div class="text-xs text-neutral-400">El mismo comportamiento.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Composición</div><div class="text-xs text-neutral-400">Montar &gt; crear.</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🏷️ Sistema de etiquetas por color</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La skill incluye una tabla que mapea <strong class="text-blue-400">significado → color</strong>. Las etiquetas son píldoras en mayúsculas, con un fondo translúcido del color correspondiente. Es el principio «codificar todo por colores» convertido en una regla concreta: lees el estado de un vuelo solo por el color, sin leer el texto.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">El mapa de colores de la skill</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="flex items-center space-x-3 bg-dark-700/60 rounded-lg p-3"><span class="w-3 h-3 rounded-full" style="background:#5ad1ff"></span><span class="text-neutral-300 text-sm"><strong>Azul</strong> — vuelo de ida / primario</span></div>
+<div class="flex items-center space-x-3 bg-dark-700/60 rounded-lg p-3"><span class="w-3 h-3 rounded-full" style="background:#7dffaa"></span><span class="text-neutral-300 text-sm"><strong>Verde</strong> — confirmado / llegada</span></div>
+<div class="flex items-center space-x-3 bg-dark-700/60 rounded-lg p-3"><span class="w-3 h-3 rounded-full" style="background:#ff7a59"></span><span class="text-neutral-300 text-sm"><strong>Naranja</strong> — vuelo de regreso / esencial</span></div>
+<div class="flex items-center space-x-3 bg-dark-700/60 rounded-lg p-3"><span class="w-3 h-3 rounded-full" style="background:#c084fc"></span><span class="text-neutral-300 text-sm"><strong>Lavanda</strong> — conexión / tránsito</span></div>
+<div class="flex items-center space-x-3 bg-dark-700/60 rounded-lg p-3"><span class="w-3 h-3 rounded-full" style="background:#fbbf24"></span><span class="text-neutral-300 text-sm"><strong>Dorado</strong> — evento / VIP</span></div>
+<div class="flex items-center space-x-3 bg-dark-700/60 rounded-lg p-3"><span class="w-3 h-3 rounded-full" style="background:#8a8a99"></span><span class="text-neutral-300 text-sm"><strong>Gris</strong> — demo / marcador de posición</span></div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">La anatomía de una etiqueta</h3>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">.tag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding: 3px 8px;
+  border-radius: 999px;   /* <span class="text-blue-400">pílula</span> */
+}</pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Fija el significado de los colores <strong>en el SKILL.md</strong>, no en tu cabeza. Cuando el mapa está escrito, todas las ejecuciones usan los mismos colores y la página se puede recorrer de un vistazo.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Mapa fijo</div><div class="text-xs text-neutral-400">Significado → color.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Cápsulas</div><div class="text-xs text-neutral-400">Mayúsculas + espaciado entre letras.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Fácil de escanear</div><div class="text-xs text-neutral-400">Estado sin leer.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Principio</div><div class="text-xs text-neutral-400">"Colour-code all."</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">✨ Visual Effects y el ejemplo de salida</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Los efectos visuales son lo que saca a la página de la zona de "documento": <strong class="text-blue-400">orbes</strong> (desenfoques radiales fijos en el fondo), <strong class="text-blue-400">glassmorphism</strong> (backdrop-filter blur + borde interior), <strong class="text-blue-400">brillo</strong> en los banners, <em>hover-lift</em> en las tarjetas y el <em>contrail</em> animado del avión. Abajo, una maqueta del resultado: recreación ilustrativa, no una captura de pantalla real.
+      </p>
+<!-- Mock HTML da página de saída -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<div class="mockwin rounded-xl overflow-hidden relative border border-white/10">
+<div class="mockorb absolute -top-10 -right-10 w-48 h-48 rounded-full" style="background:#5ad1ff"></div>
+<div class="mockorb absolute -bottom-10 -left-10 w-40 h-40 rounded-full" style="background:#ff7a59"></div>
+<!-- barra de janela -->
+<div class="flex items-center space-x-2 px-4 py-2 border-b border-white/10 relative z-10">
+<span class="w-3 h-3 rounded-full" style="background:#ff5f56"></span>
+<span class="w-3 h-3 rounded-full" style="background:#ffbd2e"></span>
+<span class="w-3 h-3 rounded-full" style="background:#27c93f"></span>
+<span class="text-xs text-neutral-500 ml-3 font-mono">travelwings-tokyo.html</span>
+</div>
+<div class="p-5 relative z-10">
+<span class="inline-block text-[9px] uppercase tracking-widest font-bold px-2 py-1 rounded-full" style="color:#fbbf24;background:rgba(251,191,36,0.12)">7 días · 4 vuelos · 1 evento</span>
+<h3 class="text-2xl font-extrabold mt-3 mb-4" style="color:#f0f0f5;letter-spacing:-1px">Tokio <span style="color:#5ad1ff">2026</span> ✈️</h3>
+<!-- stats bar -->
+<div class="grid grid-cols-4 gap-2 mb-4">
+<div class="rounded-lg p-2 text-center" style="background:rgba(255,255,255,0.05)"><div class="font-bold" style="color:#5ad1ff">7</div><div class="text-[9px] uppercase tracking-wider text-neutral-500">días</div></div>
+<div class="rounded-lg p-2 text-center" style="background:rgba(255,255,255,0.05)"><div class="font-bold" style="color:#7dffaa">4</div><div class="text-[9px] uppercase tracking-wider text-neutral-500">vuelos</div></div>
+<div class="rounded-lg p-2 text-center" style="background:rgba(255,255,255,0.05)"><div class="font-bold" style="color:#fbbf24">2</div><div class="text-[9px] uppercase tracking-wider text-neutral-500">eventos</div></div>
+<div class="rounded-lg p-2 text-center" style="background:rgba(255,255,255,0.05)"><div class="font-bold" style="color:#ff7a59">1</div><div class="text-[9px] uppercase tracking-wider text-neutral-500">hotel</div></div>
+</div>
+<!-- flight card mock -->
+<div class="rounded-lg p-3 mb-2 flex items-center justify-between" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07)">
+<div><div class="text-sm font-semibold" style="color:#f0f0f5">NH204 · GRU → HND</div><div class="text-[10px]" style="color:#8a8a99">ANA · 18 may · 01:20</div></div>
+<span class="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-full" style="color:#5ad1ff;background:rgba(90,209,255,0.12)">Leg 1</span>
+</div>
+<div class="rounded-lg p-3 flex items-center justify-between" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07)">
+<div><div class="text-sm font-semibold" style="color:#f0f0f5">Hotel Shibuya</div><div class="text-[10px]" style="color:#8a8a99">registro 15:00 · ref ABC123</div></div>
+<span class="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-full" style="color:#7dffaa;background:rgba(125,255,170,0.1)">Confirmado</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-neutral-500 text-center mt-2">Recreación ilustrativa del resultado — no es una captura de pantalla real. Observa las etiquetas por color y el glassmorphism.</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Lo que ofrece cada efecto</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong>Orbs:</strong> profundidad y atmósfera de fondo, sin competir con el contenido.</li>
+<li><strong>Glassmorphism:</strong> las tarjetas parecen flotar: el estilo de una app moderna.</li>
+<li><strong>Elevación al pasar el cursor:</strong> feedback táctil; sientes que la página responde.</li>
+<li><strong>Contrail:</strong> el detalle lúdico que le da personalidad a la marca.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Los efectos son un condimento, no el plato principal. La skill describe unos pocos, bien definidos. Enumera solo los efectos que refuerzan la marca: una página llena de animaciones cansa y parece poco profesional.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Orbs</div><div class="text-xs text-neutral-400">Atmósfera de fondo.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Glass</div><div class="text-xs text-neutral-400">Las tarjetas flotan.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Shimmer</div><div class="text-xs text-neutral-400">Brillo en el banner.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Contrail</div><div class="text-xs text-neutral-400">Avión animado.</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">⚙️ JavaScript y persistencia del estado</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La última pieza del sistema de diseño son los <strong class="text-blue-400">patrones de JavaScript</strong>. Hacen que la página pase de estática a dinámica: cambio de día por fecha mediante data-attribute, acordeón de vuelos con transición de max-height, listas de verificación que se guardan en <code class="font-mono text-blue-400">localStorage</code>, selector de tema persistente y barras de progreso calculadas automáticamente.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">El patrón de persistencia (esencia)</h3>
+<div class="relative">
+<button class="absolute top-0 right-0 px-2 py-1 text-xs bg-dark-700 hover:bg-dark-600 rounded transition-colors" onclick="copyCode(this)">Copiar</button>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">// item da checklist salva estado por viagem
+function toggle(item, tripKey) {
+  item.classList.toggle('done');
+  const done = [...document.querySelectorAll('.done')]
+    .map(el =&gt; el.dataset.id);
+  localStorage.setItem(tripKey, JSON.stringify(done));
+  updateProgress();   // recalcula a barra
+}
+// ao abrir: restaura o que estava marcado
+const saved = JSON.parse(localStorage.getItem(tripKey) || '[]');</pre>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Patrones que valen oro</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>localStorage con una clave por viaje:</strong> varias páginas no se pisan entre sí.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Acordeón por max-height:</strong> transición fluida sin JS pesado.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Progreso automático:</strong> contado según los elementos marcados, no fijo.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Trampas</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Clave genérica de localStorage que genera conflictos entre viajes.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Olvidar restaurar el estado al abrir la página.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Depender de un framework para algo que vanilla resuelve.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Persistir el estado es lo que hace que el usuario <strong>volver</strong> a la página. Una checklist que olvida lo que se marcó es inútil. Siempre que tu skill genere algo interactivo, describe cómo se guarda y restaura el estado.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">localStorage</div><div class="text-xs text-neutral-400">El estado persiste.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Acordeón</div><div class="text-xs text-neutral-400">max-height suave.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">data-attr</div><div class="text-xs text-neutral-400">Cambio de día.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-bold mb-1">Vanilla</div><div class="text-xs text-neutral-400">Sin framework.</div></div>
+</div>
+</section>
+<!-- EXERCÍCIOS -->
+<section class="mb-16">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">✎</span>
+<h2 class="text-2xl font-bold">Ejercicios prácticos</h2>
+</div>
+<div class="space-y-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">1. Extrae el sistema de diseño</h4>
+<p class="text-neutral-300 text-sm">Toma la paleta de una skill (o de una app que te guste) y escribe el bloque <code class="font-mono text-blue-400">:root</code> con nombres semánticos. Enumera 5 acentos y qué significa cada uno.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">2. Documenta un componente</h4>
+<p class="text-neutral-300 text-sm">Elige un componente de tu futura skill y descríbelo en el formato "contiene X · al pasar el cursor Y · al hacer clic Z". Incluye los estados (activo, expandido, marcado).</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-semibold text-blue-400 mb-2">3. Crea un SKILL.md ejecutable con sistema de diseño</h4>
+<p class="text-neutral-300 text-sm mb-3">Guarda como <code class="font-mono text-blue-400">~/.claude/skills/expense-report/SKILL.md</code>, reinicia Claude Code y escribe <code class="font-mono text-blue-400">/expense</code>. La skill guía la configuración y genera un HTML con un sistema de diseño integrado y el estado persistido.</p>
+<div class="bg-dark-900 rounded-lg p-4 border border-dark-600 relative">
+<button class="absolute top-3 right-3 px-2 py-1 text-xs bg-dark-700 hover:bg-dark-600 rounded transition-colors" onclick="copyCode(this)">Copiar</button>
+<pre class="font-mono text-xs text-neutral-300 overflow-x-auto leading-relaxed">---
+name: expense-report
+description: Generates a self-contained HTML expense
+  report with a built-in design system and saved
+  state. Trigger on "/expense", "expense report",
+  "log my expenses", "trip costs". Asks for the
+  period, currency and categories BEFORE generating.
+---
+
+# Expense Report
+
+## What This Skill Does
+Generates a single self-contained HTML expense
+report: a stats bar (total, count, avg), category
+cards, an itemised table with mono-aligned values,
+and a checklist of receipts that saves state. Looks
+like an app, not a document.
+
+## Setup Flow — CRITICAL
+1. What period and currency?
+2. Which categories? (travel, food, lodging, other)
+3. Offer to read receipts from email/drive.
+4. Confirm a summary, THEN generate.
+
+## Design System
+:root tokens — --bg, --surface, --accent (blue),
+--green (paid), --orange (pending), --gold (flagged).
+Inter for text, mono for amounts. Tags are uppercase
+pills, colour-coded by status.
+
+## Output Format
+One HTML file. CSS in &lt;style&gt;, JS in &lt;script&gt;.
+localStorage for the receipt checklist, keyed per
+report. No external deps except Google Fonts.
+Save as expense-{period}.html.
+
+## Key Principles
+1. Colour-code by payment status.
+2. Mono-align all amounts.
+3. Interactive &gt; static (save receipt state).
+4. One file, zero dependencies.</pre>
+</div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎨</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Paleta en tokens</strong><span class="text-neutral-400"> — :root con nombres semánticos garantiza una identidad coherente.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Tipografía con escala</strong><span class="text-neutral-400"> — Inter + mono + clamp(); cada función tiene su tamaño.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Component library</strong><span class="text-neutral-400"> — 12 piezas con anatomía: Claude las arma, no improvisa.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Etiquetas por color + efectos</strong><span class="text-neutral-400"> — significado fijo en el color; los efectos moderados le dan aspecto de app.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">JavaScript persistente</strong><span class="text-neutral-400"> — localStorage y estado guardado: interactivo &gt; estático.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">¡Completaste la Ruta 2! Siguiente paso:</h3>
+<p class="text-neutral-300">Ruta 3 — Skills de Frontend &amp; Generación: correcciones en vivo en el navegador y un embudo completo en un prompt.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-2-1.html">← Módulo 2.1</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="../trilha3/index.html">Ruta 3 →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Contenido educativo sobre Agent Skills de Claude Code.</p>
+</div>
+</footer>
+<script>
+    function copyCode(button) {
+      const pre = button.parentElement.querySelector('pre');
+      const text = pre.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = button.textContent;
+        button.textContent = 'Copiado!';
+        setTimeout(() => { button.textContent = original; }, 1500);
+      });
+    }
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

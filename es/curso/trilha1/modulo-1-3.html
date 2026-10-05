@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 1.3 · Descripciones que activan | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha1/modulo-1-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha1/modulo-1-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha1/modulo-1-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha1/modulo-1-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-1-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Ruta 1</a>
+<span>/</span>
+<span class="text-emerald-400">Módulo 1.3</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎯 Descriptions que se activan</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        A <code class="text-emerald-400 font-mono text-base">description</code> es la línea más importante de toda skill — es la que
+        hace que Claude se active en el momento justo, o que nunca se active. Aquí aprendes a escribir descriptions con
+        <strong class="text-neutral-300">disparadores concretos</strong>, ejemplos integrados y —lo que casi todo el mundo olvida—
+        instrucciones de <strong class="text-neutral-300">cuándo NO usar</strong> la skill.
+      </p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Básico</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Práctica</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- SVG ILUSTRATIVO: fluxo de decisão -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+<svg aria-label="Flujo de decisión de Claude al leer un pedido: pregunta si la description coincide con la intención; si sí, activa la skill; si no, continúa sin ella" class="w-full h-auto" role="img" viewbox="0 0 1000 280">
+<defs>
+<lineargradient id="m13-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<filter height="180%" id="m13-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m13-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m13-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m13-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f87171"></path></marker>
+</defs>
+<rect fill="url(#m13-grid)" height="280" width="1000" x="0" y="0"></rect>
+<!-- pedido -> pergunta -->
+<g fill="none" opacity="0.55" stroke="#34d399" stroke-width="1.8"><path d="M196,140 L300,140" marker-end="url(#m13-ah)"></path></g>
+<!-- pergunta -> sim (emerald) -->
+<g fill="none" opacity="0.65" stroke="#34d399" stroke-width="2"><path d="M540,116 C620,90 660,72 720,72" marker-end="url(#m13-ah)"></path></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="612" y="82">sí</text>
+<!-- pergunta -> nao (vermelho) -->
+<g fill="none" opacity="0.6" stroke="#f87171" stroke-width="2"><path d="M540,164 C620,190 660,208 720,208" marker-end="url(#m13-ahr)"></path></g>
+<text fill="#f87171" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="612" y="218">no</text>
+<!-- nó pedido -->
+<rect fill="#0e2018" height="56" rx="12" stroke="#34d399" stroke-width="2" width="156" x="40" y="112"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="118" y="136">solicitud de</text>
+<text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="13" text-anchor="middle" x="118" y="155">usuario</text>
+<!-- diamante / pergunta (foco) -->
+<g filter="url(#m13-glow)"><rect fill="#0e2018" height="84" rx="14" stroke="url(#m13-grad)" stroke-width="2.5" width="240" x="300" y="98"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="420" y="132">la description</text>
+<text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="13.5" text-anchor="middle" x="420" y="154">¿coincide con la intención?</text>
+<!-- destino sim -->
+<g class="wf-a"><rect fill="#0e2018" height="52" rx="12" stroke="#34d399" stroke-width="2.5" width="234" x="720" y="46"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="20" x="744" y="70">⚡</text><text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="14" font-weight="600" x="778" y="68">activa la skill</text><text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="11.5" x="778" y="86">carga el cuerpo</text></g>
+<!-- destino nao -->
+<g class="wf-a"><rect fill="#2a0f16" height="52" rx="12" stroke="#f87171" stroke-width="2" width="234" x="720" y="182"></rect><text fill="#f87171" font-family="Inter,sans-serif" font-size="20" x="744" y="206">↷</text><text fill="#fecaca" font-family="Inter,sans-serif" font-size="14" font-weight="600" x="778" y="204">continúa sin la skill</text><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="11.5" x="778" y="222">cuerpo nunca leído</text></g>
+</svg>
+</div>
+<!-- TOPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧩 La fórmula «Haz + Cuándo»</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Toda description sólida tiene dos mitades inseparables: <strong class="text-emerald-400">lo que hace la skill</strong> e
+        <strong class="text-emerald-400">cuándo debe usarse</strong>. Las descripciones que solo describen la capacidad («genera
+        informes») dejan a Claude sin la señal más importante: el activador. Es como tener un currículum brillante, pero nunca decir
+        a qué puesto te postulas.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Tiene "Haz + Cuándo"</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Soluciona problemas de diseño del frontend mediante pruebas en vivo en el navegador. Úsala cuando el usuario quiera corregir elementos recortados o ajustar diseños visualmente."</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Claude sabe qué recibe Y con qué solicitud encaja.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Solo el «Haz»</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Una skill para solucionar problemas de frontend."</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Describe la capacidad, pero no dice cuándo aplicarla: la activación queda al azar.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Escribe la description y subraya mentalmente las dos partes. Si no puedes señalar dónde está el "cuándo", todavía no está lista. La expresión "use when" (o "usa cuando") es casi obligatoria.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Hace</div><div class="text-xs text-neutral-400">La capacidad</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Cuándo</div><div class="text-xs text-neutral-400">El disparador</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">"Úsala cuando"</div><div class="text-xs text-neutral-400">El puente</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Decisión</div><div class="text-xs text-neutral-400">Permite elegir</div></div>
+</div>
+</section>
+<!-- TOPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔫 Disparadores concretos</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Uno <strong class="text-emerald-400">disparador concreto</strong> es una frase o palabra real que el usuario diría cuando necesita
+        la skill. Cuanto más se acerque al lenguaje del usuario, mejor será el matching. Las skills bien hechas incluyen varios activadores —
+        incluidos comandos de barra y sinónimos — para abarcar las distintas formas de pedir lo mismo.</p>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">disparadores reales en las descripciones de las skills</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">ejemplos</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code># Gerador de itinerários
+"plan a trip", "create an itinerary", "travel planner", /travel
+
+# Correção de frontend ao vivo
+"fix CSS/HTML changes", "fix cut-off elements", "adjust layouts visually"
+
+# Padrão: linguagem do usuário + sinônimos + comando de barra</code></pre>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Tres fuentes de activación</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Verbos de acción:</strong> "crear", "corregir", "revisar", "generar": lo que el usuario quiere hacer.</li>
+<li><strong>Objetos concretos:</strong> "itinerario", "factura", "workflow", "informe": lo que quiere obtener.</li>
+<li><strong>Comandos de barra:</strong> <code class="font-mono">/travel</code>, <code class="font-mono">/review</code> — el atajo explícito.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Antes de escribir los activadores, imagina a cinco personas diferentes pidiendo lo mismo, cada una con sus propias palabras. Los puntos en común entre esas cinco frases son tus mejores activadores.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Verbos</div><div class="text-xs text-neutral-400">create, fix, review</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Objetos</div><div class="text-xs text-neutral-400">itinerary, report</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Comandos</div><div class="text-xs text-neutral-400">/travel</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Sinónimos</div><div class="text-xs text-neutral-400">cubren variaciones</div></div>
+</div>
+</section>
+<!-- TOPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">💡 Ejemplos dentro de la description</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Para skills de alcance amplio o ambiguo, incorporar <strong class="text-emerald-400">ejemplos breves de uso</strong> en la propia
+        description le da a Claude anclas semánticas que la prosa abstracta no le da. "Muestra, no solo cuentes" aplica tanto al usuario
+        como al modelo: un caso concreto aporta más información que una definición genérica.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Abstracto vs. anclado</h3>
+<div class="space-y-3">
+<div class="bg-dark-800/60 rounded-lg p-4 border border-red-500/30">
+<span class="text-red-400 text-xs font-semibold">ABSTRATA</span>
+<p class="font-mono text-sm text-neutral-300 mt-1">"Helps with data analysis tasks."</p>
+</div>
+<div class="bg-dark-800/60 rounded-lg p-4 border border-emerald-500/30">
+<span class="text-emerald-400 text-xs font-semibold">ANCLADA CON EJEMPLOS</span>
+<p class="font-mono text-sm text-neutral-300 mt-1">"Analyzes a CSV and returns top trends. Use when the user says 'what's in this data?', 'find outliers', or 'summarize this spreadsheet'."</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📐</span> Cuándo vale la pena</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Alcance amplio:</strong> la skill hace muchas cosas; los ejemplos delimitan.</li>
+<li><strong>Término genérico:</strong> palabras como "helper" o "analysis" necesitan un ancla.</li>
+<li><strong>Confusión con las skills vecinas:</strong> los ejemplos permiten distinguirla de skills parecidas.</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Ancla</div><div class="text-xs text-neutral-400">Caso concreto</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Muestra</div><div class="text-xs text-neutral-400">No te limites a contar</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Delimita</div><div class="text-xs text-neutral-400">Reduce la ambigüedad</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Diferencia</div><div class="text-xs text-neutral-400">De skills cercanas</div></div>
+</div>
+</section>
+<!-- TOPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🚫 Antipatrones que arruinan el disparo</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        La forma más rápida de corregir una skill que no se activa es identificar el <strong class="text-emerald-400">antipatrón</strong>
+        en tu description. Casi todas las descriptions defectuosas caen en uno de estos cuatro errores, y cada uno tiene una corrección directa.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center"><span class="text-red-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Demasiado vago</h4>
+<p class="text-sm text-neutral-400 mb-3">"Helps with various tasks."</p>
+<p class="text-neutral-300 text-sm"><strong class="text-emerald-400">Corrección:</strong> nombra la tarea específica y los activadores. "Various" nunca coincide con nada y con todo al mismo tiempo.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center"><span class="text-red-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Solo «qué hace», sin «cuándo»</h4>
+<p class="text-sm text-neutral-400 mb-3">"Generates HTML pages."</p>
+<p class="text-neutral-300 text-sm"><strong class="text-emerald-400">Corrección:</strong> añade la mitad del «cuándo». Sin un disparador, Claude no tiene forma de saber que la solicitud actual aplica.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center"><span class="text-red-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Jerga sin contexto</h4>
+<p class="text-sm text-neutral-400 mb-3">"Runs the v2 pipeline orchestrator."</p>
+<p class="text-neutral-300 text-sm"><strong class="text-emerald-400">Corrección:</strong> traduce al lenguaje del usuario. Nadie pide «ejecuta el orquestador v2»; pide el resultado que ofrece.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center"><span class="text-red-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Superpuesta con otra skill</h4>
+<p class="text-sm text-neutral-400 mb-3">Dos skills con descripciones casi idénticas.</p>
+<p class="text-neutral-300 text-sm"><strong class="text-emerald-400">Corrección:</strong> diferénciala por su alcance y agrega "no la uses para X" (tema siguiente). Las descriptions que se superponen generan activaciones aleatorias.</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-red-400 font-bold mb-1">Vacante</div><div class="text-xs text-neutral-400">Casa con nada</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-red-400 font-bold mb-1">Sin «cuándo»</div><div class="text-xs text-neutral-400">Falta el disparador</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-red-400 font-bold mb-1">Jerga</div><div class="text-xs text-neutral-400">Fuera del lenguaje</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-red-400 font-bold mb-1">Colidente</div><div class="text-xs text-neutral-400">Igual que la vecina</div></div>
+</div>
+</section>
+<!-- TOPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🛑 Cuándo NO disparar</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Esta es la parte que casi todo el mundo olvida, y es lo que diferencia una buena description de una excelente. Definir el
+        <strong class="text-emerald-400">alcance negativo</strong> ("no lo uses para X") evita falsos positivos: que la skill se active con
+        solicitudes parecidas, pero equivocadas. Un falso positivo frustra tanto como un falso negativo, porque entrega el resultado incorrecto
+        con seguridad.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🛑</span> El poder del límite explícito</h3>
+<p class="text-neutral-300 mb-4">Compara una skill de "corrección de frontend en vivo". Se ocupa del diseño y del CSS, pero NO de la arquitectura. Dejarlo explícito impide que se active con solicitudes como "agrega una base de datos".</p>
+<div class="bg-dark-800/60 rounded-lg p-4 border border-emerald-500/30">
+<span class="text-emerald-400 text-xs font-semibold">CON ALCANCE NEGATIVO</span>
+<p class="font-mono text-sm text-neutral-300 mt-1">"Úsalo para errores visuales/de diseño. No para cambios en el backend, arquitecturas nuevas ni trabajo con bases de datos; usa un plan estándar para eso."</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Activar cuando</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>La solicitud encaja claramente con la capacidad central</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Aparece un disparador concreto en la solicitud</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Es exactamente el problema que resuelve la skill</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ NO activar cuando</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>La solicitud solo parece relacionada, pero se trata de otra cosa</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Llega a un caso que la skill enumera como fuera de alcance</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Otra skill es claramente más adecuada</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Para cada skill, escribe una frase que empiece con "No uses esta skill para...". Si no puedes completarla, probablemente el alcance de la skill sea demasiado impreciso y se activará cuando no corresponda.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Alcance -</div><div class="text-xs text-neutral-400">"No lo uses para X"</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Falso +</div><div class="text-xs text-neutral-400">Se activa por error</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Límite</div><div class="text-xs text-neutral-400">Donde se detiene</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Desambigua</div><div class="text-xs text-neutral-400">De skills cercanas</div></div>
+</div>
+</section>
+<!-- TOPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🧪 Probando el disparo</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Una description es una <strong class="text-emerald-400">hipótesis</strong> sobre cuándo debe activarse la skill. Solo la prueba
+        lo confirma. El ciclo es simple: ejecuta solicitudes reales y variadas, observa si la skill se activa cuando debe y permanece inactiva cuando no debe,
+        y ajusta la description. Es una iteración, no un único intento.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Arma casos de prueba</h4>
+<p class="text-neutral-300 text-sm">Enumera solicitudes que <em>deben</em> activar (positivos) y solicitudes similares que <em>no deben</em> (negativos). Los buenos negativos son solicitudes similares, no absurdas.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Ejecuta en lenguaje natural</h4>
+<p class="text-neutral-300 text-sm">Pide cada caso sin mencionar la skill por su nombre. Estás probando la <em>description</em>, no la invocación explícita.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Cuenta los errores y ajusta</h4>
+<p class="text-neutral-300 text-sm">¿Falso negativo (no se activó y debería)? Añade disparadores. ¿Falso positivo (se activó y no debería)? Reduce el alcance negativo. Repite.</p>
+</div>
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atención</h3>
+<p class="text-neutral-300">No optimices la description solo para los positivos. Una description que se activa con todo tiene un 100 % de aciertos entre los positivos y es inútil, porque también se activa con todos los negativos. El equilibrio entre ambos es el objetivo.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo práctico</h3>
+<p class="text-neutral-300">Guarda tus casos de prueba en un archivo. Cada vez que modifiques la description, vuelve a ejecutar la batería. Es la forma más económica de evitar regresiones: ajustar para un caso suele romper otro.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Positivos</div><div class="text-xs text-neutral-400">Debe activarse</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Negativos</div><div class="text-xs text-neutral-400">No debe</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Bucle</div><div class="text-xs text-neutral-400">Ejecutar y ajustar</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-bold mb-1">Equilibrio</div><div class="text-xs text-neutral-400">Los dos lados</div></div>
+</div>
+</section>
+<!-- PROMPTS COPIAVEIS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">🧰 Prompts copiables</h2>
+<p class="text-neutral-300 mb-6">Usa estos prompts para escribir y probar descriptions contundentes con Claude.</p>
+<div class="space-y-4">
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+<div class="text-xs font-mono text-neutral-500 mb-2">Prompt — generar una description «Hace + Cuándo»</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Minha skill faz: &lt;descreva&gt;. Escreva uma description no padrão
+"Faz + Quando", com: (1) o que produz, (2) 3 a 5 gatilhos concretos
+na linguagem do usuário, e (3) uma frase de escopo negativo
+("não use para...").</code></pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+<div class="text-xs font-mono text-neutral-500 mb-2">Prompt — buscar anti-patrones</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Avalie esta description: "&lt;cole&gt;". Ela cai em algum anti-padrão
+(vaga, sem "quando", jargão, sobreposta)? Aponte qual e reescreva
+corrigindo o problema.</code></pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5">
+<div class="text-xs font-mono text-neutral-500 mb-2">Prompt — armar la batería de pruebas</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Para esta description: "&lt;cole&gt;", gere 5 pedidos de usuário que
+DEVEM disparar a skill e 5 que NÃO devem (mas são parecidos).
+Depois diga, para cada um, se a description atual acertaria.</code></pre>
+</div>
+</div>
+</section>
+<!-- EXEMPLO DE SAIDA -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">📤 Ejemplo de salida</h2>
+<p class="text-neutral-300 mb-6">Una description completa, con las cuatro fuerzas de este módulo: qué hace y cuándo, disparadores concretos, ejemplos y alcance negativo.</p>
+<div class="bg-dark-900 rounded-xl border border-emerald-500/30 p-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">meeting-notes/SKILL.md — frontmatter</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">ejecutable</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>---
+name: meeting-notes
+description: Turns a raw meeting transcript into clean notes with
+  decisions and action items. Use when the user says "summarize
+  this meeting", "what did we decide?", "pull the action items",
+  or pastes a transcript and asks for notes. Not for live
+  transcription or scheduling — only for processing text that
+  already exists.
+---</code></pre>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">✏️ Ejercicios prácticos</h2>
+<div class="space-y-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">1. Diagnostica y corrige</h3>
+<p class="text-neutral-300 text-sm">Toma cinco descriptions vagas (invéntalas o recopílalas) y clasifica cada una según el antipatrón que presenta. Después, reescríbelas todas según el patrón "Hace + Cuándo".</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">2. Escribe el alcance negativo</h3>
+<p class="text-neutral-300 text-sm">Para tres skills tuyas, escribe la frase "No uses esta skill para...". Si te atascas con alguna, anótalo: es una señal de que el alcance está mal definido.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">3. Crea un SKILL.md ejecutable y prueba la activación ⭐</h3>
+<p class="text-neutral-300 text-sm">Escribe un <code class="font-mono">SKILL.md</code> completo cuya <code class="font-mono">description</code> incluye las cuatro fuerzas: qué hace y cuándo, al menos 3 activadores concretos, un ejemplo integrado y una frase que delimite el alcance negativo. Después, prepara 5 solicitudes positivas y 5 negativas y pídele a Claude que juzgue —basándose solo en la description— cuáles activarían la skill. Ajusta la description hasta acertar todas.</p>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Hace + Cuándo</strong><span class="text-neutral-400"> — toda description necesita las dos partes; "úsala cuando" es casi obligatorio.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Disparadores y ejemplos concretos</strong><span class="text-neutral-400"> — el lenguaje del usuario, los sinónimos y los comandos sirven de ancla para la coincidencia.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Los antipatrones tienen corrección</strong><span class="text-neutral-400"> — vaga, sin "cuándo", con jerga y conflictiva: reconocerlo es la mitad de la solución.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Cuándo NO se activa + prueba</strong><span class="text-neutral-400"> — el alcance negativo evita falsos positivos; el disparador se valida iterando, no adivinando.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Fin de la Ruta 1:</h3>
+<p class="text-neutral-300">Ya entiendes la anatomía, la estructura y el disparador. En la Ruta 2 analizarás una skill real de principio a fin y crearás la tuya.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-2.html">← Módulo anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="../trilha2/index.html">Próxima ruta: Primera Skill →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Ruta 1 · Módulo 1.3 · Descriptions que activan</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

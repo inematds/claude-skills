@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Track 3 · Frontend &amp; Generation Skills | Claude Skills in Practice</title>
+<meta content="Live frontend fixes in the browser and an entire funnel from a single prompt. Two frontend and generation skills, dissected in practice." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha purple) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    /* hover das outras trilhas no nav */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG futurista - suavizar no light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha3/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha3/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha3/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="./" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha3/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">First Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consulting</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Advanced</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">TRACK 3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎨 Frontend &amp; Generation Skills</h1>
+<p class="text-lg text-neutral-400 max-w-3xl mb-8">
+        Two skills that change the pace for people building for the web. The first teaches the agent to
+        <strong class="text-neutral-100">fix the frontend by looking at the live browser</strong> — not in the dark.
+        The second transforms <strong class="text-neutral-100">a single prompt</strong> into an entire funnel:
+        pages, emails, scripts, and the digital lead magnet itself, ready to publish.
+      </p>
+<!-- Hero SVG: navegador ao vivo (purple) -> aprovação -> orquestrador -> assets (ciano) -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="On the left, an agent inspects the browser live and only persists the code after visual approval; on the right, a single prompt triggers an orchestrator that generates pages, emails, and scripts in parallel" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="t3h-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#a855f7"></stop>
+</lineargradient>
+<filter height="180%" id="t3h-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t3h-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#a855f7" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t3h-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+<marker id="t3h-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#t3h-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- Lado esquerdo: vibe coding (navegador ao vivo) -->
+<g filter="url(#t3h-glow)">
+<rect fill="#1a1230" height="122" rx="14" stroke="url(#t3h-grad)" stroke-width="2.5" width="190" x="36" y="64"></rect>
+</g>
+<g>
+<circle cx="56" cy="84" fill="#fb7185" r="4"></circle><circle cx="70" cy="84" fill="#fbbf24" r="4"></circle><circle cx="84" cy="84" fill="#34d399" r="4"></circle>
+<line opacity="0.5" stroke="#a855f7" stroke-width="1.5" x1="36" x2="226" y1="98" y2="98"></line>
+<rect fill="#a855f7" height="9" opacity="0.55" rx="4.5" width="120" x="54" y="112"></rect>
+<rect fill="#38bdf8" height="9" opacity="0.45" rx="4.5" width="154" x="54" y="130"></rect>
+<rect fill="#a855f7" height="9" opacity="0.4" rx="4.5" width="92" x="54" y="148"></rect>
+</g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="131" y="206">live browser</text>
+<path d="M226,125 L296,125" fill="none" marker-end="url(#t3h-ah)" opacity="0.6" stroke="#c084fc" stroke-width="1.8"></path>
+<!-- Hard stop / aprovação -->
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="120" x="300" y="100"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="360" y="122">approval</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="360" y="139">you decide</text>
+<path d="M420,125 L486,125" fill="none" marker-end="url(#t3h-ah)" opacity="0.6" stroke="#c084fc" stroke-width="1.8"></path>
+<!-- Lado direito: funnel builder (1 prompt -> orquestrador -> assets) -->
+<g filter="url(#t3h-glow)">
+<rect fill="#1a1230" height="54" rx="13" stroke="url(#t3h-grad)" stroke-width="2.5" width="120" x="490" y="98"></rect>
+</g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="550" y="121">1 prompt</text>
+<text fill="#d8b4fe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="550" y="139">orchestrator</text>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M610,125 C690,125 700,42 786,42" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 C690,125 700,84 786,84" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 L786,125" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 C690,125 700,166 786,166" marker-end="url(#t3h-ahc)"></path>
+<path d="M610,125 C690,125 700,208 786,208" marker-end="url(#t3h-ahc)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="27"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="47">pages</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="69"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="89">emails</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="110"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="130">scripts</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="151"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="171">digital magnet</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="178" x="786" y="193"></rect><text fill="#bfe6ff" text-anchor="middle" x="875" y="213">social pack …</text></g>
+</g>
+</svg>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-4 gap-4 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">2</div>
+<div class="text-xs text-neutral-400">Modules</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">12</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">~1h40</div>
+<div class="text-xs text-neutral-400">Duration</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Inter.</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Learning path map</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.1</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🖥️ Vibe Coding</h3>
+<p class="text-xs text-neutral-400">Preview before adding it to the code</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🧲 Funnel Builder</h3>
+<p class="text-xs text-neutral-400">One prompt, an entire funnel</p>
+</a>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Detailed content</h2>
+<!-- MODULO 3.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.1</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🖥️ Vibe Coding: Live Frontend Fixes</h3>
+<p class="text-neutral-400 text-sm">The agent stops guessing at code. It opens the visible browser, injects the change live, shows it on screen, and only writes it to the source code after your approval—always on a safe sandbox branch.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- T1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">The reverse workflow</span><span class="text-neutral-500 text-sm ml-2">- See before editing</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">Reverse the agent’s classic workflow: instead of editing files and hoping for the best, it opens the browser, inspects, and tests the change live first.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">Ends the "edit → build → check → revert" cycle. Every fix is visually validated before touching the code.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">This is how a real developer works: DevTools open, visual adjustment, then permanent code.</p></div>
+</div>
+</div>
+</div>
+<!-- T2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📂</span>
+<div><span class="font-medium">Confirm the workspace</span><span class="text-neutral-500 text-sm ml-2">- The right repo before anything else</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">A hard stop right at the start: the agent detects the active directory and asks whether it’s the right repository before any git, browser, or editing action.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">Avoids the nightmare of changing the wrong project. A cheap step that prevents costly damage.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Detect the workspace, show the path, and wait for explicit confirmation. No directory guesswork.</p></div>
+</div>
+</div>
+</div>
+<!-- T3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🌿</span>
+<div><span class="font-medium">Branch-first &amp; git safety</span><span class="text-neutral-500 text-sm ml-2">- Immediate sandbox</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">Before analyzing or opening the browser, the agent creates a local branch and switches to it <code class="font-mono text-purple-400">vibe/descricao</code> — a safe testing area.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">You experiment without fear: the <code class="font-mono">main</code> is never touched, and each fix stays isolated in its own branch.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Verify <code class="font-mono">git status</code>, offer to back up uncommitted work, create the branch BEFORE any work.</p></div>
+</div>
+</div>
+</div>
+<!-- T4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🌐</span>
+<div><span class="font-medium">Visible browser &amp; live injection</span><span class="text-neutral-500 text-sm ml-2">- You watch it happen</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">An automated browser, NOT headless, opens the target URL on your screen. The agent inspects the DOM and injects CSS/JS directly into the live page.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">You watch the automation happen live as the agent tests fixes without editing a single project file.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Local dev server OR hosted URL, DOM inspection, screenshots, session recovery if the page reloads.</p></div>
+</div>
+</div>
+</div>
+<!-- T5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⛔</span>
+<div><span class="font-medium">The hard stops</span><span class="text-neutral-500 text-sm ml-2">- The agent doesn’t steamroll you</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">Four required approval gates: visual approval, strategy approval, code review, and push approval.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">The agent literally can’t skip steps. You give the “go ahead” at every critical point—your code, your rules.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Anti-merge and anti-steamroll rule: strategy and execution NEVER in the same response. Each step gets its own approval.</p></div>
+</div>
+</div>
+</div>
+<!-- T6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">✏️</span>
+<div><span class="font-medium">Persist, review &amp; close</span><span class="text-neutral-500 text-sm ml-2">- From live to clean code</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">Translate the browser’s temporary adjustment into clean, permanent source code—only after the strategy is approved—and close the session.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">Only the final, polished fix becomes code. The git history stays clean, without a dozen failed attempts.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">"Persist in the source" (not "hardcode"), clean up hacks, push to a dedicated branch, start a new session for the next fix.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-1')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-1.html">View Full</a>
+</div>
+</div>
+<!-- MODULO 3.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🧲 Funnel Builder: one prompt, entire funnel</h3>
+<p class="text-neutral-400 text-sm">A suite of coordinated skills with a central orchestrator that takes your offer and produces a complete funnel ready to publish — pages, emails, scripts, and the digital lead magnet itself — in a single session.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- T1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🧩</span>
+<div><span class="font-medium">The suite and the orchestrator</span><span class="text-neutral-500 text-sm ml-2">- Coordinated skills</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">A set of specialist skills (landing page, email, VSL, lead magnet, quiz...) with a central orchestrator that decides who steps in and when.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">The bottleneck was never strategy—it was execution. A coordinated suite produces everything consistently in a single session.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Orchestrator + specialists, asset map, build order determined by dependencies.</p></div>
+</div>
+</div>
+</div>
+<!-- T2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🗺️</span>
+<div><span class="font-medium">11 types of funnels</span><span class="text-neutral-500 text-sm ml-2">- Each with its own map</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">Lead magnet, opt-in, webinar, VSL, launch, low/high-ticket, challenge, quiz, flash sale, re-engagement, and SaaS/trial — each with its own asset map.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">Naming the funnel type lets the suite automatically choose which pages come first and which emails depend on what.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">For each type, it knows the exact order: which scripts to write before the sequence, which pages before the emails.</p></div>
+</div>
+</div>
+</div>
+<!-- T3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">What it produces</span><span class="text-neutral-500 text-sm ml-2">- Ready-to-use assets, not drafts</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">Pages with complete copy, email sequences, the lead magnet as an actual file (downloadable PDF), social packs, headline variants, and the entire project folder.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">It’s not an outline: it’s the actual file, ready to drop into Kajabi, ClickFunnels, Webflow, or plain HTML.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">One subfolder per asset type, everything named and saved as you go, confirming each piece.</p></div>
+</div>
+</div>
+</div>
+<!-- T4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🚦</span>
+<div><span class="font-medium">How to start a project</span><span class="text-neutral-500 text-sm ml-2">- New session, clear offer</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">A kickoff ritual: start a new session, state the offer in one sentence, paste existing assets, specify the platform, type, and funnel goal.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">Doing this produces dramatically better results. A fresh session isolates the project, and nothing leaks from previous work.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">A clear offer ("a $27 mini-course for freelancers...") &gt; vague ("a course about pricing").</p></div>
+</div>
+</div>
+</div>
+<!-- T5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">📋</span>
+<div><span class="font-medium">Intake, plan, and "build it"</span><span class="text-neutral-500 text-sm ml-2">- One approval, entire build</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">After intake, the suite shows the complete asset map — every deliverable, in order. One approval triggers the entire build.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">It doesn’t pause to ask permission for each piece: approve the plan and let it finish, saving and confirming each asset.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Review the plan, say "build it," and let it finish. Everything ends up organized in a single folder.</p></div>
+</div>
+</div>
+</div>
+<!-- T6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🎬</span>
+<div><span class="font-medium">Funnels in practice: the webinar</span><span class="text-neutral-500 text-sm ml-2">- From brief to social pack</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span> <p class="text-neutral-300 text-sm">A real-world case: a short webinar brief generates a 75-minute script, registration page, confirmation, email sequences, replay page, and social pack.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span> <p class="text-neutral-300 text-sm">Seeing the entire funnel take shape from one sentence shows what coordination between skills actually delivers.</p></div>
+<div><span class="text-purple-400 font-semibold">Key concepts:</span> <p class="text-neutral-300 text-sm">Brief → plan → script → pages → emails (reminder, attended, no-show) → replay → social. All in one folder.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-2')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-2.html">View Full</a>
+</div>
+</div>
+<!-- NAVEGACAO TRILHA -->
+<div class="flex flex-col sm:flex-row gap-4 mt-10">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha2/index.html">← Track 2: First Skill</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="../trilha4/index.html">Track 4: Automation →</a>
+</div>
+</main>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-purple-400 font-bold">3.1</span>
+<span class="font-semibold">Vibe Coding: live frontend fixes</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-purple-400 font-bold">3.2</span>
+<span class="font-semibold">Funnel Builder: one prompt, an entire funnel</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-2.html"></iframe>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills in Practice — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Track 3 · Frontend &amp; Generation Skills</p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

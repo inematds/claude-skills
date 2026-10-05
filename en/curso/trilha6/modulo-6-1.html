@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 6.1 · Improvised Intelligence | Claude Skills in Practice</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (rose) */
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225,29,72,0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225,29,72,0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225,29,72,0.18); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    /* nav hover das outras trilhas no light */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - diagramas SVG mais suaves */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.8s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s}
+      .wf-a:nth-child(4){animation-delay:.9s} .wf-a:nth-child(5){animation-delay:1.2s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha6/modulo-6-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha6/modulo-6-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha6/modulo-6-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-6-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha6/modulo-6-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">First Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consulting</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Advanced</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-rose-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-rose-400" href="index.html">Track 6</a>
+<span>/</span>
+<span class="text-rose-400">Module 6.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4">MODULE 6.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎷 Improvised Intelligence</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">The improv skill: a single command that researches a business, builds the pitch, creates the brand system, architects a team of agents—and, underneath it all, observes what you create and offers to turn it into new skills. Let’s unpack the three benefits and see how to trigger each phase.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">6</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">55</div>
+<div class="text-xs text-neutral-400">Minutes</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Advanced</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Practice</div>
+<div class="text-xs text-neutral-400">Type</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- SVG: pipeline de fases -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+<svg aria-label="Five-phase pipeline: prospect, pitch, brand, operate, and capture — the capture phase feeds new skills back into the skill" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<lineargradient id="m61-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fb7185"></stop><stop offset="1" stop-color="#f43f5e"></stop>
+</lineargradient>
+<filter height="180%" id="m61-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m61-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m61-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m61-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m61-grid)" height="200" width="1000" x="0" y="0"></rect>
+<!-- conectores sequenciais -->
+<g fill="none" opacity="0.55" stroke="#fb7185" stroke-width="1.8">
+<path d="M170,70 L196,70" marker-end="url(#m61-ah)"></path>
+<path d="M366,70 L392,70" marker-end="url(#m61-ah)"></path>
+<path d="M562,70 L588,70" marker-end="url(#m61-ah)"></path>
+<path d="M758,70 L784,70" marker-end="url(#m61-ah)"></path>
+</g>
+<!-- 5 fases -->
+<g font-family="Inter,sans-serif">
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="20" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="95" y="68">1 · Prospecting</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="95" y="84">research</text>
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="216" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="291" y="68">2 · Pitch</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="291" y="84">S.O.U.L.</text>
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="412" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="487" y="68">3 · Brand</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="487" y="84">brand book</text>
+<rect fill="#2a0f16" height="48" rx="11" stroke="#fb7185" stroke-width="2" width="150" x="608" y="46"></rect>
+<text fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle" x="683" y="68">4 · Operate</text>
+<text fill="#fecdd3" font-size="10.5" text-anchor="middle" x="683" y="84">agent team</text>
+</g>
+<!-- fase capturar, em ciano, com glow (foco) -->
+<g filter="url(#m61-glow)"><rect fill="#0e1b26" height="48" rx="11" stroke="#38bdf8" stroke-width="2" width="172" x="804" y="46"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="890" y="68">5 · Capture</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10.5" text-anchor="middle" x="890" y="84">Workflow Spotter</text>
+<!-- realimentação capturar -> prospectar -->
+<path d="M890,94 C890,150 95,150 95,94" fill="none" marker-end="url(#m61-ahc)" opacity="0.5" stroke="#38bdf8" stroke-dasharray="7 6" stroke-width="1.8"></path>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle" x="492" y="172">the capture creates new skills and improves the next rounds</text>
+</svg>
+<p class="text-center text-xs text-neutral-500 mt-2">Illustrative diagram · five phases that can be chained under a single command; the CAPTURE phase is what makes the skill self-improving.</p>
+</div>
+<!-- ===== TOPICO 1 ===== -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🎷 What is a mega-skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Most skills solve <strong class="text-rose-400">a task</strong>: generate an itinerary, review a workflow, audit a website. A <strong class="text-rose-400">mega-skill</strong> does something else—it weaves together multiple phases of complex work under a single entry point. You say one sentence, and the skill guides research, proposal, brand, and operations like a pipeline.
+      </p>
+<div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-4 flex items-center"><span class="mr-2">🎯</span> The definition</h3>
+<p class="text-neutral-300 mb-4">Improvised Intelligence defines itself as a <em>unified engine</em> that takes a business from "cold prospect" to "fully operationalized client"—with workflow capture at every step. It orchestrates four interconnected phases and a fifth that observes everything:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>PROSPECT</strong> — competitive intelligence and market research on the target.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>PITCH</strong> — a personalized proposal with 5 deliverables that close the deal.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>BRAND</strong> — guided creation of a brand book in 8 phases.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>OPERATE</strong> — a team of AI agents that runs ongoing operations.</span></li>
+<li class="flex items-start space-x-2"><span class="text-sky-400 mt-1">•</span><span><strong>CAPTURE</strong> — detects repeatable patterns and generates new skills from completed work.</span></li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">The mega-skill doesn’t start out big on purpose. It grows when you realize that several of your skills <strong>always run in the same order</strong>. Instead of calling three skills in sequence every time, you combine them under one command and a phase detection table. Size isn’t the goal—eliminating manual coordination is.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Single point</div><p class="text-sm text-neutral-400">One command goes in, the skill chooses the path.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Phases</div><p class="text-sm text-neutral-400">Run sequentially or independently.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Detection</div><p class="text-sm text-neutral-400">The request selects the phase.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Capture</div><p class="text-sm text-neutral-400">The workflow becomes a new skill.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 2 ===== -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🧠 Benefit 1: replaces an agency workflow</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        The first benefit is the most visible: the skill <strong class="text-rose-400">replaces an entire agency workflow</strong> — research, pitch, brand strategy, and AI operations — in a single chain of commands. What would normally pass through several people and several tools happens through simple phrases.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50 text-left">
+<tr><th class="px-4 py-3 text-rose-400">You say</th><th class="px-4 py-3 text-rose-400">What the skill produces</th></tr>
+</thead>
+<tbody class="divide-y divide-dark-600">
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">pitch [company]</td><td class="px-4 py-3 text-neutral-400">Researches the business, finds competitors, builds a personalized landing page, 3 PDFs, and a video script.</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">build a brand book for [client]</td><td class="px-4 py-3 text-neutral-400">Guides you through 8 phases and produces a complete brand identity system.</td></tr>
+<tr><td class="px-4 py-3 font-mono text-xs text-neutral-300">build my agent system</td><td class="px-4 py-3 text-neutral-400">Architects a multi-agent team with memory, escalation rules, and a COO that audits itself.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Why this is strong</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>One request triggers a pipeline of deliverables that work together.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The phase 1 research feeds into the phase 2 pitch—nothing gets lost.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The phase 3 brand becomes the voice foundation for phase 4 operations.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ What to avoid when copying</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Try to generate all 5 deliverables without doing the research first.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Chaining phases that don't share context just creates a task menu.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Use generic placeholders instead of the client’s actual business.</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Research</div><p class="text-sm text-neutral-400">Target dossier.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Pitch</div><p class="text-sm text-neutral-400">5 deliverables.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Brand</div><p class="text-sm text-neutral-400">8 guided phases.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Operation</div><p class="text-sm text-neutral-400">Agent team.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 3 ===== -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📈 Benefit 2: gets smarter with every session</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        The second benefit is the most interesting for anyone studying skill architecture: Improvised Intelligence <strong class="text-rose-400">gets smarter with every session</strong>. A built-in detector — the <strong class="text-rose-400">Workflow Spotter</strong> — captures what you do and turns it into reusable skills.
+      </p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔎</span> When the Spotter triggers</h3>
+<p class="text-neutral-300 mb-3 text-sm">It evaluates "is this worth turning into a skill?" whenever ANY of these happens:</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li>• <strong>10+</strong> back and forth in a single project</li>
+<li>• <strong>5+</strong> tool calls for the same result</li>
+<li>• <strong>3+</strong> output files created</li>
+<li>• A complete Research → Analysis → Creation → Delivery arc</li>
+<li>• The user says “let’s do this again” or “for next time”</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-3">The detection checklist</h3>
+<p class="text-neutral-400 text-sm mb-4">Before suggesting a skill, the skill asks itself—if 3+ are checked, it offers:</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-sm text-neutral-300 border border-dark-600">
+<p>□ Was it more than a simple Q&amp;A?</p>
+<p>□ Did it involve 3+ distinct phases?</p>
+<p>□ Were reusable artifacts created?</p>
+<p>□ Would the user probably do something similar again?</p>
+<p>□ Could 50%+ of the work be systematized?</p>
+<p>□ Did I discover something the "future Claude" shouldn't have to rediscover?</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical tip</h3>
+<p class="text-neutral-300">This is the same self-improvement principle you'll see in <strong>Taproot (6.2)</strong> and on the <strong>/sessionend (6.3)</strong>: capture the work instead of letting it evaporate. Steal this idea for any skill of yours — a block at the end that asks "does this keep happening? want me to save it?".</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Observes</div><p class="text-sm text-neutral-400">What you do.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Detect</div><p class="text-sm text-neutral-400">Repeatable pattern.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Offers</div><p class="text-sm text-neutral-400">Turn it into a skill.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Packages</div><p class="text-sm text-neutral-400">SKILL.md ready.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 4 ===== -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">⚙️ Benefit 3: born in production</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        The third benefit is a quality guarantee: every piece of the skill <strong class="text-rose-400">runs on real business fronts now</strong> — was built in production, not in theory. That changes everything about the quality of the defaults, brand rules, and description.
+      </p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-4">High-value patterns the skill already catalogs</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">client-accelerator</span><span class="text-neutral-400 block">Customer acquisition pipeline</span></div>
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">podcast-workflow</span><span class="text-neutral-400 block">Podcast production</span></div>
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">voice-agent-builder</span><span class="text-neutral-400 block">Voice assistant setup</span></div>
+<div class="bg-dark-900 rounded-lg p-3 border border-dark-600"><span class="font-mono text-rose-400">content-engine</span><span class="text-neutral-400 block">Batch content production</span></div>
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Attention: production skills have production rules</h3>
+<p class="text-neutral-300 text-sm">Skills born in production carry <strong>explicit rules</strong> that you wouldn’t come up with on paper: a sensitive information protocol (never automatically learn financial, legal, or health data), channel limits, a locked brand voice. When writing your own, follow this discipline—clear constraints are more valuable than vague freedom.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Quality standard before delivering any output</h3>
+<ol class="space-y-2 text-neutral-300 text-sm list-decimal list-inside">
+<li><strong>Specificity</strong> — refers to the real business, not placeholders?</li>
+<li><strong>Research-backed</strong> — are the claims based on the recon data?</li>
+<li><strong>Actionable</strong> — does each section end with a clear next step?</li>
+<li><strong>On-brand</strong> — does it sound like the brand, not generic consulting?</li>
+<li><strong>Complete</strong> — does it include every item on the phase checklist?</li>
+</ol>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Forged through use</div><p class="text-sm text-neutral-400">Not on the slide.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Clear rules</div><p class="text-sm text-neutral-400">Sensitive data protected.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Voice is stuck</div><p class="text-sm text-neutral-400">Brand consistency.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Quality</div><p class="text-sm text-neutral-400">Checklist by phase.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 5 ===== -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🗺️ Phase Detection: The Command Chooses the Path</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        How can such a large skill have a single entry point without turning into a maze? With a <strong class="text-rose-400">phase detection table</strong>. The skill reads the request, matches it to the right phase, and routes itself. If it’s ambiguous, it asks <strong class="text-rose-400">one</strong> disambiguation question — not an interrogation.
+      </p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Read the request</h4>
+<p class="text-neutral-300 text-sm">"pitch X" → PROSPECT+PITCH · "brand book for Y" → BRAND · "build agent system" → OPERATE · "onboard Z" → all in sequence.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Disambiguates with a question</h4>
+<p class="text-neutral-300 text-sm">If you can’t decide: <em>"Are we prospecting, onboarding, or building operations?"</em> Just one. No 10-item menu.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Runs the phase (or chain)</h4>
+<p class="text-neutral-300 text-sm">Each phase can run on its own or in a sequence. At the end, the CAPTURE phase evaluates whether what happened is worth turning into a skill.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Reusable pattern</h3>
+<p class="text-neutral-300">The “phase detection table” is one of the most useful tricks for any skill with modes. Instead of a confusing mental if-else, you give Claude a table <code class="font-mono text-rose-400">Se o usuário diz → Fase → Ação</code>. It matches the request and takes action. Copy this table into your next multi-mode skill.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Table</div><p class="text-sm text-neutral-400">Request → phase.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">1 question</div><p class="text-sm text-neutral-400">Only if ambiguous.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Independent</div><p class="text-sm text-neutral-400">The phase runs on its own.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-4"><div class="text-rose-400 font-bold mb-1">Chainable</div><p class="text-sm text-neutral-400">Or all together.</p></div>
+</div>
+</section>
+<!-- ===== TOPICO 6 ===== -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔁 How to Use It in Practice</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        In practice, you trigger the skill with command phrases. Each one starts the right phase; together, they run the entire chain. Below are copyable prompts to try—adapted for general use, without tying them to any specific brand.
+      </p>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · trigger a phase</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p1')">Copy</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p1">pitch [nome do negócio]
+
+Pesquise o negócio (avaliação, concorrentes, o que os clientes
+procuram), encontre a "lane não reivindicada" dele e monte:
+uma landing personalizada, 3 PDFs (calendário de conteúdo,
+posicionamento, snapshot de mercado) e um roteiro de vídeo curto.</pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · guided brand</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p2')">Copy</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p2">build brand book for [cliente]
+
+Conduza as 8 fases guiadas. NÃO pule fases nem assuma respostas:
+descoberta → missão → promessa → taglines → voz e tom →
+regras de vocabulário → bancos de frase por avatar → compilar.
+Confirme comigo a cada fase antes de seguir para a próxima.</pre>
+</div>
+<div class="bg-dark-900 rounded-xl border border-rose-500/30 p-5 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-rose-400 uppercase tracking-wide">Prompt · capture the workflow</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p3')">Copy</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p3">capture this workflow
+
+Run the detection checklist on what we just did.
+If 3+ items match, propose a new skill: suggested name,
+what it would include, and the trigger phrases. Don’t build it yet —
+just show me the proposal.</pre>
+</div>
+<!-- EXEMPLO DE SAIDA -->
+<h3 class="text-xl font-bold mb-4 flex items-center"><span class="mr-2">📤</span> Output example</h3>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-xs text-neutral-500 mb-3">Illustrative recreation of the block that Workflow Spotter prints when it detects a pattern (not a real screenshot):</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-sm text-neutral-300 border border-dark-600 whitespace-pre-wrap">---
+**Detected workflow pattern**
+
+We just completed a CLIENT ACQUISITION workflow:
+Research → Pitch → Proposal → Follow-up
+
+This seems repeatable. Would you like me to capture it as a skill?
+
+**Suggested skill:** client-accelerator
+**Would include:** research prompts, PDF templates, video script
+**Triggers:** "pitch X", "run X in the system", "proposal for X"
+
+I can build it now (5 min) or save it for later.
+---</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Personalize before using it for real</h3>
+<p class="text-neutral-300">For real-world use, replace the brand voice and defaults with the <strong>your</strong> identity (PDF colors, signature phrase, tone). The mega-skill was designed to coexist with your philosophy—not impose the original author's.</p>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🏋️</span> Hands-on exercises</h2>
+<div class="space-y-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">1</span><h3 class="font-semibold">Map your phases</h3></div>
+<p class="text-neutral-300 text-sm">Choose a task of yours that always follows the same order. List the phases (3 to 5) and write the detection table: "If I say X → phase Y → action Z".</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">2</span><h3 class="font-semibold">Write the capture checklist</h3></div>
+<p class="text-neutral-300 text-sm">Adapt the Workflow Spotter's 6-question checklist to your domain. Set the threshold (how many items need to match to suggest a skill).</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center space-x-3 mb-3"><span class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center">3</span><h3 class="font-semibold">Create a runnable SKILL.md (mini mega-skill)</h3></div>
+<p class="text-neutral-300 text-sm mb-3">Write a <code class="font-mono text-rose-400">SKILL.md</code> in two phases under a single command, with a detection table and a capture block at the end. Skeleton:</p>
+<div class="bg-dark-900 rounded-lg p-4 font-mono text-xs text-neutral-300 border border-dark-600 whitespace-pre-wrap">---
+name: meu-pipeline
+description: "Two-phase pipeline in one command. Use when the
+  user says 'run [X]' or 'pipeline for [X]'. Detects the
+  phase from the request. Also triggers on 'capture workflow.'"
+---
+
+# My Pipeline
+
+## Phase detection
+| User says          | Phase     | Action                         |
+|--------------------|-----------|--------------------------------|
+| "run [X]"          | PHASE 1→2 | Research, then deliver         |
+| "just research [X]"| PHASE 1   | Dossier only                   |
+| "capture workflow" | CAPTURE   | Evaluate and propose a new skill |
+
+## Phase 1 — Research
+(steps)
+
+## Phase 2 — Delivery
+(steps)
+
+## Capture
+At the end, run the checklist. If 3+ items match, propose a skill.</div>
+<p class="text-neutral-400 text-xs mt-3">Save in <code class="font-mono">~/.claude/skills/meu-pipeline/SKILL.md</code>, open Claude Code and test with "run acme".</p>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Module summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Mega-skill</strong><span class="text-neutral-400"> — orchestrates phases under a single entry point, not one task per skill.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Benefit 1</strong><span class="text-neutral-400"> — replaces an entire agency workflow with a chain of commands.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Benefit 2</strong><span class="text-neutral-400"> — Workflow Spotter captures patterns and turns them into skills.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Benefit 3</strong><span class="text-neutral-400"> — born in production; rules and defaults come from real-world use.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-white">Phase detection</strong><span class="text-neutral-400"> — a request→phase table + one disambiguation question.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-rose-400 mb-2">Next module:</h3>
+<p class="text-neutral-300">6.2 — 🧬 Taproot: skill tree (meta-skill)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track</a>
+<a class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors" href="modulo-6-2.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills in Practice — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Module 6.1 · Improvised Intelligence</p>
+</div>
+</footer>
+<script>
+    function copyPrompt(id) {
+      const el = document.getElementById(id);
+      navigator.clipboard.writeText(el.innerText);
+    }
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

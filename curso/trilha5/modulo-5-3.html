@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+
+<html class="dark" lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 5.3 · RAG Architect | Claude Skills na Prática</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 5.3 · RAG Architect | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
       primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
     } } } }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
 
@@ -73,337 +74,311 @@
       .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <!-- NAV -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
-          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
-          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
-          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
-          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
-          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-teal-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-teal-400">Trilha 5</a>
-      <span>/</span>
-      <span class="text-teal-400">Módulo 5.3</span>
-    </div>
-  </nav>
-
-  <!-- HEADER -->
-  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.3</span>
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🚀 RAG Architect</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl">A skill que olha os seus dados, escolhe entre <strong class="text-neutral-300">quatro arquiteturas de RAG</strong> e explica por quê — <strong class="text-neutral-300">antes de você escrever uma linha de código</strong>. Entrega plano de implementação e código inicial rodável, não stubs.</p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-    <!-- TOPICO 1 -->
-    <section id="topico-1" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
-        <h2 class="text-2xl font-bold">🧭 Por que existe um RAG errado</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">A maioria dos RAGs falha pela mesma razão: tratar <strong class="text-teal-400">todo dado igual</strong>. "Chunka tudo, embeda, busca o top-k." Isso funciona para o simples — um FAQ, um manual. Mas no momento em que o dado fica complexo, a abordagem desmorona, e o sistema passa a recuperar a informação errada.</p>
-
-      <div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> A tese central</h3>
-        <p class="text-neutral-300 mb-3">Não existe "o RAG". Existem <strong class="text-teal-400">arquiteturas diferentes</strong>, e qual encaixa depende do dado:</p>
-        <ul class="space-y-2 text-neutral-300 text-sm">
-          <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Um catálogo com códigos SKU precisa de <strong>roteamento exato</strong>, não só busca vetorial.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Tickets, manuais em PDF e docs do Notion precisam de <strong>índices separados</strong>, não de um monte só.</span></li>
-          <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Casos jurídicos com citações precisam de <strong>travessia de grafo</strong>, não de busca por similaridade.</span></li>
-        </ul>
-      </div>
-
-      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> O sintoma</h3>
-        <p class="text-neutral-300">"Meu RAG não puxa a informação certa." Quase sempre, a causa não é o modelo nem o prompt — é a <strong>arquitetura escolhida antes de entender o dado</strong>. Escolher errado aqui custa semanas de retrabalho.</p>
-      </div>
-
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Chunk</div><div class="text-xs text-neutral-400">Pedaço do documento.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Embedding</div><div class="text-xs text-neutral-400">Vetor de significado.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Retrieval</div><div class="text-xs text-neutral-400">Buscar o relevante.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Arquitetura</div><div class="text-xs text-neutral-400">A decisão que importa.</div></div>
-      </div>
-    </section>
-
-    <!-- TOPICO 2 -->
-    <section id="topico-2" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
-        <h2 class="text-2xl font-bold">👥 Para quem é (e quem decide)</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">É para <strong class="text-teal-400">qualquer um conectando dados a um LLM</strong>. Você nem precisa saber o que RAG significa. Você descreve o que tem e o que quer perguntar; a skill descobre qual arquitetura encaixa, explica por quê, e entrega o código. Esse é o posicionamento de consultoria: o cliente fala de negócio, a skill fala de engenharia.</p>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔍</span> Os sinais que a skill lê nos seus dados</h3>
-        <ul class="space-y-2 text-neutral-300 text-sm">
-          <li><strong>Distribuição de tamanho do texto</strong> — registros curtos e uniformes vs. docs longos definem a estratégia de chunk.</li>
-          <li><strong>Relacionamentos</strong> — referências cruzadas e menções entre arquivos: alta interconexão → Graph RAG.</li>
-          <li><strong>Cardinalidade</strong> — colunas de ID/categoria vs. texto livre: só texto livre se beneficia de embedding.</li>
-          <li><strong>Escala</strong> — pequeno (&lt;1K docs), médio (1K–100K), grande (100K+) afeta a escolha do banco vetorial.</li>
-          <li><strong>Padrão de consulta</strong> — as perguntas misturam intenção semântica com lookups exatos (SKU, IDs)? Isso sinaliza busca híbrida.</li>
-        </ul>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-          <h4 class="font-bold text-emerald-400 mb-4">✓ Como descrever o dado bem</h4>
-          <ul class="space-y-3 text-neutral-300 text-sm">
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"3 mil tickets de suporte, formatação inconsistente."</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Catálogo com SKU e descrição, perguntas misturam código e texto."</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Estou no Supabase, quero perguntar em linguagem natural."</span></li>
-          </ul>
-        </div>
-        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-          <h4 class="font-bold text-red-400 mb-4">✗ O que atrapalha a decisão</h4>
-          <ul class="space-y-3 text-neutral-300 text-sm">
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Quero um RAG" — sem dizer nada do dado.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pedir Graph RAG porque parece avançado.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Esconder que os dados estão em quatro lugares.</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- TOPICO 3 -->
-    <section id="topico-3" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
-        <h2 class="text-2xl font-bold">🗂️ As quatro arquiteturas</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">O coração da skill: quatro arquiteturas, cada uma com um gatilho claro. Saber as quatro e quando cada uma encaixa é o que separa uma recomendação útil de um chute.</p>
-
-      <!-- SVG: fluxo de decisao das 4 arquiteturas -->
-      <div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
-        <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="Fluxo de decisão: a partir da descrição do dado, a skill escolhe entre Naive, Advanced, Modular ou Graph RAG conforme complexidade e relações">
-          <defs>
-            <linearGradient id="m53-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#14b8a6"/></linearGradient>
-            <filter id="m53-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <pattern id="m53-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#14b8a6" opacity="0.12"/></pattern>
-            <marker id="m53-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"/></marker>
-            <marker id="m53-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="250" fill="url(#m53-grid)"/>
-          <!-- origem -->
-          <g filter="url(#m53-glow)"><rect x="34" y="100" width="150" height="64" rx="14" fill="#0c1f1c" stroke="url(#m53-grad)" stroke-width="2.5"/></g>
-          <text x="109" y="128" text-anchor="middle" fill="#2dd4bf" font-family="Inter,sans-serif" font-weight="700" font-size="15">Descreva</text>
-          <text x="109" y="148" text-anchor="middle" fill="#9eecdf" font-family="Inter,sans-serif" font-size="12">o dado</text>
-          <!-- ramos -->
-          <g fill="none" stroke="#2dd4bf" stroke-width="1.8" opacity="0.5">
-            <path d="M184,118 C300,118 320,40 452,40" marker-end="url(#m53-ah)"/>
-            <path d="M184,128 C300,128 320,98 452,98" marker-end="url(#m53-ah)"/>
-            <path d="M184,138 C300,138 320,156 452,156" marker-end="url(#m53-ah)"/>
-            <path d="M184,148 C300,148 320,214 452,214" marker-end="url(#m53-ah)"/>
-          </g>
-          <g font-family="Inter,sans-serif" font-size="13" font-weight="600">
-            <g class="wf-a"><rect x="452" y="24"  width="230" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="567" y="46"  text-anchor="middle" fill="#bfe6ff">Naive · dado simples</text></g>
-            <g class="wf-a"><rect x="452" y="82"  width="230" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="567" y="104" text-anchor="middle" fill="#bfe6ff">Advanced · híbrido + SKU</text></g>
-            <g class="wf-a"><rect x="452" y="140" width="230" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="567" y="162" text-anchor="middle" fill="#bfe6ff">Modular · multi-fonte</text></g>
-            <g class="wf-a"><rect x="452" y="198" width="230" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="567" y="220" text-anchor="middle" fill="#bfe6ff">Graph · relações</text></g>
-          </g>
-          <!-- resultado -->
-          <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.45">
-            <path d="M682,41  C780,41 800,125 858,125" marker-end="url(#m53-ahc)"/>
-            <path d="M682,99  C780,99 800,125 858,125" marker-end="url(#m53-ahc)"/>
-            <path d="M682,157 C780,157 800,125 858,125" marker-end="url(#m53-ahc)"/>
-            <path d="M682,215 C780,215 800,125 858,125" marker-end="url(#m53-ahc)"/>
-          </g>
-          <g filter="url(#m53-glow)"><rect x="858" y="93" width="108" height="64" rx="14" fill="#0c1f1c" stroke="url(#m53-grad)" stroke-width="2.5"/></g>
-          <text x="912" y="121" text-anchor="middle" fill="#2dd4bf" font-family="Inter,sans-serif" font-weight="700" font-size="14">Plano +</text>
-          <text x="912" y="141" text-anchor="middle" fill="#9eecdf" font-family="Inter,sans-serif" font-size="12">código</text>
-        </svg>
-      </div>
-
-      <div class="space-y-6 mb-6">
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">1 · Naive RAG</h4><span class="text-xs text-neutral-500">dado simples e uniforme</span></div>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> dado bem estruturado, fonte única, tipos de documento uniformes, consultas diretas.</p>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> chunk → embed → vector DB → top-k → gerar resposta.</p>
-          <p class="text-neutral-400 text-sm"><strong>Encaixa em:</strong> FAQ da empresa, documentação de produto, um único manual.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">2 · Advanced RAG</h4><span class="text-xs text-neutral-500">semântico + códigos exatos</span></div>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> dado mistura conteúdo semântico com identificadores exatos (SKU, IDs, nº de ticket); consultas blendam linguagem natural com filtros estruturados.</p>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> Naive + busca híbrida (vetor + BM25), análise de consulta (detectar padrões exatos), reranking, e roteamento direto para lookup nos campos exatos.</p>
-          <p class="text-neutral-400 text-sm"><strong>Dica de performance:</strong> cacheie lookups determinísticos — uma consulta de SKU sempre retorna o mesmo resultado.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">3 · Modular / Agentic RAG</h4><span class="text-xs text-neutral-500">multi-fonte com roteador</span></div>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> múltiplas fontes, cada uma com estrutura, frequência de atualização e características próprias; a consulta às vezes precisa ser decomposta.</p>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> camada de orquestração com <strong class="text-teal-400">query router</strong>, <strong>índices separados por fonte</strong> (não um índice único com filtro), recuperação paralela, fusão com diversidade de fonte e reranking.</p>
-          <p class="text-neutral-400 text-sm"><strong>Encaixa em:</strong> base de conhecimento spanning Notion, Confluence, Slack e um banco SQL.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">4 · Graph RAG</h4><span class="text-xs text-neutral-500">relações entre entidades</span></div>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> dado altamente relacional, onde a relação entre entidades importa tanto quanto o conteúdo; perguntas envolvem travessia ("quem trabalhou com quem?", "todos os casos que citam X").</p>
-          <p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> grafo de conhecimento (entidades + relações) sobre a busca vetorial — extração de entidades, construção do grafo (Neo4j ou Apache AGE no Postgres) e um <strong class="text-teal-400">query classifier</strong> que roteia para grafo, vetor ou ambos.</p>
-          <p class="text-neutral-400 text-sm"><strong>Encaixa em:</strong> bases jurídicas com citações, dados organizacionais, literatura biomédica.</p>
-        </div>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Dica prática: não over-engineer</h3>
-        <p class="text-neutral-300">Escale a complexidade ao problema. <strong>Não recomende Graph RAG para um FAQ simples.</strong> Uma boa recomendação também explica por que as alternativas foram descartadas — não só por que a vencedora foi escolhida.</p>
-      </div>
-    </section>
-
-    <!-- TOPICO 4 -->
-    <section id="topico-4" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
-        <h2 class="text-2xl font-bold">✂️ Decisões de implementação</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">Escolhida a arquitetura, a skill entrega um plano concreto. O que separa um plano bom de um genérico é <strong class="text-teal-400">justificar os números mágicos</strong> — chunk size, top-k — com um raciocínio que o usuário pode usar para ajustar depois.</p>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <table class="w-full text-sm">
-          <thead class="bg-dark-700/50"><tr>
-            <th class="text-left p-4 font-semibold text-teal-400">Decisão</th>
-            <th class="text-left p-4 font-semibold text-teal-400">Default</th>
-            <th class="text-left p-4 font-semibold text-teal-400">Como justificar</th>
-          </tr></thead>
-          <tbody class="divide-y divide-dark-600 text-neutral-300">
-            <tr><td class="p-4 font-medium">Chunk size</td><td class="p-4">800–1500 tokens</td><td class="p-4 text-neutral-400">Pelo tamanho do texto, não arbitrário.</td></tr>
-            <tr><td class="p-4 font-medium">Embedding</td><td class="p-4 font-mono text-xs">text-embedding-3-small</td><td class="p-4 text-neutral-400">Trade-off de dimensão se relevante.</td></tr>
-            <tr><td class="p-4 font-medium">Vector DB</td><td class="p-4">Supabase pgvector</td><td class="p-4 text-neutral-400">Zero infra nova se já está no Supabase.</td></tr>
-            <tr><td class="p-4 font-medium">top-k candidatos</td><td class="p-4">~20 antes do rerank</td><td class="p-4 text-neutral-400">Diversidade suficiente, latência &lt;200ms.</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Método de recuperação por arquitetura</h3>
-        <ul class="space-y-2 text-neutral-300 text-sm">
-          <li><strong>Naive:</strong> busca por similaridade top-k.</li>
-          <li><strong>Advanced:</strong> busca híbrida + reranking + pré-processamento de consulta + roteamento exato.</li>
-          <li><strong>Modular:</strong> recuperação por fonte com lógica de roteamento, execução paralela, fusão com diversidade.</li>
-          <li><strong>Graph:</strong> classificação da consulta → travessia de grafo / busca vetorial / ambos → merge.</li>
-        </ul>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Stack-awareness</h3>
-        <p class="text-neutral-300">Se o usuário menciona a stack dele (Supabase, Vercel, Python, n8n), a recomendação <strong>tem que usá-la</strong>. Quem está no Supabase recebe pgvector, não "suba um Qdrant". Quem está em Python recebe scaffold em Python. Recomendação genérica que ignora a infra existente é ativamente inútil.</p>
-      </div>
-    </section>
-
-    <!-- TOPICO 5 -->
-    <section id="topico-5" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
-        <h2 class="text-2xl font-bold">📦 Scaffold rodável, não stub</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">A diferença entre uma skill útil e um gerador de boilerplate: <strong class="text-teal-400">código que roda de primeira</strong>. A skill gera um mini-projeto com migrations SQL completas e um README que é um guia de setup do começo ao fim.</p>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
-          <span class="text-xs text-neutral-400 font-mono">scaffold gerado</span>
-          <span class="text-xs text-teal-400">/rag-setup</span>
-        </div>
-        <pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">/rag-setup
+<link href="https://inematds.github.io/claude-skills/curso/trilha5/modulo-5-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha5/modulo-5-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha5/modulo-5-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-5-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha5/modulo-5-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha5/modulo-5-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10" href="index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-teal-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-teal-400" href="index.html">Trilha 5</a>
+<span>/</span>
+<span class="text-teal-400">Módulo 5.3</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🚀 RAG Architect</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">A skill que olha os seus dados, escolhe entre <strong class="text-neutral-300">quatro arquiteturas de RAG</strong> e explica por quê — <strong class="text-neutral-300">antes de você escrever uma linha de código</strong>. Entrega plano de implementação e código inicial rodável, não stubs.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TOPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧭 Por que existe um RAG errado</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A maioria dos RAGs falha pela mesma razão: tratar <strong class="text-teal-400">todo dado igual</strong>. "Chunka tudo, embeda, busca o top-k." Isso funciona para o simples — um FAQ, um manual. Mas no momento em que o dado fica complexo, a abordagem desmorona, e o sistema passa a recuperar a informação errada.</p>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> A tese central</h3>
+<p class="text-neutral-300 mb-3">Não existe "o RAG". Existem <strong class="text-teal-400">arquiteturas diferentes</strong>, e qual encaixa depende do dado:</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Um catálogo com códigos SKU precisa de <strong>roteamento exato</strong>, não só busca vetorial.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Tickets, manuais em PDF e docs do Notion precisam de <strong>índices separados</strong>, não de um monte só.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Casos jurídicos com citações precisam de <strong>travessia de grafo</strong>, não de busca por similaridade.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> O sintoma</h3>
+<p class="text-neutral-300">"Meu RAG não puxa a informação certa." Quase sempre, a causa não é o modelo nem o prompt — é a <strong>arquitetura escolhida antes de entender o dado</strong>. Escolher errado aqui custa semanas de retrabalho.</p>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Chunk</div><div class="text-xs text-neutral-400">Pedaço do documento.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Embedding</div><div class="text-xs text-neutral-400">Vetor de significado.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Retrieval</div><div class="text-xs text-neutral-400">Buscar o relevante.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Arquitetura</div><div class="text-xs text-neutral-400">A decisão que importa.</div></div>
+</div>
+</section>
+<!-- TOPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">👥 Para quem é (e quem decide)</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">É para <strong class="text-teal-400">qualquer um conectando dados a um LLM</strong>. Você nem precisa saber o que RAG significa. Você descreve o que tem e o que quer perguntar; a skill descobre qual arquitetura encaixa, explica por quê, e entrega o código. Esse é o posicionamento de consultoria: o cliente fala de negócio, a skill fala de engenharia.</p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔍</span> Os sinais que a skill lê nos seus dados</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Distribuição de tamanho do texto</strong> — registros curtos e uniformes vs. docs longos definem a estratégia de chunk.</li>
+<li><strong>Relacionamentos</strong> — referências cruzadas e menções entre arquivos: alta interconexão → Graph RAG.</li>
+<li><strong>Cardinalidade</strong> — colunas de ID/categoria vs. texto livre: só texto livre se beneficia de embedding.</li>
+<li><strong>Escala</strong> — pequeno (&lt;1K docs), médio (1K–100K), grande (100K+) afeta a escolha do banco vetorial.</li>
+<li><strong>Padrão de consulta</strong> — as perguntas misturam intenção semântica com lookups exatos (SKU, IDs)? Isso sinaliza busca híbrida.</li>
+</ul>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Como descrever o dado bem</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"3 mil tickets de suporte, formatação inconsistente."</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Catálogo com SKU e descrição, perguntas misturam código e texto."</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Estou no Supabase, quero perguntar em linguagem natural."</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ O que atrapalha a decisão</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Quero um RAG" — sem dizer nada do dado.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pedir Graph RAG porque parece avançado.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Esconder que os dados estão em quatro lugares.</span></li>
+</ul>
+</div>
+</div>
+</section>
+<!-- TOPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🗂️ As quatro arquiteturas</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O coração da skill: quatro arquiteturas, cada uma com um gatilho claro. Saber as quatro e quando cada uma encaixa é o que separa uma recomendação útil de um chute.</p>
+<!-- SVG: fluxo de decisao das 4 arquiteturas -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Fluxo de decisão: a partir da descrição do dado, a skill escolhe entre Naive, Advanced, Modular ou Graph RAG conforme complexidade e relações" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m53-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2dd4bf"></stop><stop offset="1" stop-color="#14b8a6"></stop></lineargradient>
+<filter height="180%" id="m53-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m53-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m53-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+<marker id="m53-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m53-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- origem -->
+<g filter="url(#m53-glow)"><rect fill="#0c1f1c" height="64" rx="14" stroke="url(#m53-grad)" stroke-width="2.5" width="150" x="34" y="100"></rect></g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="109" y="128">Descreva</text>
+<text fill="#9eecdf" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="109" y="148">o dado</text>
+<!-- ramos -->
+<g fill="none" opacity="0.5" stroke="#2dd4bf" stroke-width="1.8">
+<path d="M184,118 C300,118 320,40 452,40" marker-end="url(#m53-ah)"></path>
+<path d="M184,128 C300,128 320,98 452,98" marker-end="url(#m53-ah)"></path>
+<path d="M184,138 C300,138 320,156 452,156" marker-end="url(#m53-ah)"></path>
+<path d="M184,148 C300,148 320,214 452,214" marker-end="url(#m53-ah)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="230" x="452" y="24"></rect><text fill="#bfe6ff" text-anchor="middle" x="567" y="46">Naive · dado simples</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="230" x="452" y="82"></rect><text fill="#bfe6ff" text-anchor="middle" x="567" y="104">Advanced · híbrido + SKU</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="230" x="452" y="140"></rect><text fill="#bfe6ff" text-anchor="middle" x="567" y="162">Modular · multi-fonte</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="230" x="452" y="198"></rect><text fill="#bfe6ff" text-anchor="middle" x="567" y="220">Graph · relações</text></g>
+</g>
+<!-- resultado -->
+<g fill="none" opacity="0.45" stroke="#38bdf8" stroke-width="1.8">
+<path d="M682,41  C780,41 800,125 858,125" marker-end="url(#m53-ahc)"></path>
+<path d="M682,99  C780,99 800,125 858,125" marker-end="url(#m53-ahc)"></path>
+<path d="M682,157 C780,157 800,125 858,125" marker-end="url(#m53-ahc)"></path>
+<path d="M682,215 C780,215 800,125 858,125" marker-end="url(#m53-ahc)"></path>
+</g>
+<g filter="url(#m53-glow)"><rect fill="#0c1f1c" height="64" rx="14" stroke="url(#m53-grad)" stroke-width="2.5" width="108" x="858" y="93"></rect></g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="912" y="121">Plano +</text>
+<text fill="#9eecdf" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="912" y="141">código</text>
+</svg>
+</div>
+<div class="space-y-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">1 · Naive RAG</h4><span class="text-xs text-neutral-500">dado simples e uniforme</span></div>
+<p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> dado bem estruturado, fonte única, tipos de documento uniformes, consultas diretas.</p>
+<p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> chunk → embed → vector DB → top-k → gerar resposta.</p>
+<p class="text-neutral-400 text-sm"><strong>Encaixa em:</strong> FAQ da empresa, documentação de produto, um único manual.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">2 · Advanced RAG</h4><span class="text-xs text-neutral-500">semântico + códigos exatos</span></div>
+<p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> dado mistura conteúdo semântico com identificadores exatos (SKU, IDs, nº de ticket); consultas blendam linguagem natural com filtros estruturados.</p>
+<p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> Naive + busca híbrida (vetor + BM25), análise de consulta (detectar padrões exatos), reranking, e roteamento direto para lookup nos campos exatos.</p>
+<p class="text-neutral-400 text-sm"><strong>Dica de performance:</strong> cacheie lookups determinísticos — uma consulta de SKU sempre retorna o mesmo resultado.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">3 · Modular / Agentic RAG</h4><span class="text-xs text-neutral-500">multi-fonte com roteador</span></div>
+<p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> múltiplas fontes, cada uma com estrutura, frequência de atualização e características próprias; a consulta às vezes precisa ser decomposta.</p>
+<p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> camada de orquestração com <strong class="text-teal-400">query router</strong>, <strong>índices separados por fonte</strong> (não um índice único com filtro), recuperação paralela, fusão com diversidade de fonte e reranking.</p>
+<p class="text-neutral-400 text-sm"><strong>Encaixa em:</strong> base de conhecimento spanning Notion, Confluence, Slack e um banco SQL.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center justify-between mb-2"><h4 class="font-bold text-teal-400 text-lg">4 · Graph RAG</h4><span class="text-xs text-neutral-500">relações entre entidades</span></div>
+<p class="text-neutral-300 text-sm mb-2"><strong>Quando:</strong> dado altamente relacional, onde a relação entre entidades importa tanto quanto o conteúdo; perguntas envolvem travessia ("quem trabalhou com quem?", "todos os casos que citam X").</p>
+<p class="text-neutral-300 text-sm mb-2"><strong>Como funciona:</strong> grafo de conhecimento (entidades + relações) sobre a busca vetorial — extração de entidades, construção do grafo (Neo4j ou Apache AGE no Postgres) e um <strong class="text-teal-400">query classifier</strong> que roteia para grafo, vetor ou ambos.</p>
+<p class="text-neutral-400 text-sm"><strong>Encaixa em:</strong> bases jurídicas com citações, dados organizacionais, literatura biomédica.</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Dica prática: não over-engineer</h3>
+<p class="text-neutral-300">Escale a complexidade ao problema. <strong>Não recomende Graph RAG para um FAQ simples.</strong> Uma boa recomendação também explica por que as alternativas foram descartadas — não só por que a vencedora foi escolhida.</p>
+</div>
+</section>
+<!-- TOPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">✂️ Decisões de implementação</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Escolhida a arquitetura, a skill entrega um plano concreto. O que separa um plano bom de um genérico é <strong class="text-teal-400">justificar os números mágicos</strong> — chunk size, top-k — com um raciocínio que o usuário pode usar para ajustar depois.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50"><tr>
+<th class="text-left p-4 font-semibold text-teal-400">Decisão</th>
+<th class="text-left p-4 font-semibold text-teal-400">Default</th>
+<th class="text-left p-4 font-semibold text-teal-400">Como justificar</th>
+</tr></thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="p-4 font-medium">Chunk size</td><td class="p-4">800–1500 tokens</td><td class="p-4 text-neutral-400">Pelo tamanho do texto, não arbitrário.</td></tr>
+<tr><td class="p-4 font-medium">Embedding</td><td class="p-4 font-mono text-xs">text-embedding-3-small</td><td class="p-4 text-neutral-400">Trade-off de dimensão se relevante.</td></tr>
+<tr><td class="p-4 font-medium">Vector DB</td><td class="p-4">Supabase pgvector</td><td class="p-4 text-neutral-400">Zero infra nova se já está no Supabase.</td></tr>
+<tr><td class="p-4 font-medium">top-k candidatos</td><td class="p-4">~20 antes do rerank</td><td class="p-4 text-neutral-400">Diversidade suficiente, latência &lt;200ms.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Método de recuperação por arquitetura</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Naive:</strong> busca por similaridade top-k.</li>
+<li><strong>Advanced:</strong> busca híbrida + reranking + pré-processamento de consulta + roteamento exato.</li>
+<li><strong>Modular:</strong> recuperação por fonte com lógica de roteamento, execução paralela, fusão com diversidade.</li>
+<li><strong>Graph:</strong> classificação da consulta → travessia de grafo / busca vetorial / ambos → merge.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Stack-awareness</h3>
+<p class="text-neutral-300">Se o usuário menciona a stack dele (Supabase, Vercel, Python, n8n), a recomendação <strong>tem que usá-la</strong>. Quem está no Supabase recebe pgvector, não "suba um Qdrant". Quem está em Python recebe scaffold em Python. Recomendação genérica que ignora a infra existente é ativamente inútil.</p>
+</div>
+</section>
+<!-- TOPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">📦 Scaffold rodável, não stub</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A diferença entre uma skill útil e um gerador de boilerplate: <strong class="text-teal-400">código que roda de primeira</strong>. A skill gera um mini-projeto com migrations SQL completas e um README que é um guia de setup do começo ao fim.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">scaffold gerado</span>
+<span class="text-xs text-teal-400">/rag-setup</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">/rag-setup
 ├── ingest.ts     # chunk, embed, upsert no vector DB
 ├── query.ts      # pipeline de recuperacao + geracao
 ├── config.ts     # modelo, conexao, chunk size + SQL migrations
 └── README.md     # o que rodar e em que ordem</pre>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-          <h4 class="font-bold text-emerald-400 mb-4">✓ Scaffold de verdade</h4>
-          <ul class="space-y-3 text-neutral-300 text-sm">
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>SQL completo em <code class="font-mono">config.ts</code> — copia-cola no editor do Supabase e funciona.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cada fonte tem ingestão e query funcionais, não comentário-placeholder.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>SDKs oficiais (<code class="font-mono">openai</code>, <code class="font-mono">@anthropic-ai/sdk</code>), não <code class="font-mono">fetch()</code> cru.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>README com <code class="font-mono">npm install</code> exato e comando de teste.</span></li>
-          </ul>
-        </div>
-        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-          <h4 class="font-bold text-red-400 mb-4">✗ O que não vale entregar</h4>
-          <ul class="space-y-3 text-neutral-300 text-sm">
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><code class="font-mono">// implemente a ingestão aqui</code> como corpo da função.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Veja a recomendação para o SQL" em vez do SQL real.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>API externa (Notion) sem endpoint, header nem parsing reais.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>README sem dependências nem variáveis de ambiente.</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Regra de ouro</h3>
-        <p class="text-neutral-300 text-sm">Um usuário seguindo o README de cima a baixo deve terminar com um sistema funcionando. Os únicos valores a preencher ficam marcados com <code class="font-mono text-blue-400">// TODO:</code> — todo o resto é código real e rodável.</p>
-      </div>
-    </section>
-
-    <!-- TOPICO 6 -->
-    <section id="topico-6" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
-        <h2 class="text-2xl font-bold">🛠️ Empacotando o seu arquiteto</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">Este é o exemplo mais avançado da trilha: uma skill que faz <strong class="text-teal-400">julgamento de engenharia</strong>, não só geração de texto. O SKILL.md conduz cinco fases — entender o dado, recomendar, planejar, scaffold e (opcional) build companion.</p>
-
-      <div class="space-y-6 mb-6">
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">1</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Entender o dado</h4><p class="text-neutral-300 text-sm">Capturar os sinais que importam (tamanho, relações, cardinalidade, escala, padrão de consulta) — conciso, sem virar um ensaio.</p></div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">2</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Recomendar</h4><p class="text-neutral-300 text-sm">Qual das 4 arquiteturas, por que ela encaixa, o que daria errado com algo mais simples, e os trade-offs honestos.</p></div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">3</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Planejar &amp; gerar scaffold</h4><p class="text-neutral-300 text-sm">Plano de chunk/embedding/DB/retrieval + o mini-projeto rodável com migrations e README.</p></div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">4</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Build companion (opcional)</h4><p class="text-neutral-300 text-sm">"Quer que eu ajude a construir e testar?" — ligar o pipeline ao dado real, rodar queries de teste, tunar chunk/top-k.</p></div>
-        </div>
-      </div>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
-          <span class="text-xs text-neutral-400 font-mono">SKILL.md — rag-architect (esqueleto)</span>
-          <span class="text-xs text-teal-400">frontmatter + fases</span>
-        </div>
-        <pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">---
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Scaffold de verdade</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>SQL completo em <code class="font-mono">config.ts</code> — copia-cola no editor do Supabase e funciona.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cada fonte tem ingestão e query funcionais, não comentário-placeholder.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>SDKs oficiais (<code class="font-mono">openai</code>, <code class="font-mono">@anthropic-ai/sdk</code>), não <code class="font-mono">fetch()</code> cru.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>README com <code class="font-mono">npm install</code> exato e comando de teste.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ O que não vale entregar</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><code class="font-mono">// implemente a ingestão aqui</code> como corpo da função.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Veja a recomendação para o SQL" em vez do SQL real.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>API externa (Notion) sem endpoint, header nem parsing reais.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>README sem dependências nem variáveis de ambiente.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Regra de ouro</h3>
+<p class="text-neutral-300 text-sm">Um usuário seguindo o README de cima a baixo deve terminar com um sistema funcionando. Os únicos valores a preencher ficam marcados com <code class="font-mono text-blue-400">// TODO:</code> — todo o resto é código real e rodável.</p>
+</div>
+</section>
+<!-- TOPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🛠️ Empacotando o seu arquiteto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Este é o exemplo mais avançado da trilha: uma skill que faz <strong class="text-teal-400">julgamento de engenharia</strong>, não só geração de texto. O SKILL.md conduz cinco fases — entender o dado, recomendar, planejar, scaffold e (opcional) build companion.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Entender o dado</h4><p class="text-neutral-300 text-sm">Capturar os sinais que importam (tamanho, relações, cardinalidade, escala, padrão de consulta) — conciso, sem virar um ensaio.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Recomendar</h4><p class="text-neutral-300 text-sm">Qual das 4 arquiteturas, por que ela encaixa, o que daria errado com algo mais simples, e os trade-offs honestos.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Planejar &amp; gerar scaffold</h4><p class="text-neutral-300 text-sm">Plano de chunk/embedding/DB/retrieval + o mini-projeto rodável com migrations e README.</p></div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-2">Build companion (opcional)</h4><p class="text-neutral-300 text-sm">"Quer que eu ajude a construir e testar?" — ligar o pipeline ao dado real, rodar queries de teste, tunar chunk/top-k.</p></div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">SKILL.md — rag-architect (esqueleto)</span>
+<span class="text-xs text-teal-400">frontmatter + fases</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">---
 name: rag-architect
 description: |
   Projeta o RAG ideal para os dados do usuario. Analisa estrutura,
@@ -423,7 +398,7 @@ Pergunte: que dado, quanto, que perguntas, qual stack
 
 ## Fase 2 — Recomendar 1 de 4
 Naive | Advanced | Modular/Agentic | Graph
-=> qual, por que, o que daria errado simples, trade-offs.
+=&gt; qual, por que, o que daria errado simples, trade-offs.
 
 ## Fase 3 — Plano
 chunk + overlap (justificado), embedding, vector DB, retrieval.
@@ -433,59 +408,52 @@ chunk + overlap (justificado), embedding, vector DB, retrieval.
 SEM stubs. SDKs oficiais. Stack do usuario sempre.
 
 ## Fase 5 — Build companion (opcional)
-"Quer construir e testar?" => wire + tune.</pre>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">⚡</span> Prompt para disparar a skill</h3>
-        <div class="bg-dark-900/60 rounded-lg p-4 font-mono text-sm text-neutral-300">tenho 3 mil tickets de suporte em Postgres (Supabase), formatação inconsistente, e perguntas que misturam descrição do problema com número do ticket. Que arquitetura de RAG usar e me dá o código inicial.</div>
-      </div>
-    </section>
-
-    <!-- RESUMO -->
-    <section class="mb-12">
-      <div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
-        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📝</span> Resumo do Módulo</h2>
-        <div class="space-y-4 mb-8">
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Arquitetura por dado</strong><span class="text-neutral-400"> — tratar todo dado igual é a causa nº 1 do RAG errado.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Descreva o dado, não o RAG</strong><span class="text-neutral-400"> — a skill lê os sinais (tamanho, relações, cardinalidade, escala, consulta) e decide.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Quatro arquiteturas</strong><span class="text-neutral-400"> — Naive, Advanced, Modular/Agentic e Graph, cada uma com um gatilho claro.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Números justificados + stack-awareness</strong><span class="text-neutral-400"> — chunk e top-k com raciocínio; usar sempre a infra do usuário.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Scaffold rodável</strong><span class="text-neutral-400"> — migrations completas e README guia, sem stubs.</span></div></div>
-        </div>
-
-        <!-- EXERCICIOS -->
-        <div class="bg-dark-800/50 rounded-lg p-6 mb-8">
-          <h3 class="font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Exercícios práticos</h3>
-          <ol class="space-y-3 text-neutral-300 text-sm list-decimal list-inside">
-            <li>Para 3 conjuntos de dados (FAQ; catálogo com SKU; base jurídica com citações), escolha a arquitetura e justifique por que as outras foram descartadas.</li>
-            <li>Justifique um chunk size e um top-k para docs longos vs. registros curtos — explique o raciocínio, não só o número.</li>
-            <li>Esboce o <code class="font-mono text-teal-400">config.ts</code> com as migrations SQL para um Naive RAG em pgvector (tabela + índice + função de match).</li>
-            <li><strong>Crie um SKILL.md rodável</strong> chamado <code class="font-mono text-teal-400">rag-architect</code> que conduza as 5 fases, recomende 1 de 4 arquiteturas a partir de uma descrição de dados e gere o scaffold <code class="font-mono">/rag-setup</code>. Teste com o prompt do tópico 6.</li>
-          </ol>
-        </div>
-
-        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-          <h3 class="font-semibold text-teal-400 mb-2">Fim da Trilha 5:</h3>
-          <p class="text-neutral-300">Próxima: Trilha 6 — Arquitetura Avançada de Skills</p>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="modulo-5-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo Anterior</a>
-          <a href="../trilha6/index.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Trilha 6: Avançado →</a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8 mt-16">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
-      <p>Módulo 5.3 · RAG Architect</p>
-    </div>
-  </footer>
-
-  <script>
+"Quer construir e testar?" =&gt; wire + tune.</pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">⚡</span> Prompt para disparar a skill</h3>
+<div class="bg-dark-900/60 rounded-lg p-4 font-mono text-sm text-neutral-300">tenho 3 mil tickets de suporte em Postgres (Supabase), formatação inconsistente, e perguntas que misturam descrição do problema com número do ticket. Que arquitetura de RAG usar e me dá o código inicial.</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📝</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Arquitetura por dado</strong><span class="text-neutral-400"> — tratar todo dado igual é a causa nº 1 do RAG errado.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Descreva o dado, não o RAG</strong><span class="text-neutral-400"> — a skill lê os sinais (tamanho, relações, cardinalidade, escala, consulta) e decide.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Quatro arquiteturas</strong><span class="text-neutral-400"> — Naive, Advanced, Modular/Agentic e Graph, cada uma com um gatilho claro.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Números justificados + stack-awareness</strong><span class="text-neutral-400"> — chunk e top-k com raciocínio; usar sempre a infra do usuário.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Scaffold rodável</strong><span class="text-neutral-400"> — migrations completas e README guia, sem stubs.</span></div></div>
+</div>
+<!-- EXERCICIOS -->
+<div class="bg-dark-800/50 rounded-lg p-6 mb-8">
+<h3 class="font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Exercícios práticos</h3>
+<ol class="space-y-3 text-neutral-300 text-sm list-decimal list-inside">
+<li>Para 3 conjuntos de dados (FAQ; catálogo com SKU; base jurídica com citações), escolha a arquitetura e justifique por que as outras foram descartadas.</li>
+<li>Justifique um chunk size e um top-k para docs longos vs. registros curtos — explique o raciocínio, não só o número.</li>
+<li>Esboce o <code class="font-mono text-teal-400">config.ts</code> com as migrations SQL para um Naive RAG em pgvector (tabela + índice + função de match).</li>
+<li><strong>Crie um SKILL.md rodável</strong> chamado <code class="font-mono text-teal-400">rag-architect</code> que conduza as 5 fases, recomende 1 de 4 arquiteturas a partir de uma descrição de dados e gere o scaffold <code class="font-mono">/rag-setup</code>. Teste com o prompt do tópico 6.</li>
+</ol>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-teal-400 mb-2">Fim da Trilha 5:</h3>
+<p class="text-neutral-300">Próxima: Trilha 6 — Arquitetura Avançada de Skills</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-5-2.html">← Módulo Anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="../trilha6/index.html">Trilha 6: Avançado →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Módulo 5.3 · RAG Architect</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');

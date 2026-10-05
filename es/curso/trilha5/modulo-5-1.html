@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 5.1 · Incorporación + informe de auditoría | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+    } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (teal) */
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13,148,136,0.12); }
+    html:not(.dark) .bg-teal-500\/10 { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13,148,136,0.25); }
+    html:not(.dark) .hover\:bg-teal-500\/30:hover { background-color: rgba(13,148,136,0.18); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    /* nav hover outras trilhas */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+
+    /* Light mode - gradientes e especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Light mode - SVG contido */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG pulso */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha5/modulo-5-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha5/modulo-5-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha5/modulo-5-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha5/modulo-5-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-5-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primera Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10" href="index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoría</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avanzado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-teal-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-teal-400" href="index.html">Ruta 5</a>
+<span>/</span>
+<span class="text-teal-400">Módulo 5.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">💻 Incorporación + informe de auditoría</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Dos skills que ponen en marcha un proyecto de consultoría en IA: una genera el <strong class="text-neutral-300">paquete completo de onboarding del cliente</strong> en minutos; la otra transforma tus notas de auditoría en un <strong class="text-neutral-300">AI Readiness Report</strong> profesional, automáticamente.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avanzado</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Práctica</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TOPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🤝 El ritual de apertura de un proyecto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Todo proyecto de consultoría empieza igual: una reunión de kickoff, un montón de preguntas, una lista de accesos que pedir y un cronograma que acordar. Es un trabajo <strong class="text-teal-400">repetitivo, estandarizable y, aun así, hecho a mano la mayoría de las veces</strong>. La skill de onboarding existe para reducir ese ritual a minutos: describes al cliente y ella arma el paquete completo.</p>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Qué debe entregar el onboarding</h3>
+<p class="text-neutral-300 mb-4">Un paquete de onboarding profesional resuelve cinco cosas: los cinco pilares de cualquier kickoff:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Alcance</strong> — lo que está dentro y fuera del proyecto.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Partes interesadas</strong> — quién decide, quién aprueba, quién da acceso.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Accesos</strong> — credenciales, cuentas y permisos que recopilar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Expectativas</strong> — qué es el éxito y en cuánto tiempo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Cronograma</strong> — la primera semana, los hitos y las entregas.</span></li>
+</ul>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">💡</span> Por qué vale tanto automatizar esto</h3>
+<p class="text-neutral-300">El onboarding es el entregable más predecible del consultor y, por eso, el que más se desperdicia cuando se hace manualmente. Cada proyecto nuevo consume las mismas horas reescribiendo los mismos documentos. Una skill que produce el paquete estandariza tu entrega, reduce el tiempo entre «vendí» y «empecé a trabajar» y le da al cliente una <strong class="text-blue-400">primera impresión de organización</strong> que ningún correo suelto puede lograr.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Estandarización</div><div class="text-xs text-neutral-400">La misma calidad para todos los clientes.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Velocidad</div><div class="text-xs text-neutral-400">Minutos, no toda una tarde.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Profesionalismo</div><div class="text-xs text-neutral-400">Documentos coherentes con la marca.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Repetibilidad</div><div class="text-xs text-neutral-400">Funciona para el siguiente y el siguiente.</div></div>
+</div>
+</section>
+<!-- TOPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📋 Anatomía del paquete de incorporación</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La skill no devuelve un texto genérico, sino <strong class="text-teal-400">artefactos con nombre</strong>, cada uno con un papel en el kickoff. Conocerlos te permite adaptar la estructura a tu nicho sin reinventar nada.</p>
+<!-- Timeline dos artefatos -->
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Documento de bienvenida</h4>
+<p class="text-sm text-neutral-400 mb-3">Primer contacto formal</p>
+<p class="text-neutral-300 text-sm">Bienvenida, resumen del alcance acordado, cómo trabajaremos juntos y qué esperar en las próximas semanas. Define el tono de la relación.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Cuestionario de descubrimiento</h4>
+<p class="text-sm text-neutral-400 mb-3">Recopilación de contexto</p>
+<p class="text-neutral-300 text-sm">Las preguntas que extraen lo que necesitas saber: procesos actuales, problemas, datos disponibles, objetivos. Es la entrada que alimenta el informe de auditoría después.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Lista de verificación de accesos</h4>
+<p class="text-sm text-neutral-400 mb-3">Qué pedir y cuándo</p>
+<p class="text-neutral-300 text-sm">Lista de credenciales y permisos — CRM, analítica, repositorios, cuentas en la nube — con responsable y plazo. Evita el clásico cuello de botella de «estamos esperando el acceso».</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Plan de la semana 1</h4>
+<p class="text-sm text-neutral-400 mb-3">Cronograma inicial</p>
+<p class="text-neutral-300 text-sm">Hitos de los primeros días: reuniones, recopilación de accesos, inicio del diagnóstico. Convierte el entusiasmo del kickoff en acciones concretas.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Consejo práctico</h3>
+<p class="text-neutral-300">Cada artefacto es un <strong>plantilla con marcadores de posición</strong> (<code class="font-mono text-primary">{{cliente}}</code>, <code class="font-mono text-primary">{{escopo}}</code>, <code class="font-mono text-primary">{{stack}}</code>). Cuando escribas tu versión de la skill, solo tienes que reemplazar los textos por los tuyos: la ingeniería está en la estructura, no en la redacción.</p>
+</div>
+</section>
+<!-- TOPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🔎 Del diagnóstico al AI Readiness Report</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La segunda skill es donde la consultoría demuestra su valor. Sales de la reunión con <strong class="text-teal-400">notas sin procesar</strong> — observaciones sueltas, frases del cliente, problemas detectados. La skill transforma eso en un <strong class="text-teal-400">AI Readiness Report</strong>: un informe con una calificación de preparación, hallazgos estructurados y una hoja de ruta priorizada.</p>
+<!-- SVG: notas -> relatorio -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Las notas de auditoría sin procesar se ingresan en una skill que produce un informe de preparación con puntuación, hallazgos, impacto y roadmap" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m51-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2dd4bf"></stop><stop offset="1" stop-color="#14b8a6"></stop></lineargradient>
+<filter height="180%" id="m51-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m51-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m51-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+<marker id="m51-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m51-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- notas -->
+<g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+<rect fill="#26201a" height="30" rx="8" stroke="#9ca3af" stroke-width="2" width="150" x="36" y="40"></rect><text fill="#e5e7eb" text-anchor="middle" x="111" y="60">nota: datos en Excel</text>
+<rect fill="#26201a" height="30" rx="8" stroke="#9ca3af" stroke-width="2" width="150" x="36" y="100"></rect><text fill="#e5e7eb" text-anchor="middle" x="111" y="120">nota: sin CRM</text>
+<rect fill="#26201a" height="30" rx="8" stroke="#9ca3af" stroke-width="2" width="150" x="36" y="160"></rect><text fill="#e5e7eb" text-anchor="middle" x="111" y="180">nota: equipo curioso</text>
+</g>
+<g fill="none" opacity="0.5" stroke="#2dd4bf" stroke-width="1.8">
+<path d="M186,55  C320,55 360,115 432,115" marker-end="url(#m51-ah)"></path>
+<path d="M186,115 L432,115" marker-end="url(#m51-ah)"></path>
+<path d="M186,175 C320,175 360,115 432,115" marker-end="url(#m51-ah)"></path>
+</g>
+<!-- skill -->
+<g filter="url(#m51-glow)"><rect fill="#0c1f1c" height="66" rx="14" stroke="url(#m51-grad)" stroke-width="2.5" width="150" x="432" y="82"></rect></g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="507" y="110">Auditoría</text>
+<text fill="#9eecdf" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="507" y="130">Report skill</text>
+<!-- saida -->
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M582,98  C680,98 700,55 770,55" marker-end="url(#m51-ahc)"></path>
+<path d="M582,115 L770,115" marker-end="url(#m51-ahc)"></path>
+<path d="M582,132 C680,132 700,175 770,175" marker-end="url(#m51-ahc)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="194" x="770" y="40"></rect><text fill="#bfe6ff" text-anchor="middle" x="867" y="60">Readiness score</text>
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="194" x="770" y="100"></rect><text fill="#bfe6ff" text-anchor="middle" x="867" y="120">Hallazgos + impacto</text>
+<rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="2" width="194" x="770" y="160"></rect><text fill="#bfe6ff" text-anchor="middle" x="867" y="180">Hoja de ruta priorizada</text>
+</g>
+</svg>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Un buen Readiness Report</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Da una calificación objetiva por dimensión, no una opinión.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Vincula cada hallazgo con su impacto y esfuerzo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Termina con una hoja de ruta que el cliente pueda aprobar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Destaca los quick wins de impacto inmediato.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Un informe débil</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Enumera los problemas sin priorizarlos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Recomienda «implementar IA» sin decir dónde ni cómo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ignora el esfuerzo y promete lo imposible.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>No conecta el hallazgo con una acción concreta.</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Score</div><div class="text-xs text-neutral-400">Nota de preparación por eje.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Hallazgo</div><div class="text-xs text-neutral-400">Observación estructurada.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Impacto × esfuerzo</div><div class="text-xs text-neutral-400">Cómo priorizar.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Hoja de ruta</div><div class="text-xs text-neutral-400">El orden de ejecución.</div></div>
+</div>
+</section>
+<!-- TOPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📐 Las dimensiones de preparación para la IA</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Lo que convierte un informe en un framework reutilizable es evaluar la empresa según <strong class="text-teal-400">ejes fijos</strong>, y no por intuición. Cada eje recibe una puntuación y genera hallazgos. Así, el mismo informe sirve para una tienda, una clínica o un SaaS.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50"><tr>
+<th class="text-left p-4 font-semibold text-teal-400">Dimensión</th>
+<th class="text-left p-4 font-semibold text-teal-400">Qué se evalúa</th>
+<th class="text-left p-4 font-semibold text-teal-400">Señal de baja preparación</th>
+</tr></thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="p-4 font-medium">Datos</td><td class="p-4">Dónde están, formato, calidad, acceso.</td><td class="p-4 text-neutral-400">Hojas de cálculo dispersas, sin una fuente única.</td></tr>
+<tr><td class="p-4 font-medium">Procesos</td><td class="p-4">Lo que es manual, repetitivo y documentado.</td><td class="p-4 text-neutral-400">Todo en la cabeza de una persona.</td></tr>
+<tr><td class="p-4 font-medium">Equipo</td><td class="p-4">Familiaridad con la IA, disposición al cambio.</td><td class="p-4 text-neutral-400">Miedo o escepticismo generalizado.</td></tr>
+<tr><td class="p-4 font-medium">Infraestructura</td><td class="p-4">Herramientas, integraciones, automatizaciones.</td><td class="p-4 text-neutral-400">Sistemas aislados, sin API.</td></tr>
+<tr><td class="p-4 font-medium">Casos de uso</td><td class="p-4">Donde la IA generaría un retorno claro.</td><td class="p-4 text-neutral-400">No se identificó ningún candidato obvio.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Cómo la nota orienta la conversación</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Madurez de datos alta + procesos bajos</strong> → empieza automatizando flujos; el dato ya está listo.</li>
+<li><strong>Equipo curioso + infraestructura débil</strong> → invierte en integración antes que en cualquier modelo.</li>
+<li><strong>Casos de uso claros + datos deficientes</strong> → el primer proyecto es organizar el dato, y eso hay que decirlo.</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Madurez de datos</div><div class="text-xs text-neutral-400">La base de todo.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Automatización</div><div class="text-xs text-neutral-400">Lo que ya se ejecuta solo.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Apalancamiento</div><div class="text-xs text-neutral-400">Donde la IA multiplica.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Solución rápida</div><div class="text-xs text-neutral-400">La primera victoria.</div></div>
+</div>
+</section>
+<!-- TOPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⚙️ Cómo encajan las dos skills</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Por separado, son dos utilidades. <strong class="text-teal-400">Encadenadas, son un producto de consultoría.</strong> El onboarding abre el proyecto y recopila el contexto; el Audit Report cierra el diagnóstico usando exactamente ese contexto. El resultado de uno es la entrada del otro.</p>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🔗</span> El pipeline de consultoría</h3>
+<div class="font-mono text-sm bg-dark-900/60 rounded-lg p-4 text-neutral-300 leading-relaxed">
+<span class="text-teal-400">[ Onboarding skill ]</span><br/>
+            bienvenida · cuestionario · accesos · plan de la semana 1<br/>
+              ↓ respuestas del cuestionario<br/>
+<span class="text-sky-400">[ Audit Report skill ]</span><br/>
+            notas + respuestas → score · hallazgos · roadmap<br/>
+              ↓<br/>
+<span class="text-teal-400">[ Propuesta del proyecto ]</span>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Consejo práctico: contexto compartido</h3>
+<p class="text-neutral-300">Guarda las respuestas del cuestionario en un archivo que ambas skills leen (por ejemplo, <code class="font-mono text-primary">cliente.md</code>). Así, el Audit Report no vuelve a pedir lo que el onboarding ya recopiló; el handoff queda limpio y el cliente no responde la misma pregunta dos veces.</p>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Encadenamiento</div><div class="text-xs text-neutral-400">Una alimenta a la otra.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Handoff</div><div class="text-xs text-neutral-400">Transferencia de contexto.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Contexto compartido</div><div class="text-xs text-neutral-400">Un archivo, dos skills.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Estandarización de procesos</div><div class="text-xs text-neutral-400">De utilidad a oferta.</div></div>
+</div>
+</section>
+<!-- TOPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🛠️ Construyendo tu versión</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La skill genérica es el punto de partida. Lo que la diferencia es la <strong class="text-teal-400">especialización</strong>: tus campos, tu tono, tu marca. Abajo tienes la estructura de un SKILL.md que genera el paquete de onboarding y el informe, listo para que lo adaptes.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">SKILL.md — ai-consulting-onboarding</span>
+<span class="text-xs text-teal-400">frontmatter + cuerpo</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">---
+name: ai-consulting-onboarding
+description: &gt;
+  Gera um pacote completo de onboarding de cliente e um AI Readiness
+  Report para projetos de consultoria em IA. Dispara quando o usuario
+  diz "novo cliente", "kickoff", "pacote de onboarding", "relatorio de
+  prontidao para IA", "audit report" ou descreve uma empresa a avaliar.
+---
+
+# AI Consulting Onboarding + Audit Report
+
+Voce e um consultor de IA. Produza entregaveis reais, nao conselhos.
+
+## Fase 1 — Onboarding
+Pergunte (ou leia de cliente.md): nome, setor, escopo, stakeholders,
+stack atual, objetivo de 90 dias. Gere os arquivos:
+  - welcome.md           (boas-vindas + escopo)
+  - questionario.md      (perguntas de descoberta)
+  - acessos.md           (checklist de credenciais)
+  - plano-semana-1.md    (cronograma inicial)
+
+## Fase 2 — AI Readiness Report
+A partir das notas + respostas, avalie 5 dimensoes (dados, processos,
+equipe, infraestrutura, casos de uso). Para cada uma: nota 1-5 + achado.
+Gere readiness-report.md com:
+  - Sumario executivo (3 bullets)
+  - Tabela de notas por dimensao
+  - Achados (impacto x esforco)
+  - Roadmap priorizado (quick wins / medio / longo prazo)
+
+## Referencias
+- references/dimensoes.md  (rubrica de cada eixo)
+- references/templates.md  (modelos dos 4 documentos)</pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">⚡</span> Prompt para activar la skill</h3>
+<div class="bg-dark-900/60 rounded-lg p-4 font-mono text-sm text-neutral-300">nuevo cliente: clínica dental, 12 empleados, agenda en papel, quiere reducir las ausencias. Genera el paquete de onboarding y el AI Readiness Report.</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📝</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Onboarding automatizado</strong><span class="text-neutral-400"> — paquete estandarizado (bienvenida, cuestionario, accesos, plan) en minutos.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">AI Readiness Report</strong><span class="text-neutral-400"> — las notas en bruto se convierten en score, hallazgos y roadmap priorizado.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Cinco dimensiones</strong><span class="text-neutral-400"> — los datos, los procesos, el equipo, la infraestructura y los casos de uso ofrecen un framework reutilizable.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Encadenamiento</strong><span class="text-neutral-400"> — la salida del onboarding es la entrada del informe; juntas, se convierten en un producto.</span></div></div>
+</div>
+<!-- EXERCICIOS -->
+<div class="bg-dark-800/50 rounded-lg p-6 mb-8">
+<h3 class="font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Ejercicios prácticos</h3>
+<ol class="space-y-3 text-neutral-300 text-sm list-decimal list-inside">
+<li>Escribe las 4 plantillas de onboarding (bienvenida, cuestionario, accesos, plan) para el <strong>tu</strong> nicho, con placeholders.</li>
+<li>Define la rúbrica de las 5 dimensiones: qué nota es 1 y qué nota es 5 en cada eje.</li>
+<li><strong>Crea un SKILL.md ejecutable</strong> llamado <code class="font-mono text-teal-400">ai-consulting-onboarding</code> que genere el paquete y el informe a partir de una descripción de empresa. Pruébala con un cliente ficticio y comprueba si los archivos se generan con nombres y contenido.</li>
+<li>Agrega un <code class="font-mono text-teal-400">references/dimensoes.md</code> con la rúbrica y haz que el SKILL.md la lea cuando sea necesario (divulgación progresiva).</li>
+</ol>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-teal-400 mb-2">Siguiente Módulo:</h3>
+<p class="text-neutral-300">5.2 — SEO + AI Search Auditor</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="modulo-5-2.html">Siguiente Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills en la práctica — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Módulo 5.1 · Incorporación + informe de auditoría</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+
+<html class="dark" lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 5.2 · SEO + AI Search Auditor | Claude Skills na Prática</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 5.2 · SEO + AI Search Auditor | Claude Skills na Prática</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
       primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
     } } } }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
 
@@ -73,199 +74,185 @@
       .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s} .wf-a:nth-child(5){animation-delay:1.2s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <!-- NAV -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
-          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
-          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
-          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
-          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
-          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-teal-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-teal-400">Trilha 5</a>
-      <span>/</span>
-      <span class="text-teal-400">Módulo 5.2</span>
-    </div>
-  </nav>
-
-  <!-- HEADER -->
-  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.2</span>
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📊 SEO + AI Search Auditor</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl">A maioria das ferramentas de SEO não sabe que o <code class="font-mono text-teal-400">llms.txt</code> existe. A maioria dos guias de visibilidade em IA pula a parte técnica. Esta skill faz <strong class="text-neutral-300">os dois — ao vivo, em qualquer URL, em menos de 60 segundos</strong>.</p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-    <!-- TOPICO 1 -->
-    <section id="topico-1" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
-        <h2 class="text-2xl font-bold">🌐 SEO clássico e AEO no mesmo audit</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">Existem dois jogos de visibilidade hoje. O <strong class="text-teal-400">SEO</strong> mira o Google: ranquear na página de resultados. O <strong class="text-teal-400">AEO</strong> (Answer Engine Optimization) mira os motores de resposta — ChatGPT, Perplexity, Gemini, Claude — para ser <strong class="text-teal-400">citado dentro da resposta da IA</strong>. São públicos, sinais e checagens diferentes. Esta skill cobre os dois numa só passada.</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6">
-          <h3 class="text-lg font-semibold text-teal-400 mb-3 flex items-center"><span class="mr-2">🔵</span> SEO tradicional</h3>
-          <p class="text-neutral-300 text-sm mb-3">Aparecer e ranquear no Google.</p>
-          <ul class="space-y-2 text-neutral-300 text-sm">
-            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Title, meta description, hierarquia de H1/H2</span></li>
-            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Core Web Vitals, HTTPS, sitemap</span></li>
-            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Links internos, alt text, E-E-A-T</span></li>
-          </ul>
-        </div>
-        <div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6">
-          <h3 class="text-lg font-semibold text-teal-400 mb-3 flex items-center"><span class="mr-2">🟦</span> AEO (busca por IA)</h3>
-          <p class="text-neutral-300 text-sm mb-3">Ser citado na resposta da IA.</p>
-          <ul class="space-y-2 text-neutral-300 text-sm">
-            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Crawlers de IA liberados no robots.txt</span></li>
-            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>llms.txt e blocos de resposta diretos</span></li>
-            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Schema, autoridade de entidade, SSR</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Por que isto é um diferencial</h3>
-        <p class="text-neutral-300">As ferramentas de SEO de mercado não checam acesso de bots de IA nem geram <code class="font-mono text-primary">llms.txt</code>. Os guias de "como aparecer no ChatGPT" raramente medem Core Web Vitals ou schema. Quem entrega <strong>os dois no mesmo relatório</strong>, sem trocar de ferramenta, oferece algo que o cliente não acha em outro lugar.</p>
-      </div>
-    </section>
-
-    <!-- TOPICO 2 -->
-    <section id="topico-2" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
-        <h2 class="text-2xl font-bold">🤖 robots.txt e o bloqueio invisível</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">A falha mais cara em AEO é silenciosa: uma regra no <code class="font-mono text-teal-400">robots.txt</code> que bloqueia o crawler de uma IA. Se o <strong class="text-teal-400">GPTBot</strong> está proibido, o ChatGPT nunca indexa seu site — e ninguém percebe, porque o tráfego do Google continua igual. A skill checa exatamente isso e marca como prioridade alta.</p>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
-          <span class="text-xs text-neutral-400 font-mono">checagem de acesso de crawlers de IA</span>
-          <span class="text-xs text-teal-400">bash</span>
-        </div>
-        <pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">curl -s "https://DOMINIO/robots.txt" \
+<link href="https://inematds.github.io/claude-skills/curso/trilha5/modulo-5-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha5/modulo-5-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha5/modulo-5-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-5-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha5/modulo-5-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha5/modulo-5-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10" href="index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-teal-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-teal-400" href="index.html">Trilha 5</a>
+<span>/</span>
+<span class="text-teal-400">Módulo 5.2</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">📊 SEO + AI Search Auditor</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">A maioria das ferramentas de SEO não sabe que o <code class="font-mono text-teal-400">llms.txt</code> existe. A maioria dos guias de visibilidade em IA pula a parte técnica. Esta skill faz <strong class="text-neutral-300">os dois — ao vivo, em qualquer URL, em menos de 60 segundos</strong>.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TOPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🌐 SEO clássico e AEO no mesmo audit</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Existem dois jogos de visibilidade hoje. O <strong class="text-teal-400">SEO</strong> mira o Google: ranquear na página de resultados. O <strong class="text-teal-400">AEO</strong> (Answer Engine Optimization) mira os motores de resposta — ChatGPT, Perplexity, Gemini, Claude — para ser <strong class="text-teal-400">citado dentro da resposta da IA</strong>. São públicos, sinais e checagens diferentes. Esta skill cobre os dois numa só passada.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-3 flex items-center"><span class="mr-2">🔵</span> SEO tradicional</h3>
+<p class="text-neutral-300 text-sm mb-3">Aparecer e ranquear no Google.</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Title, meta description, hierarquia de H1/H2</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Core Web Vitals, HTTPS, sitemap</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Links internos, alt text, E-E-A-T</span></li>
+</ul>
+</div>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-3 flex items-center"><span class="mr-2">🟦</span> AEO (busca por IA)</h3>
+<p class="text-neutral-300 text-sm mb-3">Ser citado na resposta da IA.</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Crawlers de IA liberados no robots.txt</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>llms.txt e blocos de resposta diretos</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span>Schema, autoridade de entidade, SSR</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">🧩</span> Por que isto é um diferencial</h3>
+<p class="text-neutral-300">As ferramentas de SEO de mercado não checam acesso de bots de IA nem geram <code class="font-mono text-primary">llms.txt</code>. Os guias de "como aparecer no ChatGPT" raramente medem Core Web Vitals ou schema. Quem entrega <strong>os dois no mesmo relatório</strong>, sem trocar de ferramenta, oferece algo que o cliente não acha em outro lugar.</p>
+</div>
+</section>
+<!-- TOPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🤖 robots.txt e o bloqueio invisível</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A falha mais cara em AEO é silenciosa: uma regra no <code class="font-mono text-teal-400">robots.txt</code> que bloqueia o crawler de uma IA. Se o <strong class="text-teal-400">GPTBot</strong> está proibido, o ChatGPT nunca indexa seu site — e ninguém percebe, porque o tráfego do Google continua igual. A skill checa exatamente isso e marca como prioridade alta.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">checagem de acesso de crawlers de IA</span>
+<span class="text-xs text-teal-400">bash</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">curl -s "https://DOMINIO/robots.txt" \
   | grep -iE "GPTBot|ClaudeBot|PerplexityBot|GoogleOther|Bytespider|CCBot"
 
 # Se qualquer crawler critico aparecer em "Disallow: /"
-# => sinalizar como FIX DE PRIORIDADE ALTA</pre>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-          <h4 class="font-bold text-emerald-400 mb-4">✓ robots.txt que deixa a IA entrar</h4>
-          <pre class="text-xs font-mono text-neutral-300 leading-relaxed">User-agent: GPTBot
+# =&gt; sinalizar como FIX DE PRIORIDADE ALTA</pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ robots.txt que deixa a IA entrar</h4>
+<pre class="text-xs font-mono text-neutral-300 leading-relaxed">User-agent: GPTBot
 User-agent: ClaudeBot
 User-agent: PerplexityBot
 User-agent: GoogleOther
 Allow: /</pre>
-        </div>
-        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-          <h4 class="font-bold text-red-400 mb-4">✗ A regra que te apaga da IA</h4>
-          <pre class="text-xs font-mono text-neutral-300 leading-relaxed">User-agent: GPTBot
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ A regra que te apaga da IA</h4>
+<pre class="text-xs font-mono text-neutral-300 leading-relaxed">User-agent: GPTBot
 Disallow: /
 
 # GPTBot nunca le seu site.
 # Voce some das respostas do ChatGPT.</pre>
-        </div>
-      </div>
-
-      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atenção</h3>
-        <p class="text-neutral-300">Muitos templates de CMS e plugins de "privacidade" adicionam regras anti-IA por padrão, achando que protegem o conteúdo. O dono do site quase nunca sabe. <strong>Sempre comece o audit pelo robots.txt</strong> — é o achado de maior impacto e o mais fácil de corrigir.</p>
-      </div>
-    </section>
-
-    <!-- TOPICO 3 -->
-    <section id="topico-3" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
-        <h2 class="text-2xl font-bold">📄 llms.txt: o mapa para a IA</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">O <code class="font-mono text-teal-400">llms.txt</code> é um arquivo legível por máquina, na raiz do site, que diz às IAs onde está seu conteúdo de autoridade — docs, guias, glossário, pesquisa. É <strong class="text-teal-400">a ação de AEO de maior impacto que a maioria dos sites ainda não fez</strong>. A skill gera o <code class="font-mono text-teal-400">llms.txt</code> e o <code class="font-mono text-teal-400">llms-full.txt</code> prontos para deploy.</p>
-
-      <!-- SVG: llms.txt aponta para conteudo, IAs leem -->
-      <div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
-        <svg viewBox="0 0 1000 230" class="w-full h-auto" role="img" aria-label="Um arquivo llms.txt na raiz aponta para o conteúdo de autoridade do site e é lido pelos crawlers das IAs ChatGPT, Perplexity e Gemini">
-          <defs>
-            <linearGradient id="m52-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#14b8a6"/></linearGradient>
-            <filter id="m52-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <pattern id="m52-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#14b8a6" opacity="0.12"/></pattern>
-            <marker id="m52-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"/></marker>
-            <marker id="m52-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="230" fill="url(#m52-grid)"/>
-          <!-- conteudo do site -->
-          <g font-family="Inter,sans-serif" font-size="12" font-weight="600">
-            <rect x="36" y="36" width="150" height="28" rx="8" fill="#26201a" stroke="#9ca3af" stroke-width="2"/><text x="111" y="55" text-anchor="middle" fill="#e5e7eb">/docs</text>
-            <rect x="36" y="90" width="150" height="28" rx="8" fill="#26201a" stroke="#9ca3af" stroke-width="2"/><text x="111" y="109" text-anchor="middle" fill="#e5e7eb">/guias</text>
-            <rect x="36" y="144" width="150" height="28" rx="8" fill="#26201a" stroke="#9ca3af" stroke-width="2"/><text x="111" y="163" text-anchor="middle" fill="#e5e7eb">/glossario</text>
-          </g>
-          <g fill="none" stroke="#2dd4bf" stroke-width="1.8" opacity="0.5">
-            <path d="M186,50  C300,50 320,100 412,108" marker-end="url(#m52-ah)"/>
-            <path d="M186,104 L412,114" marker-end="url(#m52-ah)"/>
-            <path d="M186,158 C300,158 320,128 412,122" marker-end="url(#m52-ah)"/>
-          </g>
-          <!-- llms.txt -->
-          <g filter="url(#m52-glow)"><rect x="412" y="80" width="160" height="68" rx="14" fill="#0c1f1c" stroke="url(#m52-grad)" stroke-width="2.5"/></g>
-          <text x="492" y="108" text-anchor="middle" fill="#2dd4bf" font-family="Inter,sans-serif" font-weight="700" font-size="16">llms.txt</text>
-          <text x="492" y="130" text-anchor="middle" fill="#9eecdf" font-family="Inter,sans-serif" font-size="11.5">mapa de autoridade</text>
-          <!-- IAs -->
-          <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.5">
-            <path d="M572,98  C680,98 700,55 772,55" marker-end="url(#m52-ahc)"/>
-            <path d="M572,114 L772,114" marker-end="url(#m52-ahc)"/>
-            <path d="M572,130 C680,130 700,173 772,173" marker-end="url(#m52-ahc)"/>
-          </g>
-          <g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
-            <g class="wf-a"><rect x="772" y="40" width="192" height="30" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="868" y="60" text-anchor="middle" fill="#bfe6ff">ChatGPT</text></g>
-            <g class="wf-a"><rect x="772" y="99" width="192" height="30" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="868" y="119" text-anchor="middle" fill="#bfe6ff">Perplexity</text></g>
-            <g class="wf-a"><rect x="772" y="158" width="192" height="30" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="868" y="178" text-anchor="middle" fill="#bfe6ff">Gemini</text></g>
-          </g>
-        </svg>
-      </div>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
-          <span class="text-xs text-neutral-400 font-mono">llms.txt (esqueleto gerado pela skill)</span>
-          <span class="text-xs text-teal-400">raiz do site</span>
-        </div>
-        <pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed"># {nome_da_marca}
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atenção</h3>
+<p class="text-neutral-300">Muitos templates de CMS e plugins de "privacidade" adicionam regras anti-IA por padrão, achando que protegem o conteúdo. O dono do site quase nunca sabe. <strong>Sempre comece o audit pelo robots.txt</strong> — é o achado de maior impacto e o mais fácil de corrigir.</p>
+</div>
+</section>
+<!-- TOPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📄 llms.txt: o mapa para a IA</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O <code class="font-mono text-teal-400">llms.txt</code> é um arquivo legível por máquina, na raiz do site, que diz às IAs onde está seu conteúdo de autoridade — docs, guias, glossário, pesquisa. É <strong class="text-teal-400">a ação de AEO de maior impacto que a maioria dos sites ainda não fez</strong>. A skill gera o <code class="font-mono text-teal-400">llms.txt</code> e o <code class="font-mono text-teal-400">llms-full.txt</code> prontos para deploy.</p>
+<!-- SVG: llms.txt aponta para conteudo, IAs leem -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Um arquivo llms.txt na raiz aponta para o conteúdo de autoridade do site e é lido pelos crawlers das IAs ChatGPT, Perplexity e Gemini" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m52-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2dd4bf"></stop><stop offset="1" stop-color="#14b8a6"></stop></lineargradient>
+<filter height="180%" id="m52-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m52-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m52-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+<marker id="m52-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m52-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- conteudo do site -->
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<rect fill="#26201a" height="28" rx="8" stroke="#9ca3af" stroke-width="2" width="150" x="36" y="36"></rect><text fill="#e5e7eb" text-anchor="middle" x="111" y="55">/docs</text>
+<rect fill="#26201a" height="28" rx="8" stroke="#9ca3af" stroke-width="2" width="150" x="36" y="90"></rect><text fill="#e5e7eb" text-anchor="middle" x="111" y="109">/guias</text>
+<rect fill="#26201a" height="28" rx="8" stroke="#9ca3af" stroke-width="2" width="150" x="36" y="144"></rect><text fill="#e5e7eb" text-anchor="middle" x="111" y="163">/glossario</text>
+</g>
+<g fill="none" opacity="0.5" stroke="#2dd4bf" stroke-width="1.8">
+<path d="M186,50  C300,50 320,100 412,108" marker-end="url(#m52-ah)"></path>
+<path d="M186,104 L412,114" marker-end="url(#m52-ah)"></path>
+<path d="M186,158 C300,158 320,128 412,122" marker-end="url(#m52-ah)"></path>
+</g>
+<!-- llms.txt -->
+<g filter="url(#m52-glow)"><rect fill="#0c1f1c" height="68" rx="14" stroke="url(#m52-grad)" stroke-width="2.5" width="160" x="412" y="80"></rect></g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="492" y="108">llms.txt</text>
+<text fill="#9eecdf" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle" x="492" y="130">mapa de autoridade</text>
+<!-- IAs -->
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M572,98  C680,98 700,55 772,55" marker-end="url(#m52-ahc)"></path>
+<path d="M572,114 L772,114" marker-end="url(#m52-ahc)"></path>
+<path d="M572,130 C680,130 700,173 772,173" marker-end="url(#m52-ahc)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="9" stroke="#38bdf8" stroke-width="2" width="192" x="772" y="40"></rect><text fill="#bfe6ff" text-anchor="middle" x="868" y="60">ChatGPT</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="9" stroke="#38bdf8" stroke-width="2" width="192" x="772" y="99"></rect><text fill="#bfe6ff" text-anchor="middle" x="868" y="119">Perplexity</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="9" stroke="#38bdf8" stroke-width="2" width="192" x="772" y="158"></rect><text fill="#bfe6ff" text-anchor="middle" x="868" y="178">Gemini</text></g>
+</g>
+</svg>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">llms.txt (esqueleto gerado pela skill)</span>
+<span class="text-xs text-teal-400">raiz do site</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed"># {nome_da_marca}
 
 &gt; {descricao_da_marca em uma frase}
 
@@ -284,31 +271,28 @@ Disallow: /
 
 ## Contact
 - [Contato](/contato): fale com a equipe</pre>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> llms.txt vs llms-full.txt</h3>
-        <ul class="space-y-2 text-neutral-300 text-sm">
-          <li><strong>llms.txt</strong> — o índice: links com uma linha de descrição para a IA navegar.</li>
-          <li><strong>llms-full.txt</strong> — o conteúdo: o texto completo das páginas-chave, para a IA citar sem precisar buscar.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- TOPICO 4 -->
-    <section id="topico-4" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
-        <h2 class="text-2xl font-bold">🏷️ Schema markup e blocos de resposta</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">Para a IA <strong class="text-teal-400">extrair e citar</strong> seu conteúdo com confiança, ele precisa de estrutura. Duas técnicas dominam: o <strong class="text-teal-400">schema markup</strong> (JSON-LD que descreve a página para a máquina) e o <strong class="text-teal-400">método de bloco de resposta</strong> (pergunta no H2, resposta direta logo abaixo).</p>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
-          <span class="text-xs text-neutral-400 font-mono">FAQPage schema (JSON-LD)</span>
-          <span class="text-xs text-teal-400">&lt;script type="application/ld+json"&gt;</span>
-        </div>
-        <pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">{
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> llms.txt vs llms-full.txt</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>llms.txt</strong> — o índice: links com uma linha de descrição para a IA navegar.</li>
+<li><strong>llms-full.txt</strong> — o conteúdo: o texto completo das páginas-chave, para a IA citar sem precisar buscar.</li>
+</ul>
+</div>
+</section>
+<!-- TOPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🏷️ Schema markup e blocos de resposta</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Para a IA <strong class="text-teal-400">extrair e citar</strong> seu conteúdo com confiança, ele precisa de estrutura. Duas técnicas dominam: o <strong class="text-teal-400">schema markup</strong> (JSON-LD que descreve a página para a máquina) e o <strong class="text-teal-400">método de bloco de resposta</strong> (pergunta no H2, resposta direta logo abaixo).</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">FAQPage schema (JSON-LD)</span>
+<span class="text-xs text-teal-400">&lt;script type="application/ld+json"&gt;</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">{
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [{
@@ -322,104 +306,96 @@ Disallow: /
     }
   }]
 }</pre>
-      </div>
-
-      <div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">📐</span> O método do bloco de resposta</h3>
-        <div class="font-mono text-sm bg-dark-900/60 rounded-lg p-4 text-neutral-300 leading-relaxed">
-          <span class="text-teal-400">H2:</span> [pergunta como cabeçalho?]<br>
-          [resposta direta em 1–2 frases, logo após o título]<br>
-          [3–5 frases de contexto de apoio]<br>
-          &nbsp;&nbsp;• estatística com data e fonte<br>
-          &nbsp;&nbsp;• entidade ou caso nomeado<br>
-          &nbsp;&nbsp;• ponto de comparação ou contraste
+</div>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">📐</span> O método do bloco de resposta</h3>
+<div class="font-mono text-sm bg-dark-900/60 rounded-lg p-4 text-neutral-300 leading-relaxed">
+<span class="text-teal-400">H2:</span> [pergunta como cabeçalho?]<br/>
+          [resposta direta em 1–2 frases, logo após o título]<br/>
+          [3–5 frases de contexto de apoio]<br/>
+            • estatística com data e fonte<br/>
+            • entidade ou caso nomeado<br/>
+            • ponto de comparação ou contraste
         </div>
-      </div>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <table class="w-full text-sm">
-          <thead class="bg-dark-700/50"><tr>
-            <th class="text-left p-4 font-semibold text-teal-400">Schema</th>
-            <th class="text-left p-4 font-semibold text-teal-400">Onde usar</th>
-            <th class="text-left p-4 font-semibold text-teal-400">Para que serve</th>
-          </tr></thead>
-          <tbody class="divide-y divide-dark-600 text-neutral-300">
-            <tr><td class="p-4 font-mono text-xs">Organization</td><td class="p-4">Homepage</td><td class="p-4 text-neutral-400">Reconhecimento de entidade</td></tr>
-            <tr><td class="p-4 font-mono text-xs">FAQPage</td><td class="p-4">Páginas de conteúdo</td><td class="p-4 text-neutral-400">Citação por IA</td></tr>
-            <tr><td class="p-4 font-mono text-xs">Article</td><td class="p-4">Blog e guias</td><td class="p-4 text-neutral-400">Sinal de E-E-A-T</td></tr>
-            <tr><td class="p-4 font-mono text-xs">HowTo</td><td class="p-4">Tutoriais</td><td class="p-4 text-neutral-400">Passos extraíveis</td></tr>
-            <tr><td class="p-4 font-mono text-xs">DefinedTerm</td><td class="p-4">Glossário</td><td class="p-4 text-neutral-400">Autoridade temática</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">JSON-LD</div><div class="text-xs text-neutral-400">Schema legível por máquina.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">FAQPage</div><div class="text-xs text-neutral-400">O schema que mais é citado.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Answer block</div><div class="text-xs text-neutral-400">Resposta direta no topo.</div></div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Pirâmide invertida</div><div class="text-xs text-neutral-400">Conclusão antes do detalhe.</div></div>
-      </div>
-    </section>
-
-    <!-- TOPICO 5 -->
-    <section id="topico-5" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
-        <h2 class="text-2xl font-bold">🔬 O fluxo de auditoria ao vivo</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">Quando você digita <code class="font-mono text-teal-400">audit https://site.com</code>, a skill executa uma sequência fixa: busca os arquivos centrais, checa o acesso dos bots, detecta schema e gera o relatório priorizado. Entender o workflow é o que permite confiar no resultado — e estendê-lo.</p>
-
-      <div class="space-y-6 mb-6">
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">1</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-neutral-100 mb-2">Buscar arquivos centrais</h4>
-            <p class="text-neutral-300 text-sm">robots.txt, sitemap.xml, o HTML da página (title, meta, H1) e o status do <code class="font-mono text-teal-400">llms.txt</code>. Tudo via <code class="font-mono">curl</code>/web_fetch.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">2</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-neutral-100 mb-2">Auditar acesso dos bots de IA</h4>
-            <p class="text-neutral-300 text-sm">Procurar GPTBot, ClaudeBot, PerplexityBot no robots.txt. Qualquer bloqueio crítico vira prioridade alta.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">3</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-neutral-100 mb-2">Auditar schema</h4>
-            <p class="text-neutral-300 text-sm">Extrair os blocos <code class="font-mono">application/ld+json</code> da página e identificar quais tipos existem (ou se não há nenhum).</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">4</span></div>
-          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
-            <h4 class="font-semibold text-neutral-100 mb-2">Gerar o relatório</h4>
-            <p class="text-neutral-300 text-sm">Escrever <code class="font-mono text-teal-400">seo-audit-DOMINIO.md</code> com sumário executivo, achados de SEO e de IA, status de schema e llms.txt, e um plano dividido em <strong>quick wins / médio / longo prazo</strong>.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
-        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">⚡</span> Dica prática: concorrentes em paralelo</h3>
-        <p class="text-neutral-300">Para uma análise competitiva, dispare <strong>subagentes em paralelo</strong> — um por concorrente. Cada um audita um domínio (HTML, schema, llms.txt, robots) e o agente principal funde tudo numa tabela comparativa. Mesma skill, escopo multiplicado.</p>
-      </div>
-    </section>
-
-    <!-- TOPICO 6 -->
-    <section id="topico-6" class="mb-16">
-      <div class="flex items-center space-x-4 mb-6">
-        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
-        <h2 class="text-2xl font-bold">🛠️ Empacotando o seu auditor</h2>
-      </div>
-      <p class="text-neutral-300 mb-6 leading-relaxed">A skill real é um exemplo limpo de <strong class="text-teal-400">progressive disclosure</strong>: o SKILL.md fica enxuto, com uma árvore de decisão e o playbook resumido, e delega os detalhes aos <code class="font-mono text-teal-400">references/</code>. Os scripts fazem o trabalho pesado.</p>
-
-      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
-        <div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
-          <span class="text-xs text-neutral-400 font-mono">estrutura da skill</span>
-          <span class="text-xs text-teal-400">seo-aeo-optimization/</span>
-        </div>
-        <pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">seo-aeo-optimization/
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<table class="w-full text-sm">
+<thead class="bg-dark-700/50"><tr>
+<th class="text-left p-4 font-semibold text-teal-400">Schema</th>
+<th class="text-left p-4 font-semibold text-teal-400">Onde usar</th>
+<th class="text-left p-4 font-semibold text-teal-400">Para que serve</th>
+</tr></thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="p-4 font-mono text-xs">Organization</td><td class="p-4">Homepage</td><td class="p-4 text-neutral-400">Reconhecimento de entidade</td></tr>
+<tr><td class="p-4 font-mono text-xs">FAQPage</td><td class="p-4">Páginas de conteúdo</td><td class="p-4 text-neutral-400">Citação por IA</td></tr>
+<tr><td class="p-4 font-mono text-xs">Article</td><td class="p-4">Blog e guias</td><td class="p-4 text-neutral-400">Sinal de E-E-A-T</td></tr>
+<tr><td class="p-4 font-mono text-xs">HowTo</td><td class="p-4">Tutoriais</td><td class="p-4 text-neutral-400">Passos extraíveis</td></tr>
+<tr><td class="p-4 font-mono text-xs">DefinedTerm</td><td class="p-4">Glossário</td><td class="p-4 text-neutral-400">Autoridade temática</td></tr>
+</tbody>
+</table>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">JSON-LD</div><div class="text-xs text-neutral-400">Schema legível por máquina.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">FAQPage</div><div class="text-xs text-neutral-400">O schema que mais é citado.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Answer block</div><div class="text-xs text-neutral-400">Resposta direta no topo.</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-bold text-sm mb-1">Pirâmide invertida</div><div class="text-xs text-neutral-400">Conclusão antes do detalhe.</div></div>
+</div>
+</section>
+<!-- TOPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔬 O fluxo de auditoria ao vivo</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Quando você digita <code class="font-mono text-teal-400">audit https://site.com</code>, a skill executa uma sequência fixa: busca os arquivos centrais, checa o acesso dos bots, detecta schema e gera o relatório priorizado. Entender o workflow é o que permite confiar no resultado — e estendê-lo.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Buscar arquivos centrais</h4>
+<p class="text-neutral-300 text-sm">robots.txt, sitemap.xml, o HTML da página (title, meta, H1) e o status do <code class="font-mono text-teal-400">llms.txt</code>. Tudo via <code class="font-mono">curl</code>/web_fetch.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Auditar acesso dos bots de IA</h4>
+<p class="text-neutral-300 text-sm">Procurar GPTBot, ClaudeBot, PerplexityBot no robots.txt. Qualquer bloqueio crítico vira prioridade alta.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Auditar schema</h4>
+<p class="text-neutral-300 text-sm">Extrair os blocos <code class="font-mono">application/ld+json</code> da página e identificar quais tipos existem (ou se não há nenhum).</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center"><span class="text-teal-400 font-bold">4</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+<h4 class="font-semibold text-neutral-100 mb-2">Gerar o relatório</h4>
+<p class="text-neutral-300 text-sm">Escrever <code class="font-mono text-teal-400">seo-audit-DOMINIO.md</code> com sumário executivo, achados de SEO e de IA, status de schema e llms.txt, e um plano dividido em <strong>quick wins / médio / longo prazo</strong>.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">⚡</span> Dica prática: concorrentes em paralelo</h3>
+<p class="text-neutral-300">Para uma análise competitiva, dispare <strong>subagentes em paralelo</strong> — um por concorrente. Cada um audita um domínio (HTML, schema, llms.txt, robots) e o agente principal funde tudo numa tabela comparativa. Mesma skill, escopo multiplicado.</p>
+</div>
+</section>
+<!-- TOPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🛠️ Empacotando o seu auditor</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A skill real é um exemplo limpo de <strong class="text-teal-400">progressive disclosure</strong>: o SKILL.md fica enxuto, com uma árvore de decisão e o playbook resumido, e delega os detalhes aos <code class="font-mono text-teal-400">references/</code>. Os scripts fazem o trabalho pesado.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+<div class="flex items-center justify-between px-4 py-2 bg-dark-700/50 border-b border-dark-600">
+<span class="text-xs text-neutral-400 font-mono">estrutura da skill</span>
+<span class="text-xs text-teal-400">seo-aeo-optimization/</span>
+</div>
+<pre class="p-4 text-sm font-mono text-neutral-300 overflow-x-auto leading-relaxed">seo-aeo-optimization/
 ├── SKILL.md                    # playbook + arvore de decisao (enxuto)
 ├── scripts/
 │   ├── audit.sh                # auditor de site ao vivo
@@ -428,70 +404,62 @@ Disallow: /
     ├── traditional-seo.md      # checklists tecnicos, Core Web Vitals
     ├── ai-seo-aeo.md           # playbook AEO, taticas por plataforma
     └── schema-markup.md        # biblioteca JSON-LD copia-e-cola</pre>
-      </div>
-
-      <div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
-        <h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🌳</span> A árvore de decisão dentro do SKILL.md</h3>
-        <div class="font-mono text-sm bg-dark-900/60 rounded-lg p-4 text-neutral-300 leading-relaxed">
-          pedido recebido<br>
-          ├─ "audite meu site"        → fluxo de audit ao vivo<br>
-          ├─ "crie schema markup"     → ler schema-markup.md → JSON-LD<br>
-          ├─ "escreva llms.txt"       → ler ai-seo-aeo.md → gerar arquivo<br>
-          ├─ "analise concorrentes"   → subagentes em paralelo<br>
+</div>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🌳</span> A árvore de decisão dentro do SKILL.md</h3>
+<div class="font-mono text-sm bg-dark-900/60 rounded-lg p-4 text-neutral-300 leading-relaxed">
+          pedido recebido<br/>
+          ├─ "audite meu site"        → fluxo de audit ao vivo<br/>
+          ├─ "crie schema markup"     → ler schema-markup.md → JSON-LD<br/>
+          ├─ "escreva llms.txt"       → ler ai-seo-aeo.md → gerar arquivo<br/>
+          ├─ "analise concorrentes"   → subagentes em paralelo<br/>
           └─ pergunta geral           → responder do conhecimento da skill
         </div>
-      </div>
-
-      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
-        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Por que o SKILL.md fica enxuto</h3>
-        <p class="text-neutral-300 text-sm">O corpo do SKILL.md só precisa do suficiente para decidir <em>qual</em> caminho seguir e disparar o script certo. O conhecimento profundo — 15 tipos de schema, todas as táticas por plataforma — mora nos <code class="font-mono text-blue-400">references/</code>, carregados sob demanda. Isso mantém o contexto leve e a skill rápida.</p>
-      </div>
-    </section>
-
-    <!-- RESUMO -->
-    <section class="mb-12">
-      <div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
-        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📝</span> Resumo do Módulo</h2>
-        <div class="space-y-4 mb-8">
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">SEO + AEO juntos</strong><span class="text-neutral-400"> — uma skill cobre Google e os motores de resposta numa só passada.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">robots.txt primeiro</strong><span class="text-neutral-400"> — o bloqueio de crawler de IA é o achado mais caro e mais fácil de corrigir.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">llms.txt</strong><span class="text-neutral-400"> — a ação de AEO de maior impacto; a skill gera os arquivos prontos.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Schema + bloco de resposta</strong><span class="text-neutral-400"> — estrutura é o que faz a IA citar com confiança.</span></div></div>
-          <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Progressive disclosure</strong><span class="text-neutral-400"> — SKILL.md enxuto + scripts + references carregados sob demanda.</span></div></div>
-        </div>
-
-        <!-- EXERCICIOS -->
-        <div class="bg-dark-800/50 rounded-lg p-6 mb-8">
-          <h3 class="font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Exercícios práticos</h3>
-          <ol class="space-y-3 text-neutral-300 text-sm list-decimal list-inside">
-            <li>Rode o fluxo manualmente num site real: cheque o robots.txt para GPTBot/ClaudeBot e veja se há <code class="font-mono text-teal-400">llms.txt</code>.</li>
-            <li>Escreva o <code class="font-mono text-teal-400">llms.txt</code> de um site fictício seguindo o esqueleto do tópico 3.</li>
-            <li>Crie um <code class="font-mono text-teal-400">FAQPage</code> JSON-LD para uma página de preços e valide a sintaxe.</li>
-            <li><strong>Crie um SKILL.md rodável</strong> chamado <code class="font-mono text-teal-400">seo-aeo-audit</code> com uma árvore de decisão e um <code class="font-mono">scripts/audit.sh</code> que receba uma URL, cheque robots.txt + schema e escreva <code class="font-mono">seo-audit-DOMINIO.md</code>. Teste num domínio real.</li>
-          </ol>
-        </div>
-
-        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-          <h3 class="font-semibold text-teal-400 mb-2">Próximo Módulo:</h3>
-          <p class="text-neutral-300">5.3 — RAG Architect</p>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="modulo-5-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo Anterior</a>
-          <a href="modulo-5-3.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Próximo Módulo →</a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8 mt-16">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
-      <p>Módulo 5.2 · SEO + AI Search Auditor</p>
-    </div>
-  </footer>
-
-  <script>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Por que o SKILL.md fica enxuto</h3>
+<p class="text-neutral-300 text-sm">O corpo do SKILL.md só precisa do suficiente para decidir <em>qual</em> caminho seguir e disparar o script certo. O conhecimento profundo — 15 tipos de schema, todas as táticas por plataforma — mora nos <code class="font-mono text-blue-400">references/</code>, carregados sob demanda. Isso mantém o contexto leve e a skill rápida.</p>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📝</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">SEO + AEO juntos</strong><span class="text-neutral-400"> — uma skill cobre Google e os motores de resposta numa só passada.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">robots.txt primeiro</strong><span class="text-neutral-400"> — o bloqueio de crawler de IA é o achado mais caro e mais fácil de corrigir.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">llms.txt</strong><span class="text-neutral-400"> — a ação de AEO de maior impacto; a skill gera os arquivos prontos.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Schema + bloco de resposta</strong><span class="text-neutral-400"> — estrutura é o que faz a IA citar com confiança.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Progressive disclosure</strong><span class="text-neutral-400"> — SKILL.md enxuto + scripts + references carregados sob demanda.</span></div></div>
+</div>
+<!-- EXERCICIOS -->
+<div class="bg-dark-800/50 rounded-lg p-6 mb-8">
+<h3 class="font-semibold text-teal-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Exercícios práticos</h3>
+<ol class="space-y-3 text-neutral-300 text-sm list-decimal list-inside">
+<li>Rode o fluxo manualmente num site real: cheque o robots.txt para GPTBot/ClaudeBot e veja se há <code class="font-mono text-teal-400">llms.txt</code>.</li>
+<li>Escreva o <code class="font-mono text-teal-400">llms.txt</code> de um site fictício seguindo o esqueleto do tópico 3.</li>
+<li>Crie um <code class="font-mono text-teal-400">FAQPage</code> JSON-LD para uma página de preços e valide a sintaxe.</li>
+<li><strong>Crie um SKILL.md rodável</strong> chamado <code class="font-mono text-teal-400">seo-aeo-audit</code> com uma árvore de decisão e um <code class="font-mono">scripts/audit.sh</code> que receba uma URL, cheque robots.txt + schema e escreva <code class="font-mono">seo-audit-DOMINIO.md</code>. Teste num domínio real.</li>
+</ol>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-teal-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">5.3 — RAG Architect</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-5-1.html">← Módulo Anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="modulo-5-3.html">Próximo Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Módulo 5.2 · SEO + AI Search Auditor</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');

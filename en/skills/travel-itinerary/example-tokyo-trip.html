@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TravelWings — Tokyo Trip (Example)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#06060a;--s:rgba(255,255,255,0.03);--g:rgba(255,255,255,0.05);--g2:rgba(255,255,255,0.07);--b:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.12);--a:#5ad1ff;--ag:rgba(90,209,255,0.12);--o:#ff7a59;--og:rgba(255,122,89,0.12);--gr:#7dffaa;--grg:rgba(125,255,170,0.1);--p:#c084fc;--pg:rgba(192,132,252,0.1);--gd:#fbbf24;--gdg:rgba(251,191,36,0.12);--t:#f0f0f5;--m:#8a8a99;--d:#50506a;--r:16px;--sm:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.55;overflow-x:hidden}
+a{color:var(--a);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8;text-decoration:underline}
+
+/* Ambient orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(140px);opacity:.22;pointer-events:none;z-index:0}
+.o1{width:700px;height:700px;background:radial-gradient(circle,rgba(90,209,255,.18),transparent 70%);top:-250px;right:-150px}
+.o2{width:550px;height:550px;background:radial-gradient(circle,rgba(255,122,89,.14),transparent 70%);bottom:-200px;left:-100px}
+.o3{width:400px;height:400px;background:radial-gradient(circle,rgba(251,191,36,.1),transparent 70%);top:40%;left:50%;transform:translateX(-50%)}
+
+.w{max-width:900px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+
+/* Theme toggle */
+.theme-btn{position:fixed;top:16px;right:16px;z-index:100;width:36px;height:36px;border-radius:50%;border:1px solid var(--b);background:var(--g);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(20px);transition:all .2s}
+.theme-btn:hover{background:var(--g2);border-color:var(--b2);transform:scale(1.1)}
+
+/* Hero */
+.hero{position:relative;border-radius:var(--r);overflow:hidden;margin-bottom:24px;min-height:280px;display:flex;align-items:flex-end;background:linear-gradient(135deg,#1a0a2e,#0a1628,#06060a)}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,6,10,0.9) 0%,rgba(6,6,10,0.3) 50%,transparent 100%)}
+.hero-c{position:relative;z-index:2;padding:32px;width:100%}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:6px 16px;font-size:11px;font-weight:600;color:var(--a);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;backdrop-filter:blur(20px)}
+.hero h1{font-size:clamp(32px,6vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:4px;color:#fff}
+.hero .sub{font-size:15px;color:rgba(255,255,255,0.55)}
+
+/* Animated plane */
+.plane-wrap{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.contrail{fill:none;stroke:url(#trailGrad);stroke-width:2;stroke-dasharray:400;stroke-dashoffset:400;animation:drawTrail 8s ease-in-out infinite}
+@keyframes drawTrail{0%{stroke-dashoffset:400}50%{stroke-dashoffset:0}100%{stroke-dashoffset:-400}}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.st{background:var(--g);border:1px solid var(--b);border-radius:var(--sm);padding:14px;text-align:center;transition:all .25s;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04)}
+.st:hover{background:var(--g2);transform:translateY(-2px)}
+.stv{font-size:24px;font-weight:900;letter-spacing:-1px}
+.stv.b{color:var(--a)}.stv.o{color:var(--o)}.stv.g{color:var(--gr)}.stv.p{color:var(--p)}.stv.gd{color:var(--gd)}
+.stl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--d);font-weight:600;margin-top:2px}
+
+/* Section headers */
+.sec{display:flex;align-items:center;gap:10px;margin:28px 0 12px}
+.sec h2{font-size:16px;font-weight:800;letter-spacing:-0.3px;white-space:nowrap}
+.sec .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--b),transparent)}
+
+/* Event banner */
+.banner{border-radius:var(--r);padding:28px;margin-bottom:22px;position:relative;overflow:hidden;backdrop-filter:blur(20px);box-shadow:0 4px 24px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04)}
+.banner::after{content:'';position:absolute;top:0;left:-200%;width:200%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.02),transparent);animation:shimmer 6s ease-in-out infinite}
+@keyframes shimmer{0%{left:-200%}100%{left:200%}}
+.banner-top{display:flex;align-items:center;gap:12px;margin-bottom:4px;position:relative}
+.banner-logo{width:34px;height:34px;border-radius:8px;object-fit:contain;background:rgba(255,255,255,0.06);padding:3px}
+.banner-title{font-size:24px;font-weight:800;letter-spacing:-0.5px}
+.banner-title span{text-shadow:0 0 20px currentColor}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;position:relative}
+.bd{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--m)}
+.bd .bi{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.bd strong{color:var(--t);display:block;font-size:12px}
+
+/* Flight cards */
+.fl{background:var(--g);border:1px solid var(--b);border-radius:var(--r);margin-bottom:8px;overflow:hidden;transition:all .25s;cursor:pointer;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04)}
+.fl:hover{background:var(--g2);border-color:var(--b2);transform:translateY(-1px)}
+.fl.on .fb{max-height:280px;opacity:1;padding:0 16px 12px}
+.fh{display:flex;align-items:center;justify-content:space-between;padding:13px 16px}
+.fhl{display:flex;align-items:center;gap:10px}
+.flogo{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;background:rgba(255,255,255,0.06)}
+.fm h3{font-size:12px;font-weight:700}.fm .s{font-size:10px;color:var(--m)}
+.fhr{display:flex;align-items:center;gap:8px}
+.ftag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:3px 8px;border-radius:999px}
+.ftag.dp{color:var(--a);background:var(--ag)}.ftag.tr{color:var(--p);background:var(--pg)}
+.ftag.ar{color:var(--gr);background:var(--grg)}.ftag.rt{color:var(--o);background:var(--og)}
+.chv{color:var(--d);transition:transform .3s;font-size:10px}.fl.on .chv{transform:rotate(90deg)}
+.fb{max-height:0;opacity:0;overflow:hidden;transition:all .35s;padding:0 16px}
+.fbi{border-top:1px solid var(--b);padding-top:8px}
+.dr{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}.dr .l{color:var(--m)}.dr .v{font-weight:600}
+.mono{font-family:ui-monospace,Menlo,monospace;color:var(--a)}
+
+/* Hotel */
+.hotel{background:var(--g);border:1px solid var(--b);border-radius:var(--r);padding:16px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04);transition:all .25s}
+.hotel:hover{background:var(--g2);transform:translateY(-1px)}
+.hotel-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(255,255,255,0.06)}
+.hotel-info h4{font-size:13px;font-weight:700;margin-bottom:1px}
+.hotel-info p{font-size:11px;color:var(--m)}
+.hotel-tag{margin-left:auto;font-size:9px;font-weight:700;padding:4px 9px;border-radius:999px;color:var(--gr);background:var(--grg);white-space:nowrap}
+
+/* Day selector */
+.dsel{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}.dsel::-webkit-scrollbar{display:none}
+.db{flex-shrink:0;padding:10px 14px;background:var(--g);border:1px solid var(--b);border-radius:10px;cursor:pointer;text-align:center;transition:all .25s;min-width:80px;user-select:none}
+.db:hover{background:var(--g2);border-color:var(--b2)}
+.db.on{background:linear-gradient(135deg,rgba(125,255,170,0.1),rgba(90,209,255,0.06));border-color:rgba(125,255,170,0.25)}
+.db .dd{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--d);margin-bottom:1px}
+.db.on .dd{color:var(--gr)}
+.db .dn{font-size:13px;font-weight:800;letter-spacing:-0.3px}
+.db .dt{font-size:8px;color:var(--d);margin-top:1px}
+.db.ev{position:relative}.db.ev::after{content:'';position:absolute;top:6px;right:6px;width:5px;height:5px;border-radius:50%;background:var(--gd)}
+
+/* Day content */
+.dc{background:var(--g);border:1px solid var(--b);border-radius:var(--r);padding:20px;margin-bottom:18px;min-height:200px;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04)}
+.dct{font-size:12px;font-weight:700;color:var(--a);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.dcs{font-size:18px;font-weight:800;letter-spacing:-0.5px;margin-bottom:16px}
+.dci{display:flex;gap:14px;padding:6px 0;border-bottom:1px solid var(--s)}
+.dci:last-of-type{border:none}
+.dctm{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;color:var(--a);min-width:48px;flex-shrink:0}
+.dctx{font-size:12px;color:var(--m);line-height:1.5}
+.dcn{margin-top:12px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:11px;color:var(--d);border-left:2px solid var(--a)}
+
+/* Budget */
+.price{background:var(--g);border:1px solid var(--b);border-radius:var(--r);padding:18px;margin-bottom:18px;backdrop-filter:blur(12px)}
+.price h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.pr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--s);font-size:12px}
+.pr:last-of-type{border:none}
+.pr .l{color:var(--m)}.pr .v{font-weight:700;font-family:ui-monospace,Menlo,monospace}
+.pr.total{border-top:1px solid var(--b);margin-top:4px;padding-top:10px}
+.pr.total .l{color:var(--t);font-weight:800}.pr.total .v{color:var(--a);font-size:14px}
+
+/* Checklists */
+.todo{background:var(--g);border:1px solid var(--b);border-radius:var(--r);padding:16px;margin-bottom:12px;backdrop-filter:blur(12px)}
+.todo h3{font-size:13px;font-weight:700;margin-bottom:8px}
+.tbar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:4px;overflow:hidden}
+.tfill{height:100%;background:linear-gradient(90deg,var(--a),var(--gr));border-radius:2px;transition:width .4s}
+.tct{font-size:10px;color:var(--d);text-align:right;margin-bottom:8px}
+.ti{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--s);cursor:pointer;transition:opacity .2s;user-select:none}
+.ti:last-child{border:none}
+.ti.done{opacity:.35;text-decoration:line-through}
+.tc{width:18px;height:18px;border-radius:50%;border:2px solid var(--d);display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;flex-shrink:0;transition:all .2s}
+.ti.done .tc{border-color:var(--gr);background:var(--grg);color:var(--gr)}
+.tt{font-size:12px;color:var(--m)}
+.tag{font-size:8px;font-weight:700;padding:2px 6px;border-radius:999px;margin-left:6px}
+.tag.u{color:var(--o);background:var(--og)}.tag.p{color:var(--a);background:var(--ag)}
+
+/* Map */
+.map-card{background:var(--g);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.map-card svg{width:100%;display:block}
+.map-leg{display:flex;gap:12px;padding:10px 16px;border-top:1px solid var(--b);flex-wrap:wrap}
+.ml{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--m)}
+.mld{width:6px;height:6px;border-radius:50%}
+
+/* Footer */
+.footer{text-align:center;padding:40px 0 20px;font-size:11px;color:var(--d)}
+.footer span{font-weight:700;color:var(--m)}
+
+/* Light mode */
+body.light{background:#f5f5f0;color:#1a1a2e}
+body.light .orb{opacity:.08}
+body.light .st,body.light .fl,body.light .hotel,body.light .dc,body.light .price,body.light .todo,body.light .map-card,body.light .banner{background:rgba(255,255,255,0.7);border-color:rgba(0,0,0,0.08);box-shadow:0 2px 12px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.8)}
+body.light .fl:hover,body.light .hotel:hover{box-shadow:0 4px 20px rgba(0,0,0,0.1)}
+body.light .db{background:rgba(255,255,255,0.6);border-color:rgba(0,0,0,0.06)}
+body.light .db.on{background:rgba(125,255,170,0.08);border-color:rgba(125,255,170,0.2)}
+body.light .hero{background:linear-gradient(135deg,#e8d5f5,#d5e8f5,#f5f5f0)}
+body.light .badge{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.1);color:#1a6b8a}
+body.light .hero h1{color:#1a1a2e}
+body.light .sec h2{color:#1a1a2e}
+body.light .stl,.light .dd{color:#888}
+body.light .fm h3{color:#1a1a2e}
+body.light .tt{color:#555}
+body.light .footer{color:#999}
+
+@media(max-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .bgrid{grid-template-columns:1fr}
+  .fh{flex-direction:column;align-items:flex-start;gap:6px}
+  .fhr{align-self:flex-end}
+}
+</style>
+<link href="https://inematds.github.io/claude-skills/skills/travel-itinerary/example-tokyo-trip.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/skills/travel-itinerary/example-tokyo-trip.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/skills/travel-itinerary/example-tokyo-trip.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../skills/travel-itinerary/example-tokyo-trip.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="example-tokyo-trip.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/skills/travel-itinerary/example-tokyo-trip.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- Ambient orbs -->
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+<!-- Theme toggle -->
+<button class="theme-btn" id="themeToggle">☀️</button>
+<div class="w">
+<!-- ===== HERO ===== -->
+<div class="hero">
+<div class="plane-wrap">
+<svg style="width:100%;height:100%" viewbox="0 0 900 280">
+<defs><lineargradient id="trailGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="transparent"></stop><stop offset="50%" stop-color="rgba(90,209,255,0.5)"></stop><stop offset="100%" stop-color="transparent"></stop></lineargradient></defs>
+<path class="contrail" d="M-50,200 Q300,50 500,120 T950,80"></path>
+<g transform="translate(480,115) rotate(-15) scale(0.6)">
+<path d="M0,0 L-8,4 L-25,15 L-27,12 L-12,4 L-30,4 L-35,10 L-37,9 L-33,2 L-37,0 L-33,-2 L-37,-9 L-35,-10 L-30,-4 L-12,-4 L-27,-12 L-25,-15 L-8,-4 Z" fill="rgba(255,255,255,0.9)" filter="drop-shadow(0 0 6px rgba(90,209,255,0.6))"></path>
+</g>
+</svg>
+</div>
+<div class="hero-c">
+<div class="badge">✈ TravelWings</div>
+<h1>Tokyo, Japan</h1>
+<div class="sub">11–18 September 2026 · CreatorCon</div>
+</div>
+</div>
+<!-- ===== STATS ===== -->
+<div class="stats">
+<div class="st"><div class="stv b">7</div><div class="stl">Days</div></div>
+<div class="st"><div class="stv o">2</div><div class="stl">Flights</div></div>
+<div class="st"><div class="stv gd">1</div><div class="stl">Event</div></div>
+<div class="st"><div class="stv p">6</div><div class="stl">Activities</div></div>
+</div>
+<!-- ===== EVENT BANNER ===== -->
+<div class="banner" style="background:linear-gradient(135deg,rgba(255,122,89,0.08),rgba(192,132,252,0.05),rgba(90,209,255,0.04));border:1px solid rgba(255,122,89,0.2)">
+<div class="banner-top">
+<div class="banner-logo" style="font-size:20px">🎯</div>
+<div class="banner-title">CreatorCon <span style="color:var(--o)">Tokyo 2026</span></div>
+</div>
+<div style="font-size:12px;color:var(--m);margin:8px 0 14px">Tokyo International Forum · September 13, 2026</div>
+<div class="bgrid">
+<div class="bd"><div class="bi" style="background:var(--og)">📍</div><div><strong>Tokyo International Forum</strong>Marunouchi, Chiyoda</div></div>
+<div class="bd"><div class="bi" style="background:var(--ag)">🕐</div><div><strong>9:00 AM – 9:00 PM</strong>Full day conference</div></div>
+<div class="bd"><div class="bi" style="background:var(--gdg)">🎟️</div><div><strong>VIP Pass</strong>Includes dinner + after-party</div></div>
+<div class="bd"><div class="bi" style="background:var(--pg)">👔</div><div><strong>Smart Casual</strong>Business casual for panels</div></div>
+</div>
+</div>
+<!-- ===== ROUTE MAP ===== -->
+<div class="sec"><h2>🗺️ Route</h2><div class="ln"></div></div>
+<div class="map-card">
+<svg viewbox="0 0 900 180">
+<rect fill="#0d0d14" height="180" width="900"></rect>
+<pattern height="30" id="gdots" patternunits="userSpaceOnUse" width="30" x="0" y="0"><circle cx="15" cy="15" fill="rgba(255,255,255,0.04)" r="0.5"></circle></pattern>
+<rect fill="url(#gdots)" height="180" width="900"></rect>
+<path d="M 150,100 Q 450,20 750,90" fill="none" stroke="rgba(90,209,255,0.3)" stroke-dasharray="8,4" stroke-width="2">
+<animate attributename="stroke-dashoffset" dur="3s" from="100" repeatcount="indefinite" to="0"></animate>
+</path>
+<circle cx="150" cy="100" fill="#5ad1ff" r="6"><animate attributename="r" dur="2s" repeatcount="indefinite" values="6;8;6"></animate></circle>
+<circle cx="750" cy="90" fill="#7dffaa" r="6"></circle>
+<text fill="#8a8a99" font-family="Inter" font-size="10" text-anchor="middle" x="150" y="125">LONDON</text>
+<text fill="#8a8a99" font-family="Inter" font-size="10" text-anchor="middle" x="750" y="115">TOKYO</text>
+<text fill="#50506a" font-family="Inter" font-size="9" text-anchor="middle" x="450" y="50">~11h 30m direct</text>
+</svg>
+<div class="map-leg">
+<div class="ml"><div class="mld" style="background:var(--a)"></div>London (LHR)</div>
+<div class="ml"><div class="mld" style="background:var(--gr)"></div>Tokyo (NRT)</div>
+</div>
+</div>
+<!-- ===== OUTBOUND FLIGHTS ===== -->
+<div class="sec"><h2>✈️ Outbound</h2><div class="ln"></div></div>
+<div class="fl" onclick="this.classList.toggle('on')">
+<div class="fh">
+<div class="fhl">
+<div class="flogo">🇬🇧</div>
+<div class="fm"><h3>BA5 · London → Tokyo</h3><div class="s">British Airways · Thu 11 Sep</div></div>
+</div>
+<div class="fhr"><span class="ftag dp">Direct</span><span class="chv">▶</span></div>
+</div>
+<div class="fb"><div class="fbi">
+<div class="dr"><span class="l">Departure</span><span class="v mono">08:30 LHR T5</span></div>
+<div class="dr"><span class="l">Arrival</span><span class="v mono">05:45+1 NRT T2</span></div>
+<div class="dr"><span class="l">Duration</span><span class="v">11h 15m</span></div>
+<div class="dr"><span class="l">Aircraft</span><span class="v">Boeing 787-9</span></div>
+<div class="dr"><span class="l">Class</span><span class="v">Economy</span></div>
+<div class="dr"><span class="l">Booking</span><span class="v mono">TKY2026</span></div>
+</div></div>
+</div>
+<!-- ===== HOTEL ===== -->
+<div class="sec"><h2>🏨 Accommodation</h2><div class="ln"></div></div>
+<div class="hotel">
+<div class="hotel-icon">🏨</div>
+<div class="hotel-info">
+<h4>Park Hyatt Tokyo</h4>
+<p>Shinjuku · 6 nights · Sep 12–18</p>
+</div>
+<div class="hotel-tag">Booked</div>
+</div>
+<!-- ===== DAY-BY-DAY ===== -->
+<div class="sec"><h2>🗾 Days in Tokyo</h2><div class="ln"></div></div>
+<div class="dsel" id="dsel">
+<div class="db on" data-d="0"><div class="dd">Day 1</div><div class="dn">Fri 12</div><div class="dt">Arrival</div></div>
+<div class="db ev" data-d="1"><div class="dd">Day 2</div><div class="dn">Sat 13</div><div class="dt">CreatorCon</div></div>
+<div class="db" data-d="2"><div class="dd">Day 3</div><div class="dn">Sun 14</div><div class="dt">Shibuya</div></div>
+<div class="db" data-d="3"><div class="dd">Day 4</div><div class="dn">Mon 15</div><div class="dt">Asakusa</div></div>
+<div class="db" data-d="4"><div class="dd">Day 5</div><div class="dn">Tue 16</div><div class="dt">Tsukiji</div></div>
+<div class="db" data-d="5"><div class="dd">Day 6</div><div class="dn">Wed 17</div><div class="dt">Departure</div></div>
+</div>
+<div class="dc" id="dc"></div>
+<!-- ===== RETURN FLIGHTS ===== -->
+<div class="sec"><h2>✈️ Return</h2><div class="ln"></div></div>
+<div class="fl" onclick="this.classList.toggle('on')">
+<div class="fh">
+<div class="fhl">
+<div class="flogo">🇯🇵</div>
+<div class="fm"><h3>NH202 · Tokyo → London</h3><div class="s">ANA · Wed 17 Sep</div></div>
+</div>
+<div class="fhr"><span class="ftag rt">Return</span><span class="chv">▶</span></div>
+</div>
+<div class="fb"><div class="fbi">
+<div class="dr"><span class="l">Departure</span><span class="v mono">15:30 NRT T1</span></div>
+<div class="dr"><span class="l">Arrival</span><span class="v mono">19:50 LHR T2</span></div>
+<div class="dr"><span class="l">Duration</span><span class="v">12h 20m</span></div>
+<div class="dr"><span class="l">Aircraft</span><span class="v">Boeing 777-300ER</span></div>
+<div class="dr"><span class="l">Class</span><span class="v">Economy</span></div>
+</div></div>
+</div>
+<!-- ===== BUDGET ===== -->
+<div class="sec"><h2>💰 Trip Budget</h2><div class="ln"></div></div>
+<div class="price">
+<h3>💳 Cost Breakdown</h3>
+<div class="pr"><span class="l">✈️ Flights (return)</span><span class="v mono">£850</span></div>
+<div class="pr"><span class="l">🏨 Hotel (6 nights)</span><span class="v mono">£1,440</span></div>
+<div class="pr"><span class="l">🎟️ CreatorCon VIP</span><span class="v mono">£350</span></div>
+<div class="pr"><span class="l">🍽️ Food &amp; drink</span><span class="v mono">£420</span></div>
+<div class="pr"><span class="l">🚃 Transport</span><span class="v mono">£120</span></div>
+<div class="pr"><span class="l">🎫 Activities</span><span class="v mono">£200</span></div>
+<div class="pr total"><span class="l">Total</span><span class="v">£3,380</span></div>
+</div>
+<!-- ===== CHECKLISTS ===== -->
+<div class="sec"><h2>☑️ Checklists</h2><div class="ln"></div></div>
+<div class="todo" id="t1">
+<h3>💼 Pre-Flight</h3><div class="tbar"><div class="tfill" style="width:0%"></div></div><div class="tct">0/6</div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Passport valid (6+ months) <span class="tag u">Essential</span></div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Travel insurance</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Check in online (24h before)</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Download offline maps (Tokyo)</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Exchange currency (¥)</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Pack chargers &amp; adaptor (Type A/B)</div></div>
+</div>
+<div class="todo" id="t2">
+<h3>🎯 CreatorCon</h3><div class="tbar"><div class="tfill" style="width:0%"></div></div><div class="tct">0/4</div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Print/save VIP badge</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Bring business cards</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Charge camera &amp; mic</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Smart casual outfit ready</div></div>
+</div>
+<!-- ===== FOOTER ===== -->
+<div class="footer"><span>TravelWings</span> · Example Trip · Generated by Claude Code</div>
+</div>
+<script>
+// Day-by-day data
+const days=[
+  {t:"Friday 12 September",s:"Day 1 — Arrival in Tokyo",i:[
+    {t:"05:45",d:"<strong>Land Narita Airport</strong> (Tokyo time)"},
+    {t:"07:00",d:"Immigration & baggage claim"},
+    {t:"08:30",d:"Narita Express to <strong>Shinjuku</strong>"},
+    {t:"10:00",d:"Check in at <strong>Park Hyatt Tokyo</strong>"},
+    {t:"12:00",d:"Lunch in Shinjuku"},
+    {t:"3:00p",d:"Explore Shinjuku Gyoen gardens"},
+    {t:"7:00p",d:"Dinner at Omoide Yokocho"},
+    {t:"9:00p",d:"Early night — recover from flight"}
+  ],n:"12-hour time difference from London. Push through to evening to adjust faster."},
+  {t:"Saturday 13 September",s:"Day 2 — CreatorCon Tokyo 🎯",i:[
+    {t:"7:30a",d:"Breakfast at Park Hyatt"},
+    {t:"9:00a",d:"<strong>CreatorCon opens</strong> at Tokyo International Forum"},
+    {t:"10:30a",d:"Keynote: Future of Creator Economy"},
+    {t:"12:00p",d:"Networking lunch"},
+    {t:"2:00p",d:"<strong>Workshop: Scaling Communities</strong>"},
+    {t:"4:00p",d:"Panel: Monetisation Strategies"},
+    {t:"6:00p",d:"VIP dinner & awards ceremony"},
+    {t:"9:00p",d:"After-party in Roppongi"}
+  ],n:"Badge pickup from 8:00am. Bring business cards. VIP dinner is pre-registered."},
+  {t:"Sunday 14 September",s:"Day 3 — Shibuya & Harajuku",i:[
+    {t:"9:00a",d:"Breakfast"},
+    {t:"10:00a",d:"<strong>Meiji Shrine</strong>"},
+    {t:"11:30a",d:"<strong>Harajuku</strong> — Takeshita Street"},
+    {t:"1:00p",d:"Lunch — ramen in Harajuku"},
+    {t:"2:30p",d:"<strong>Shibuya Crossing</strong> & Shibuya Sky"},
+    {t:"5:00p",d:"Shopping in Shibuya 109"},
+    {t:"7:00p",d:"Dinner — Shibuya izakaya"}
+  ]},
+  {t:"Monday 15 September",s:"Day 4 — Asakusa & Akihabara",i:[
+    {t:"8:30a",d:"Breakfast"},
+    {t:"9:30a",d:"<strong>Senso-ji Temple</strong> & Nakamise Street"},
+    {t:"12:00p",d:"Lunch in Asakusa"},
+    {t:"1:30p",d:"<strong>Tokyo Skytree</strong>"},
+    {t:"3:30p",d:"<strong>Akihabara</strong> — electronics & anime"},
+    {t:"6:00p",d:"Dinner — conveyor belt sushi"}
+  ]},
+  {t:"Tuesday 16 September",s:"Day 5 — Tsukiji & Ginza",i:[
+    {t:"6:30a",d:"<strong>Tsukiji Outer Market</strong> — fresh sushi breakfast"},
+    {t:"9:00a",d:"TeamLab Borderless"},
+    {t:"12:00p",d:"Lunch in Ginza"},
+    {t:"2:00p",d:"Shopping in <strong>Ginza</strong>"},
+    {t:"4:30p",d:"Content creation session"},
+    {t:"7:00p",d:"Dinner — Wagyu beef experience"},
+    {t:"9:00p",d:"Pack & prep for departure"}
+  ]},
+  {t:"Wednesday 17 September",s:"Day 6 — Departure",i:[
+    {t:"7:00a",d:"Breakfast & check out"},
+    {t:"8:30a",d:"Last-minute shopping at station"},
+    {t:"10:30a",d:"Narita Express to airport"},
+    {t:"12:30p",d:"<strong>Be at Narita T2</strong> (3 hrs early)"},
+    {t:"3:30p",d:"<strong>NH202 departs</strong> for London"}
+  ],n:"Flight lands 19:50 same day at Heathrow (time zone gain)."}
+];
+
+// Render day
+function rd(i){
+  const d=days[i],c=document.getElementById('dc');
+  let h='<div class="dct">'+d.t+'</div><div class="dcs">'+d.s+'</div>';
+  d.i.forEach(it=>{
+    h+='<div class="dci">'+(it.t?'<span class="dctm">'+it.t+'</span>':'<span class="dctm" style="opacity:.3">•</span>')+'<span class="dctx">'+it.d+'</span></div>';
+  });
+  if(d.n) h+='<div class="dcn">'+d.n+'</div>';
+  c.innerHTML=h;
+}
+document.querySelectorAll('.db').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.db').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    rd(+b.dataset.d);
+  });
+});
+rd(0);
+
+// Checklists with localStorage
+const SK='tw-tokyo-example';
+function ld(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch{return{}}}
+function sv(s){localStorage.setItem(SK,JSON.stringify(s))}
+function gid(e){return e.querySelector('.tt').textContent.trim().slice(0,40)}
+function up(c){const a=c.querySelectorAll('.ti'),d=c.querySelectorAll('.ti.done').length,t=a.length,p=t?Math.round(d/t*100):0;c.querySelector('.tfill').style.width=p+'%';c.querySelector('.tct').textContent=d+'/'+t}
+function tg(e){e.classList.toggle('done');up(e.closest('.todo'));const s=ld();s[gid(e)]=e.classList.contains('done');sv(s)}
+(function(){const s=ld();document.querySelectorAll('.ti').forEach(e=>{if(s[gid(e)])e.classList.add('done')});document.querySelectorAll('.todo').forEach(up)})();
+
+// Theme toggle
+(function(){
+  const TK=SK+'-theme',b=document.body,btn=document.getElementById('themeToggle');
+  const saved=localStorage.getItem(TK);
+  if(saved==='light') b.classList.add('light');
+  function upBtn(){btn.textContent=b.classList.contains('light')?'🌙':'☀️'}
+  upBtn();
+  btn.addEventListener('click',()=>{
+    b.classList.toggle('light');
+    localStorage.setItem(TK,b.classList.contains('light')?'light':'dark');
+    upBtn();
+  });
+})();
+</script>
+</body>
+</html>

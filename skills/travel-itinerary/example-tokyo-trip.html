@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>TravelWings — Tokyo Trip (Example)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#06060a;--s:rgba(255,255,255,0.03);--g:rgba(255,255,255,0.05);--g2:rgba(255,255,255,0.07);--b:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.12);--a:#5ad1ff;--ag:rgba(90,209,255,0.12);--o:#ff7a59;--og:rgba(255,122,89,0.12);--gr:#7dffaa;--grg:rgba(125,255,170,0.1);--p:#c084fc;--pg:rgba(192,132,252,0.1);--gd:#fbbf24;--gdg:rgba(251,191,36,0.12);--t:#f0f0f5;--m:#8a8a99;--d:#50506a;--r:16px;--sm:10px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -167,182 +168,165 @@ body.light .footer{color:#999}
   .fhr{align-self:flex-end}
 }
 </style>
-</head>
-<body>
-
+<link href="https://inematds.github.io/claude-skills/skills/travel-itinerary/example-tokyo-trip.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/skills/travel-itinerary/example-tokyo-trip.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/skills/travel-itinerary/example-tokyo-trip.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="example-tokyo-trip.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/skills/travel-itinerary/example-tokyo-trip.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/skills/travel-itinerary/example-tokyo-trip.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
 <!-- Ambient orbs -->
 <div class="orb o1"></div>
 <div class="orb o2"></div>
 <div class="orb o3"></div>
-
 <!-- Theme toggle -->
 <button class="theme-btn" id="themeToggle">☀️</button>
-
 <div class="w">
-
 <!-- ===== HERO ===== -->
 <div class="hero">
-  <div class="plane-wrap">
-    <svg viewBox="0 0 900 280" style="width:100%;height:100%">
-      <defs><linearGradient id="trailGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="transparent"/><stop offset="50%" stop-color="rgba(90,209,255,0.5)"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
-      <path class="contrail" d="M-50,200 Q300,50 500,120 T950,80"/>
-      <g transform="translate(480,115) rotate(-15) scale(0.6)">
-        <path d="M0,0 L-8,4 L-25,15 L-27,12 L-12,4 L-30,4 L-35,10 L-37,9 L-33,2 L-37,0 L-33,-2 L-37,-9 L-35,-10 L-30,-4 L-12,-4 L-27,-12 L-25,-15 L-8,-4 Z" fill="rgba(255,255,255,0.9)" filter="drop-shadow(0 0 6px rgba(90,209,255,0.6))"/>
-      </g>
-    </svg>
-  </div>
-  <div class="hero-c">
-    <div class="badge">✈ TravelWings</div>
-    <h1>Tokyo, Japan</h1>
-    <div class="sub">11–18 September 2026 · CreatorCon</div>
-  </div>
+<div class="plane-wrap">
+<svg style="width:100%;height:100%" viewbox="0 0 900 280">
+<defs><lineargradient id="trailGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="transparent"></stop><stop offset="50%" stop-color="rgba(90,209,255,0.5)"></stop><stop offset="100%" stop-color="transparent"></stop></lineargradient></defs>
+<path class="contrail" d="M-50,200 Q300,50 500,120 T950,80"></path>
+<g transform="translate(480,115) rotate(-15) scale(0.6)">
+<path d="M0,0 L-8,4 L-25,15 L-27,12 L-12,4 L-30,4 L-35,10 L-37,9 L-33,2 L-37,0 L-33,-2 L-37,-9 L-35,-10 L-30,-4 L-12,-4 L-27,-12 L-25,-15 L-8,-4 Z" fill="rgba(255,255,255,0.9)" filter="drop-shadow(0 0 6px rgba(90,209,255,0.6))"></path>
+</g>
+</svg>
 </div>
-
+<div class="hero-c">
+<div class="badge">✈ TravelWings</div>
+<h1>Tokyo, Japan</h1>
+<div class="sub">11–18 September 2026 · CreatorCon</div>
+</div>
+</div>
 <!-- ===== STATS ===== -->
 <div class="stats">
-  <div class="st"><div class="stv b">7</div><div class="stl">Days</div></div>
-  <div class="st"><div class="stv o">2</div><div class="stl">Flights</div></div>
-  <div class="st"><div class="stv gd">1</div><div class="stl">Event</div></div>
-  <div class="st"><div class="stv p">6</div><div class="stl">Activities</div></div>
+<div class="st"><div class="stv b">7</div><div class="stl">Days</div></div>
+<div class="st"><div class="stv o">2</div><div class="stl">Flights</div></div>
+<div class="st"><div class="stv gd">1</div><div class="stl">Event</div></div>
+<div class="st"><div class="stv p">6</div><div class="stl">Activities</div></div>
 </div>
-
 <!-- ===== EVENT BANNER ===== -->
 <div class="banner" style="background:linear-gradient(135deg,rgba(255,122,89,0.08),rgba(192,132,252,0.05),rgba(90,209,255,0.04));border:1px solid rgba(255,122,89,0.2)">
-  <div class="banner-top">
-    <div class="banner-logo" style="font-size:20px">🎯</div>
-    <div class="banner-title">CreatorCon <span style="color:var(--o)">Tokyo 2026</span></div>
-  </div>
-  <div style="font-size:12px;color:var(--m);margin:8px 0 14px">Tokyo International Forum · September 13, 2026</div>
-  <div class="bgrid">
-    <div class="bd"><div class="bi" style="background:var(--og)">📍</div><div><strong>Tokyo International Forum</strong>Marunouchi, Chiyoda</div></div>
-    <div class="bd"><div class="bi" style="background:var(--ag)">🕐</div><div><strong>9:00 AM – 9:00 PM</strong>Full day conference</div></div>
-    <div class="bd"><div class="bi" style="background:var(--gdg)">🎟️</div><div><strong>VIP Pass</strong>Includes dinner + after-party</div></div>
-    <div class="bd"><div class="bi" style="background:var(--pg)">👔</div><div><strong>Smart Casual</strong>Business casual for panels</div></div>
-  </div>
+<div class="banner-top">
+<div class="banner-logo" style="font-size:20px">🎯</div>
+<div class="banner-title">CreatorCon <span style="color:var(--o)">Tokyo 2026</span></div>
 </div>
-
+<div style="font-size:12px;color:var(--m);margin:8px 0 14px">Tokyo International Forum · September 13, 2026</div>
+<div class="bgrid">
+<div class="bd"><div class="bi" style="background:var(--og)">📍</div><div><strong>Tokyo International Forum</strong>Marunouchi, Chiyoda</div></div>
+<div class="bd"><div class="bi" style="background:var(--ag)">🕐</div><div><strong>9:00 AM – 9:00 PM</strong>Full day conference</div></div>
+<div class="bd"><div class="bi" style="background:var(--gdg)">🎟️</div><div><strong>VIP Pass</strong>Includes dinner + after-party</div></div>
+<div class="bd"><div class="bi" style="background:var(--pg)">👔</div><div><strong>Smart Casual</strong>Business casual for panels</div></div>
+</div>
+</div>
 <!-- ===== ROUTE MAP ===== -->
 <div class="sec"><h2>🗺️ Route</h2><div class="ln"></div></div>
 <div class="map-card">
-  <svg viewBox="0 0 900 180">
-    <rect width="900" height="180" fill="#0d0d14"/>
-    <pattern id="gdots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="0.5" fill="rgba(255,255,255,0.04)"/></pattern>
-    <rect width="900" height="180" fill="url(#gdots)"/>
-    <path d="M 150,100 Q 450,20 750,90" fill="none" stroke="rgba(90,209,255,0.3)" stroke-width="2" stroke-dasharray="8,4">
-      <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
-    </path>
-    <circle cx="150" cy="100" r="6" fill="#5ad1ff"><animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/></circle>
-    <circle cx="750" cy="90" r="6" fill="#7dffaa"/>
-    <text x="150" y="125" fill="#8a8a99" font-size="10" font-family="Inter" text-anchor="middle">LONDON</text>
-    <text x="750" y="115" fill="#8a8a99" font-size="10" font-family="Inter" text-anchor="middle">TOKYO</text>
-    <text x="450" y="50" fill="#50506a" font-size="9" font-family="Inter" text-anchor="middle">~11h 30m direct</text>
-  </svg>
-  <div class="map-leg">
-    <div class="ml"><div class="mld" style="background:var(--a)"></div>London (LHR)</div>
-    <div class="ml"><div class="mld" style="background:var(--gr)"></div>Tokyo (NRT)</div>
-  </div>
+<svg viewbox="0 0 900 180">
+<rect fill="#0d0d14" height="180" width="900"></rect>
+<pattern height="30" id="gdots" patternunits="userSpaceOnUse" width="30" x="0" y="0"><circle cx="15" cy="15" fill="rgba(255,255,255,0.04)" r="0.5"></circle></pattern>
+<rect fill="url(#gdots)" height="180" width="900"></rect>
+<path d="M 150,100 Q 450,20 750,90" fill="none" stroke="rgba(90,209,255,0.3)" stroke-dasharray="8,4" stroke-width="2">
+<animate attributename="stroke-dashoffset" dur="3s" from="100" repeatcount="indefinite" to="0"></animate>
+</path>
+<circle cx="150" cy="100" fill="#5ad1ff" r="6"><animate attributename="r" dur="2s" repeatcount="indefinite" values="6;8;6"></animate></circle>
+<circle cx="750" cy="90" fill="#7dffaa" r="6"></circle>
+<text fill="#8a8a99" font-family="Inter" font-size="10" text-anchor="middle" x="150" y="125">LONDON</text>
+<text fill="#8a8a99" font-family="Inter" font-size="10" text-anchor="middle" x="750" y="115">TOKYO</text>
+<text fill="#50506a" font-family="Inter" font-size="9" text-anchor="middle" x="450" y="50">~11h 30m direct</text>
+</svg>
+<div class="map-leg">
+<div class="ml"><div class="mld" style="background:var(--a)"></div>London (LHR)</div>
+<div class="ml"><div class="mld" style="background:var(--gr)"></div>Tokyo (NRT)</div>
 </div>
-
+</div>
 <!-- ===== OUTBOUND FLIGHTS ===== -->
 <div class="sec"><h2>✈️ Outbound</h2><div class="ln"></div></div>
 <div class="fl" onclick="this.classList.toggle('on')">
-  <div class="fh">
-    <div class="fhl">
-      <div class="flogo">🇬🇧</div>
-      <div class="fm"><h3>BA5 · London → Tokyo</h3><div class="s">British Airways · Thu 11 Sep</div></div>
-    </div>
-    <div class="fhr"><span class="ftag dp">Direct</span><span class="chv">▶</span></div>
-  </div>
-  <div class="fb"><div class="fbi">
-    <div class="dr"><span class="l">Departure</span><span class="v mono">08:30 LHR T5</span></div>
-    <div class="dr"><span class="l">Arrival</span><span class="v mono">05:45+1 NRT T2</span></div>
-    <div class="dr"><span class="l">Duration</span><span class="v">11h 15m</span></div>
-    <div class="dr"><span class="l">Aircraft</span><span class="v">Boeing 787-9</span></div>
-    <div class="dr"><span class="l">Class</span><span class="v">Economy</span></div>
-    <div class="dr"><span class="l">Booking</span><span class="v mono">TKY2026</span></div>
-  </div></div>
+<div class="fh">
+<div class="fhl">
+<div class="flogo">🇬🇧</div>
+<div class="fm"><h3>BA5 · London → Tokyo</h3><div class="s">British Airways · Thu 11 Sep</div></div>
 </div>
-
+<div class="fhr"><span class="ftag dp">Direct</span><span class="chv">▶</span></div>
+</div>
+<div class="fb"><div class="fbi">
+<div class="dr"><span class="l">Departure</span><span class="v mono">08:30 LHR T5</span></div>
+<div class="dr"><span class="l">Arrival</span><span class="v mono">05:45+1 NRT T2</span></div>
+<div class="dr"><span class="l">Duration</span><span class="v">11h 15m</span></div>
+<div class="dr"><span class="l">Aircraft</span><span class="v">Boeing 787-9</span></div>
+<div class="dr"><span class="l">Class</span><span class="v">Economy</span></div>
+<div class="dr"><span class="l">Booking</span><span class="v mono">TKY2026</span></div>
+</div></div>
+</div>
 <!-- ===== HOTEL ===== -->
 <div class="sec"><h2>🏨 Accommodation</h2><div class="ln"></div></div>
 <div class="hotel">
-  <div class="hotel-icon">🏨</div>
-  <div class="hotel-info">
-    <h4>Park Hyatt Tokyo</h4>
-    <p>Shinjuku · 6 nights · Sep 12–18</p>
-  </div>
-  <div class="hotel-tag">Booked</div>
+<div class="hotel-icon">🏨</div>
+<div class="hotel-info">
+<h4>Park Hyatt Tokyo</h4>
+<p>Shinjuku · 6 nights · Sep 12–18</p>
 </div>
-
+<div class="hotel-tag">Booked</div>
+</div>
 <!-- ===== DAY-BY-DAY ===== -->
 <div class="sec"><h2>🗾 Days in Tokyo</h2><div class="ln"></div></div>
 <div class="dsel" id="dsel">
-  <div class="db on" data-d="0"><div class="dd">Day 1</div><div class="dn">Fri 12</div><div class="dt">Arrival</div></div>
-  <div class="db ev" data-d="1"><div class="dd">Day 2</div><div class="dn">Sat 13</div><div class="dt">CreatorCon</div></div>
-  <div class="db" data-d="2"><div class="dd">Day 3</div><div class="dn">Sun 14</div><div class="dt">Shibuya</div></div>
-  <div class="db" data-d="3"><div class="dd">Day 4</div><div class="dn">Mon 15</div><div class="dt">Asakusa</div></div>
-  <div class="db" data-d="4"><div class="dd">Day 5</div><div class="dn">Tue 16</div><div class="dt">Tsukiji</div></div>
-  <div class="db" data-d="5"><div class="dd">Day 6</div><div class="dn">Wed 17</div><div class="dt">Departure</div></div>
+<div class="db on" data-d="0"><div class="dd">Day 1</div><div class="dn">Fri 12</div><div class="dt">Arrival</div></div>
+<div class="db ev" data-d="1"><div class="dd">Day 2</div><div class="dn">Sat 13</div><div class="dt">CreatorCon</div></div>
+<div class="db" data-d="2"><div class="dd">Day 3</div><div class="dn">Sun 14</div><div class="dt">Shibuya</div></div>
+<div class="db" data-d="3"><div class="dd">Day 4</div><div class="dn">Mon 15</div><div class="dt">Asakusa</div></div>
+<div class="db" data-d="4"><div class="dd">Day 5</div><div class="dn">Tue 16</div><div class="dt">Tsukiji</div></div>
+<div class="db" data-d="5"><div class="dd">Day 6</div><div class="dn">Wed 17</div><div class="dt">Departure</div></div>
 </div>
 <div class="dc" id="dc"></div>
-
 <!-- ===== RETURN FLIGHTS ===== -->
 <div class="sec"><h2>✈️ Return</h2><div class="ln"></div></div>
 <div class="fl" onclick="this.classList.toggle('on')">
-  <div class="fh">
-    <div class="fhl">
-      <div class="flogo">🇯🇵</div>
-      <div class="fm"><h3>NH202 · Tokyo → London</h3><div class="s">ANA · Wed 17 Sep</div></div>
-    </div>
-    <div class="fhr"><span class="ftag rt">Return</span><span class="chv">▶</span></div>
-  </div>
-  <div class="fb"><div class="fbi">
-    <div class="dr"><span class="l">Departure</span><span class="v mono">15:30 NRT T1</span></div>
-    <div class="dr"><span class="l">Arrival</span><span class="v mono">19:50 LHR T2</span></div>
-    <div class="dr"><span class="l">Duration</span><span class="v">12h 20m</span></div>
-    <div class="dr"><span class="l">Aircraft</span><span class="v">Boeing 777-300ER</span></div>
-    <div class="dr"><span class="l">Class</span><span class="v">Economy</span></div>
-  </div></div>
+<div class="fh">
+<div class="fhl">
+<div class="flogo">🇯🇵</div>
+<div class="fm"><h3>NH202 · Tokyo → London</h3><div class="s">ANA · Wed 17 Sep</div></div>
 </div>
-
+<div class="fhr"><span class="ftag rt">Return</span><span class="chv">▶</span></div>
+</div>
+<div class="fb"><div class="fbi">
+<div class="dr"><span class="l">Departure</span><span class="v mono">15:30 NRT T1</span></div>
+<div class="dr"><span class="l">Arrival</span><span class="v mono">19:50 LHR T2</span></div>
+<div class="dr"><span class="l">Duration</span><span class="v">12h 20m</span></div>
+<div class="dr"><span class="l">Aircraft</span><span class="v">Boeing 777-300ER</span></div>
+<div class="dr"><span class="l">Class</span><span class="v">Economy</span></div>
+</div></div>
+</div>
 <!-- ===== BUDGET ===== -->
 <div class="sec"><h2>💰 Trip Budget</h2><div class="ln"></div></div>
 <div class="price">
-  <h3>💳 Cost Breakdown</h3>
-  <div class="pr"><span class="l">✈️ Flights (return)</span><span class="v mono">£850</span></div>
-  <div class="pr"><span class="l">🏨 Hotel (6 nights)</span><span class="v mono">£1,440</span></div>
-  <div class="pr"><span class="l">🎟️ CreatorCon VIP</span><span class="v mono">£350</span></div>
-  <div class="pr"><span class="l">🍽️ Food & drink</span><span class="v mono">£420</span></div>
-  <div class="pr"><span class="l">🚃 Transport</span><span class="v mono">£120</span></div>
-  <div class="pr"><span class="l">🎫 Activities</span><span class="v mono">£200</span></div>
-  <div class="pr total"><span class="l">Total</span><span class="v">£3,380</span></div>
+<h3>💳 Cost Breakdown</h3>
+<div class="pr"><span class="l">✈️ Flights (return)</span><span class="v mono">£850</span></div>
+<div class="pr"><span class="l">🏨 Hotel (6 nights)</span><span class="v mono">£1,440</span></div>
+<div class="pr"><span class="l">🎟️ CreatorCon VIP</span><span class="v mono">£350</span></div>
+<div class="pr"><span class="l">🍽️ Food &amp; drink</span><span class="v mono">£420</span></div>
+<div class="pr"><span class="l">🚃 Transport</span><span class="v mono">£120</span></div>
+<div class="pr"><span class="l">🎫 Activities</span><span class="v mono">£200</span></div>
+<div class="pr total"><span class="l">Total</span><span class="v">£3,380</span></div>
 </div>
-
 <!-- ===== CHECKLISTS ===== -->
 <div class="sec"><h2>☑️ Checklists</h2><div class="ln"></div></div>
 <div class="todo" id="t1">
-  <h3>💼 Pre-Flight</h3><div class="tbar"><div class="tfill" style="width:0%"></div></div><div class="tct">0/6</div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Passport valid (6+ months) <span class="tag u">Essential</span></div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Travel insurance</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Check in online (24h before)</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Download offline maps (Tokyo)</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Exchange currency (¥)</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Pack chargers & adaptor (Type A/B)</div></div>
+<h3>💼 Pre-Flight</h3><div class="tbar"><div class="tfill" style="width:0%"></div></div><div class="tct">0/6</div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Passport valid (6+ months) <span class="tag u">Essential</span></div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Travel insurance</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Check in online (24h before)</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Download offline maps (Tokyo)</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Exchange currency (¥)</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Pack chargers &amp; adaptor (Type A/B)</div></div>
 </div>
-
 <div class="todo" id="t2">
-  <h3>🎯 CreatorCon</h3><div class="tbar"><div class="tfill" style="width:0%"></div></div><div class="tct">0/4</div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Print/save VIP badge</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Bring business cards</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Charge camera & mic</div></div>
-  <div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Smart casual outfit ready</div></div>
+<h3>🎯 CreatorCon</h3><div class="tbar"><div class="tfill" style="width:0%"></div></div><div class="tct">0/4</div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Print/save VIP badge</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Bring business cards</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Charge camera &amp; mic</div></div>
+<div class="ti" onclick="tg(this)"><div class="tc">✓</div><div class="tt">Smart casual outfit ready</div></div>
 </div>
-
 <!-- ===== FOOTER ===== -->
 <div class="footer"><span>TravelWings</span> · Example Trip · Generated by Claude Code</div>
-
 </div>
-
 <script>
 // Day-by-day data
 const days=[
