@@ -442,9 +442,9 @@ Para cada item que falhar, diga onde está o problema e proponha a correção an
 <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wide">Terminal · instalar e validar tudo</span>
 <button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p2')">Copiar</button>
 </div>
-<pre class="font-mono text-sm text-neutral-300 overflow-x-auto" id="p2">git clone https://github.com/inematds/auditar-skills ~/.claude/skills/auditar-skills
-cd ~/.claude/skills/auditar-skills
-python3 scripts/validate_skill.py --all ~/.claude/skills</pre>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto" id="p2">git clone https://github.com/inematds/auditar-skills
+cp -r auditar-skills/skill-creator-plus ~/.claude/skills/
+python3 ~/.claude/skills/skill-creator-plus/scripts/validate_skill.py --all ~/.claude/skills</pre>
 </div>
 <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
 <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Exemplo real</h3>
