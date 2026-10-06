@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 1.4 · Regras 2026 | Claude Skills na Prática</title>
+<meta content="As regras atuais da Anthropic para escrever skills: SKILL.md abaixo de 500 linhas, referências a um nível, graus de liberdade, descrição em terceira pessoa, checklist, hooks, corte de 5.000 tokens na compactação e ajustes para os modelos 5.5." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .text-white { color: #111827; }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s}
+    }
+  </style>
+<link href="https://inematds.github.io/claude-skills/curso/trilha1/modulo-1-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/claude-skills/en/curso/trilha1/modulo-1-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/claude-skills/es/curso/trilha1/modulo-1-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-1-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha1/modulo-1-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha1/modulo-1-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
+</a>
+<span class="text-neutral-600 hidden sm:inline">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium hidden sm:inline" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Primeira Skill</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frontend</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Consultoria</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Avançado</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Trilha 1</a>
+<span>/</span>
+<span class="text-emerald-400">Módulo 1.4</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.4 · ATUALIZAÇÃO 2026</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">📐 Regras 2026: a skill que a Anthropic recomenda hoje</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        Os módulos anteriores mostraram a anatomia, a estrutura e o gatilho. Este junta, num lugar só, os
+        <strong class="text-neutral-300">números e regras atuais</strong> do guia de boas práticas de skills da Anthropic e dos docs do
+        Claude Code: limite de linhas, profundidade das referências, graus de liberdade, descrição, checklist, hooks e o que sobra
+        da skill depois da compactação. No fim, uma <strong class="text-neutral-300">checklist copiável</strong> e um validador para
+        auditar as skills que você já tem.
+      </p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Médio</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-10">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📚</span> De onde vêm as regras</h3>
+<p class="text-neutral-300 text-sm leading-relaxed">Os números desta aula foram conferidos em outubro de 2026 no guia oficial
+        <a class="text-sky-400 hover:text-sky-300 underline" href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices" target="_blank">Skill authoring best practices</a>
+        e nos docs de skills, hooks e janela de contexto do Claude Code. As regras de base estão estáveis há cerca de um ano; o que
+        mudou foram os modelos. Os ajustes para os modelos 5.5, no fim, vêm de outra fonte e estão marcados como tal.</p>
+</div>
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- SVG ILUSTRATIVO: um nivel de profundidade -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-12 overflow-hidden">
+<svg aria-label="O SKILL.md, com menos de 500 linhas, aponta direto para cada referência e o agente as lê inteiras; uma referência que só se alcança por outra referência é apenas pré-visualizada" class="w-full h-auto" role="img" viewbox="0 0 1000 300">
+<defs>
+<lineargradient id="m14-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<filter height="180%" id="m14-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m14-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m14-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m14-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f87171"></path></marker>
+</defs>
+<rect fill="url(#m14-grid)" height="300" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2">
+<path d="M290,130 C360,90 390,70 450,70" marker-end="url(#m14-ah)"></path>
+<path d="M290,160 C360,200 390,220 450,220" marker-end="url(#m14-ah)"></path>
+</g>
+<g fill="none" opacity="0.65" stroke="#f87171" stroke-dasharray="6 5" stroke-width="2"><path d="M690,220 L760,220" marker-end="url(#m14-ahr)"></path></g>
+<g filter="url(#m14-glow)"><rect fill="#0e2018" height="110" rx="14" stroke="url(#m14-grad)" stroke-width="2.5" width="230" x="60" y="90"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="18" font-weight="700" text-anchor="middle" x="175" y="132">SKILL.md</text>
+<text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="13.5" text-anchor="middle" x="175" y="156">menos de 500 linhas</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="175" y="178">regras críticas no topo</text>
+<g class="wf-a"><rect fill="#0e2018" height="64" rx="12" stroke="#34d399" stroke-width="2" width="240" x="450" y="38"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="600" x="470" y="64">precos.md</text><text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="12" x="470" y="86">sumário no topo · lida inteira</text></g>
+<g class="wf-a"><rect fill="#0e2018" height="64" rx="12" stroke="#34d399" stroke-width="2" width="240" x="450" y="188"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="600" x="470" y="214">termos.md</text><text fill="#a7f3d0" font-family="Inter,sans-serif" font-size="12" x="470" y="236">um nível · lida inteira</text></g>
+<rect fill="#2a0f16" height="64" rx="12" stroke="#f87171" stroke-width="2" width="200" x="770" y="188"></rect>
+<text fill="#f87171" font-family="Inter,sans-serif" font-size="14" font-weight="600" x="788" y="214">descontos.md</text>
+<text fill="#fecaca" font-family="Inter,sans-serif" font-size="12" x="788" y="236">aninhada · só o início</text>
+</svg>
+</div>
+<!-- TOPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📏 Tamanho e profundidade</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        O <code class="font-mono text-emerald-400">SKILL.md</code> é um sumário, não um manual. O guia oficial pede o corpo
+        <strong class="text-emerald-400">abaixo de 500 linhas</strong>; o resto vai para arquivos de referência linkados
+        <strong class="text-emerald-400">direto do SKILL.md</strong>. Referência que só se alcança passando por outra referência é
+        aninhada: o agente pode ler apenas a pré-visualização dela (as primeiras linhas, algo como um <code class="font-mono">head -100</code>)
+        e as regras do fim do arquivo somem sem aviso.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl font-bold text-emerald-400 mb-2">500</div>
+<p class="text-neutral-300 text-sm">linhas é o teto do corpo do SKILL.md. Passou disso, divida por assunto em <code class="font-mono">references/</code>.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl font-bold text-emerald-400 mb-2">1 nível</div>
+<p class="text-neutral-300 text-sm">de profundidade: cada referência é linkada pelo próprio SKILL.md, nunca só por outra referência.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl font-bold text-emerald-400 mb-2">100</div>
+<p class="text-neutral-300 text-sm">linhas ou mais numa referência pedem um sumário no topo, para que até uma leitura parcial mostre tudo o que o arquivo cobre.</p>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">references/precos.md — começa pelo sumário</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">exemplo</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code># Pricing reference
+
+## Contents
+- Base prices per plan
+- Regional taxes
+- Discounts and coupons   &lt;- at the end, but listed here
+- Refund rules
+
+## Base prices per plan
+...</code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">Abra o SKILL.md e conte quantas referências ele cita. Toda referência que aparece só dentro de outra referência é candidata a subir um nível, com uma linha "leia X quando Y" no SKILL.md.</p>
+</div>
+</section>
+<!-- TOPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🎚️ Graus de liberdade</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Nem todo passo merece o mesmo controle. O guia classifica em <strong class="text-emerald-400">graus de liberdade</strong>:
+        quanto mais frágil e caro o erro, menos espaço o agente deve ter. Uma mesma skill costuma misturar os três. O teste para
+        cada passo é simples: <em>"e se o agente fizer este passo de um jeito diferente?"</em></p>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold text-xs">ALTO</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Instrução em texto</h4>
+<p class="text-neutral-300 text-sm">Várias respostas servem e o contexto decide. Ex.: brainstorm de títulos, revisão de código pelo bom senso.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center"><span class="text-primary font-bold text-xs">MÉDIO</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Modelo com espaço para variar</h4>
+<p class="text-neutral-300 text-sm">Existe um padrão preferido, mas dá para adaptar. Ex.: relatório semanal com template e parâmetros.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center"><span class="text-red-400 font-bold text-xs">BAIXO</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Script exato, sem parâmetros soltos</h4>
+<p class="text-neutral-300 text-sm">Erro custa dinheiro, apaga dados ou publica algo. Ex.: fatura, imposto, migração de banco: "rode exatamente este script".</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">A imagem do guia: uma ponte estreita com abismo dos dois lados pede corrimão (grau baixo); um campo aberto pede só a direção (grau alto). Marque cada passo da sua skill com A, M ou B antes de reescrever.</p>
+</div>
+</section>
+<!-- TOPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🏷️ Descrição: terceira pessoa, "quando usar" e limites</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        A descrição entra no prompt de sistema junto com a de todas as outras skills. Por isso o guia pede
+        <strong class="text-emerald-400">terceira pessoa</strong> ("Processa planilhas…", nunca "Eu posso…" ou "Você pode…"), o que a
+        skill faz <strong class="text-emerald-400">e quando usar</strong>, com as palavras que a pessoa digita. E há limites de tamanho:</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl font-bold text-emerald-400 mb-2">1.024</div>
+<p class="text-neutral-300 text-sm">caracteres é o máximo do campo <code class="font-mono">description</code> no frontmatter.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl font-bold text-emerald-400 mb-2">1.536</div>
+<p class="text-neutral-300 text-sm">caracteres é onde o Claude Code corta <code class="font-mono">description</code> + <code class="font-mono">when_to_use</code> somados na listagem de skills. O que passar disso o modelo não vê.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Terceira pessoa + quando</h4>
+<p class="font-mono text-sm text-neutral-300">"Generates invoices and sends payment reminders. Use when the user asks to bill a client, issue an invoice or chase a late payment."</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Primeira pessoa, sem gatilho</h4>
+<p class="font-mono text-sm text-neutral-300">"I can help you with invoices."</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">Vale o mesmo para o corpo: só o que o modelo não sabe. Não explique o que é uma fatura; guarde os seus preços, termos e regras internas. O contexto é dividido com a conversa, as outras skills e o histórico.</p>
+</div>
+</section>
+<!-- TOPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">✅ Checklist na resposta e loop de verificação</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Tarefa de muitos passos ganha uma <strong class="text-emerald-400">checklist que o agente copia na resposta</strong> e vai
+        marcando, com uma linha de volta: "se o total não bater, volte ao passo 2". E toda saída que importa passa por um
+        <strong class="text-emerald-400">loop rodar → corrigir → repetir</strong> até a checagem passar. A checagem não precisa ser
+        código: comparar o rascunho com o guia de estilo e listar cada desvio também conta.</p>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">trecho de SKILL.md — workflow com checklist</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">exemplo</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>Copy this checklist into your answer and tick each step:
+
+- [ ] 1. Read the client data
+- [ ] 2. Compute totals with scripts/total.py
+- [ ] 3. Validate: python3 scripts/check_invoice.py out.json
+- [ ] 4. Generate the PDF
+
+If step 3 fails, fix the data and go back to step 2.
+Only continue when validation passes.</code></pre>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Atenção</h3>
+<p class="text-neutral-300">"Revise bem antes de entregar" não é loop. Loop tem um critério que passa ou falha e uma instrução do que fazer quando falha. Para trabalho longo, um verificador com contexto limpo, que não fez o trabalho, costuma achar mais que a autocrítica.</p>
+</div>
+</section>
+<!-- TOPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🧪 Teste em cada modelo</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        A mesma skill se comporta diferente em cada modelo. O guia oficial pede para <strong class="text-emerald-400">testar em todos
+        os modelos que vão usá-la</strong> e cita três perguntas, uma por família: Haiku, Sonnet e Opus. A página não menciona o Fable.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6"><div class="text-emerald-400 font-bold mb-2">Haiku</div><p class="text-neutral-300 text-sm">A skill orienta o bastante? Modelo menor precisa de mais detalhe.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6"><div class="text-emerald-400 font-bold mb-2">Sonnet</div><p class="text-neutral-300 text-sm">Está clara e econômica?</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6"><div class="text-emerald-400 font-bold mb-2">Opus</div><p class="text-neutral-300 text-sm">Evita explicar demais? Modelo grande sofre com instrução redundante.</p></div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">Teste nas skills de que você depende, com três pedidos reais cada. Nas outras, o custo do teste não compensa.</p>
+</div>
+</section>
+<!-- TOPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">📦 Pacotes, hooks e compactação</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">
+        Três regras práticas para a skill sobreviver fora da sua máquina e numa sessão longa:</p>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Pacotes com a linha de instalação</h4>
+<p class="text-neutral-300 text-sm">Não assuma que a biblioteca está instalada na máquina do colega: liste os pacotes exatos com o comando de instalação ao lado do script que precisa deles. Na Claude API a skill não instala nada; só o que já está no ambiente.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Regra que não pode quebrar vira hook</h4>
+<p class="text-neutral-300 text-sm">Caixa alta é seguida quase sempre; hook é seguido sempre. No Claude Code, o hook pode ser declarado no frontmatter da própria skill: depois que ela é carregada, ele roda antes de cada comando e fica ativo pelo resto da sessão.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Compactação guarda só o começo</h4>
+<p class="text-neutral-300 text-sm">Quando a conversa é compactada, o Claude Code mantém só os primeiros 5.000 tokens de cada skill carregada. Regra crítica no fim de um SKILL.md longo pode sumir depois da compactação: as mais importantes vão no topo.</p>
+</div>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-mono text-neutral-500">invoices/SKILL.md — frontmatter com hook</span>
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">exemplo</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"><code>---
+name: invoices
+description: Generates invoices and sends payment reminders. Use when
+  the user asks to bill a client, issue an invoice or chase a late
+  payment. Not for accounting reports.
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/check-limit.sh"
+---
+# Invoices
+Critical rules first: never send an invoice above the approval
+limit without a human OK. (the hook enforces it)</code></pre>
+</div>
+</section>
+<!-- AJUSTES MODELOS 5.5 -->
+<section class="mb-16" id="modelos-55">
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+<h2 class="text-2xl font-bold mb-4">🆕 Ajustes para os modelos 5.5</h2>
+<p class="text-neutral-300 mb-4 leading-relaxed">Segundo o guia de prompting do Claude Fable 5 e do Opus 5.5 citado pelo
+        <strong class="text-emerald-400">skill-creator-plus</strong> (RoboNuggets, MIT), skills escritas para modelos antigos tendem a ser
+        <strong class="text-emerald-400">prescritivas demais</strong> e podem piorar o resultado. Não é texto da página de boas práticas de
+        skills; trate como orientação de prática e confirme no seu uso.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600"><strong class="text-white">Corte o andaime, testando.</strong><p class="text-neutral-300 text-sm mt-1">Passo a passo do que o modelo já sabe e bom senso repetido costumam ser peso morto. Só uma execução com e outra sem a linha prova isso.</p></div>
+<div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600"><strong class="text-white">Não peça o raciocínio na resposta.</strong><p class="text-neutral-300 text-sm mt-1">Instrução para "escrever o raciocínio passo a passo" pode ser recusada pelos modelos 5.5. Peça a resposta, uma explicação curta ou o resumo das ações.</p></div>
+<div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600"><strong class="text-white">Dê o motivo da regra.</strong><p class="text-neutral-300 text-sm mt-1">"Abaixo de 1.536 caracteres, porque o Claude Code corta aí" deixa o modelo tratar o caso que a regra não previu.</p></div>
+<div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600"><strong class="text-white">Caixa alta só para linha dura.</strong><p class="text-neutral-300 text-sm mt-1">Quando tudo grita, nada se destaca. Uma frase de direção vale uma lista de proibições.</p></div>
+</div>
+</div>
+</section>
+<!-- CHECKLIST COPIAVEL -->
+<section class="mb-16" id="checklist">
+<h2 class="text-2xl font-bold mb-6">📋 Checklist copiável</h2>
+<p class="text-neutral-300 mb-6">Cole numa conversa com o agente junto com a sua skill, ou use você mesmo antes de publicar.</p>
+<div class="bg-dark-900 rounded-xl border border-emerald-500/30 p-5 mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-emerald-400 uppercase tracking-wide">Checklist · regras 2026</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p1')">Copiar</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 whitespace-pre-wrap" id="p1">Confira esta skill contra as regras abaixo e marque cada item:
+
+- [ ] O corpo do SKILL.md tem menos de 500 linhas
+- [ ] Cada referência é linkada direto do SKILL.md, sem referência aninhada
+- [ ] Toda referência com mais de 100 linhas começa com um sumário
+- [ ] Cada passo tem o grau de liberdade certo: texto, modelo ou script exato
+- [ ] A descrição está em terceira pessoa e diz o que faz e quando usar
+- [ ] A descrição tem no máximo 1.024 caracteres e, somada ao when_to_use, cabe em 1.536
+- [ ] O corpo traz só o que o modelo não sabe
+- [ ] Tarefa longa tem checklist que o agente copia na resposta, com linha de volta
+- [ ] Existe um loop rodar, corrigir e repetir com critério que passa ou falha
+- [ ] A skill foi testada em cada modelo que vai usá-la
+- [ ] Todo pacote usado tem a linha de instalação ao lado
+- [ ] Regra que não pode quebrar virou hook no frontmatter da skill
+- [ ] As regras críticas estão no topo, dentro dos primeiros 5.000 tokens
+- [ ] Nenhuma instrução pede para escrever o raciocínio na resposta
+
+Para cada item que falhar, diga onde está o problema e proponha a correção antes de editar.</pre>
+</div>
+</section>
+<!-- VALIDADOR -->
+<section class="mb-16" id="validador">
+<h2 class="text-2xl font-bold mb-6">🔎 Audite as suas skills com o validador</h2>
+<p class="text-neutral-300 mb-6 leading-relaxed">A parte mecânica dessas regras dá para medir. O
+        <a class="text-sky-400 hover:text-sky-300 underline" href="https://github.com/inematds/auditar-skills" target="_blank">auditar-skills</a>
+        (projeto INEMA, espelho do <a class="text-sky-400 hover:text-sky-300 underline" href="https://github.com/robonuggets/skill-creator-plus" target="_blank">robonuggets/skill-creator-plus</a>, licença MIT)
+        traz um validador em Python puro, sem instalar nada e sem chamar API, que lê a pasta de skills e lista erros e avisos por regra.
+        Guia: <a class="text-sky-400 hover:text-sky-300 underline" href="https://inematds.github.io/auditar-skills/guia/" target="_blank">inematds.github.io/auditar-skills/guia</a>.</p>
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-5 mb-6">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-emerald-400 uppercase tracking-wide">Terminal · instalar e validar tudo</span>
+<button class="text-xs px-2 py-1 bg-dark-700 hover:bg-dark-600 rounded text-neutral-300" onclick="copyPrompt('p2')">Copiar</button>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto" id="p2">git clone https://github.com/inematds/auditar-skills ~/.claude/skills/auditar-skills
+cd ~/.claude/skills/auditar-skills
+python3 scripts/validate_skill.py --all ~/.claude/skills</pre>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Exemplo real</h3>
+<p class="text-neutral-300 text-sm mb-4">Numa máquina de produção do INEMA, com a pasta <code class="font-mono">~/.claude/skills</code> cheia de skills próprias e de terceiros, o validador rodou em cerca de um segundo:</p>
+<div class="grid grid-cols-3 gap-4 mb-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-emerald-400">123</div><div class="text-xs text-neutral-400">skills</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-red-400">358</div><div class="text-xs text-neutral-400">erros</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-emerald-400">15</div><div class="text-xs text-neutral-400">limpas</div></div>
+</div>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>ST5 · sumário ausente</strong> em referência com mais de 100 linhas: o maior ofensor, 268 ocorrências.</li>
+<li><strong>DS3 · descrição sem "quando usar"</strong>: 75 skills.</li>
+<li><strong>ST4 · referência aninhada</strong>: 60 ocorrências.</li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica prática</h3>
+<p class="text-neutral-300">Meça antes de reescrever. Comece pelas skills que você mais usa e pelos erros mais baratos de corrigir: sumário no topo e "quando usar" na descrição resolvem a maior parte da lista.</p>
+</div>
+</section>
+<!-- EXERCICIOS -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">✏️ Exercícios práticos</h2>
+<div class="space-y-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">1. Rode o validador</h3>
+<p class="text-neutral-300 text-sm">Rode o comando acima na sua pasta de skills e anote as três regras que mais aparecem. Compare com o exemplo real desta aula.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">2. Marque os graus de liberdade</h3>
+<p class="text-neutral-300 text-sm">Escolha uma skill sua com mais de cinco passos e marque cada passo como alto, médio ou baixo. Algum passo de grau baixo está escrito como instrução solta? Troque por script.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-6">
+<h3 class="font-semibold text-emerald-400 mb-2">3. Passe a checklist numa skill real ⭐</h3>
+<p class="text-neutral-300 text-sm">Cole a checklist copiável e a sua skill numa conversa com o Claude. Corrija os itens que falharem, rode o validador de novo e confirme que o número de erros caiu.</p>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">500 · 1 nível · 100</strong><span class="text-neutral-400"> — SKILL.md curto, referências linkadas direto, sumário em arquivo longo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Graus de liberdade pelo risco</strong><span class="text-neutral-400"> — texto, modelo ou script exato, passo a passo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Descrição em terceira pessoa</strong><span class="text-neutral-400"> — faz + quando, até 1.024 caracteres, 1.536 com o when_to_use.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Checklist, loop e hooks</strong><span class="text-neutral-400"> — o agente marca, corrige e repete; o que não pode quebrar vira hook.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">5.000 tokens e modelos 5.5</strong><span class="text-neutral-400"> — regras críticas no topo, menos andaime, nada de pedir o raciocínio.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Fim da Trilha 1:</h3>
+<p class="text-neutral-300">Você já entende a anatomia, a estrutura, o gatilho e as regras atuais. Na Trilha 2 você dissecará uma skill real do começo ao fim e construirá a sua.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-3.html">← Módulo anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="../trilha2/index.html">Próxima trilha: Primeira Skill →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">⚡ Claude Skills na Prática — 2026 · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Trilha 1 · Módulo 1.4 · Regras 2026</p>
+</div>
+</footer>
+<script>
+    function copyPrompt(id) {
+      const el = document.getElementById(id);
+      navigator.clipboard.writeText(el.innerText);
+    }
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

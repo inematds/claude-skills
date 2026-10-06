@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Track 1 · Agent Skills Fundamentals | Claude Skills na Prática</title>
-<meta content="Track 1 — Agent Skills Fundamentals: SKILL.md anatomy, progressive disclosure, and descriptions that trigger. 3 modules, 18 topics." name="description"/>
+<meta content="Track 1 — Agent Skills Fundamentals: SKILL.md anatomy, progressive disclosure, descriptions that trigger, and the 2026 rules. 4 modules, 24 topics." name="description"/>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -86,8 +86,8 @@
 <span class="text-2xl">⚡</span>
 <span class="font-bold text-lg hidden sm:inline">Claude Skills</span>
 </a>
-<span class="text-neutral-600">|</span>
-<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+<span class="text-neutral-600 hidden sm:inline">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium hidden sm:inline" href="https://inema.club" target="_blank">INEMA.CLUB</a>
 </div>
 <div class="flex items-center space-x-1 sm:space-x-2">
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
@@ -171,17 +171,17 @@
 </svg>
 </div>
 <!-- Stats Grid -->
-<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 max-w-2xl">
 <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-<div class="text-xl font-bold text-emerald-400">3</div>
+<div class="text-xl font-bold text-emerald-400">4</div>
 <div class="text-xs text-neutral-400">Modules</div>
 </div>
 <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-<div class="text-xl font-bold text-emerald-400">18</div>
+<div class="text-xl font-bold text-emerald-400">24</div>
 <div class="text-xs text-neutral-400">Topics</div>
 </div>
 <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-<div class="text-xl font-bold text-emerald-400">~2h</div>
+<div class="text-xl font-bold text-emerald-400">~3h</div>
 <div class="text-xs text-neutral-400">Duration</div>
 </div>
 <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
@@ -195,7 +195,7 @@
 <!-- MAPA DA TRILHA -->
 <section class="mb-12">
 <h2 class="text-2xl font-bold mb-6">Learning path map</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 <a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all" href="#modulo-1-1">
 <div class="flex items-center justify-between mb-2">
 <span class="text-emerald-400 font-bold text-sm">1.1</span>
@@ -219,6 +219,14 @@
 </div>
 <h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🎯 Descriptions that trigger</h3>
 <p class="text-xs text-neutral-400">The line that sells the skill</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all" href="#modulo-1-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold text-sm">1.4</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">📐 2026 rules</h3>
+<p class="text-xs text-neutral-400">What Anthropic recommends today</p>
 </a>
 </div>
 </section>
@@ -490,6 +498,95 @@
 <a class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" href="modulo-1-3.html">View Full</a>
 </div>
 </div>
+<!-- MODULO 1.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-1-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold">1.4</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📐 2026 rules</h3>
+<p class="text-neutral-400 text-sm">The current rules from Anthropic’s skills best practices guide and Claude Code docs, adjustments for 5.5 models, a <strong class="text-neutral-300">copyable checklist</strong> and the validator to audit your skills.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📏</span>
+<div><span class="font-medium">Size and depth</span><span class="text-neutral-500 text-sm ml-2">- 500 lines, one level</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">SKILL.md under 500 lines, references linked directly from it, and a summary at the top of any reference over 100 lines.</p></div>
+<div><span class="text-emerald-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">A nested reference is only previewed: rules at the end of the file disappear without warning.</p></div>
+<div><span class="text-emerald-400 font-semibold">Key concepts:</span><p class="text-neutral-300 text-sm">500 lines, one level deep, table of contents.</p></div>
+</div></div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🎚️</span>
+<div><span class="font-medium">Degrees of freedom</span><span class="text-neutral-500 text-sm ml-2">- high, medium, low</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">How much control each step deserves: a text instruction, a model with room to vary, or an exact script.</p></div>
+<div><span class="text-emerald-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">A costly error calls for an exact script; an open-ended task needs only direction.</p></div>
+<div><span class="text-emerald-400 font-semibold">Key concepts:</span><p class="text-neutral-300 text-sm">Risk, fragility, “what if the agent does something different?”</p></div>
+</div></div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🏷️</span>
+<div><span class="font-medium">Third-person description</span><span class="text-neutral-500 text-sm ml-2">- 1.024 e 1.536</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">What the skill does and when to use it, in third person, with up to 1,024 characters; the description + when_to_use are cut off at 1,536 in the listing.</p></div>
+<div><span class="text-emerald-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">The model can’t see what’s cut off, and the skill won’t trigger.</p></div>
+<div><span class="text-emerald-400 font-semibold">Key concepts:</span><p class="text-neutral-300 text-sm">Third person, “when to use,” size limits.</p></div>
+</div></div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Checklist and loop</span><span class="text-neutral-500 text-sm ml-2">- copy, check off, repeat</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">A checklist the agent copies into its response and checks off, with a way back, and a loop to run, fix, and repeat.</p></div>
+<div><span class="text-emerald-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">A long task without a checklist skips steps; output without a loop stops at the first error.</p></div>
+<div><span class="text-emerald-400 font-semibold">Key concepts:</span><p class="text-neutral-300 text-sm">Checklist, pass-or-fail criterion, verifier.</p></div>
+</div></div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🧪</span>
+<div><span class="font-medium">Test on each model</span><span class="text-neutral-500 text-sm ml-2">- Haiku, Sonnet, Opus</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Run the skill on the models that will use it and check whether it guides them enough without overexplaining.</p></div>
+<div><span class="text-emerald-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Each model responds differently to the same instruction.</p></div>
+<div><span class="text-emerald-400 font-semibold">Key concepts:</span><p class="text-neutral-300 text-sm">Does Haiku guide? Is Sonnet concise? Does Opus avoid excess?</p></div>
+</div></div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">Packages, hooks, and 5,000 tokens</span><span class="text-neutral-500 text-sm ml-2">- survive outside and afterward</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">An installation command for each package, hooks in the skill frontmatter, and critical rules at the top, because compaction keeps only the first 5,000 tokens.</p></div>
+<div><span class="text-emerald-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">That’s what makes the skill work on a colleague’s machine and in a long session.</p></div>
+<div><span class="text-emerald-400 font-semibold">Key concepts:</span><p class="text-neutral-300 text-sm">Installation, hooks, compaction, 5.5 models.</p></div>
+</div></div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-1-4')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" href="modulo-1-4.html">View Full</a>
+</div>
+</div>
 <!-- NAVEGACAO -->
 <div class="flex flex-col sm:flex-row gap-4 mt-10">
 <a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../../index.html">← Back to the landing page</a>
@@ -522,6 +619,15 @@
 <button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
 </div>
 <iframe class="flex-1 w-full rounded-b-xl" src="modulo-1-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-1-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-emerald-400 font-bold">1.4</span><span class="font-semibold">2026 Rules</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-1-4.html"></iframe>
 </div>
 </div>
 <footer class="border-t border-dark-600 py-8 mt-8">

@@ -10,14 +10,14 @@ Curso completo e prático sobre **construir Agent Skills do Claude Code** — do
 
 | # | Trilha | Módulos |
 |---|--------|---------|
-| 1 | 🧬 Fundamentos de Agent Skills | Anatomia · Progressive disclosure · Descriptions que disparam |
+| 1 | 🧬 Fundamentos de Agent Skills | Anatomia · Progressive disclosure · Descriptions que disparam · Regras 2026 |
 | 2 | 🚀 Construindo Sua Primeira Skill | Dissecando um gerador de itinerários · Setup flow → HTML |
 | 3 | 🎨 Skills de Frontend & Geração | Vibe Coding · Funnel Builder |
 | 4 | ⚙️ Skills de Automação & Dados | n8n Reviewer · Local Leads · Lead Scoring (Apify) |
 | 5 | 💼 Skills de Consultoria AI | Onboarding + Audit · SEO/AEO Auditor · RAG Architect |
 | 6 | 🧠 Arquitetura Avançada de Skills | Improvised Intelligence · Taproot · Multi-Agent Memory |
 
-**16 módulos · 96 tópicos · 12 skills reais para download.**
+**17 módulos · 102 tópicos · 12 skills reais para download.**
 
 ## Estrutura
 
